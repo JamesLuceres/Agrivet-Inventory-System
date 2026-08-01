@@ -105,7 +105,7 @@
                 ₱{{ parseFloat(props.row.price_per_sack).toFixed(2) }} / {{ props.row.unit_bulk_name }}
               </div>
               <div class="text-caption" :class="isLowStock(props.row, 'sacks') ? 'text-rose-6 text-weight-bold' : 'text-slate-500'">
-                Stock: {{ parseFloat(props.row.stock_sacks) }} {{ props.row.unit_bulk_name }}s
+                Stock: {{ parseFloat(props.row.stock_sacks) }} {{ pluralize(props.row.unit_bulk_name) }}
                 <q-badge color="rose-6" text-color="white" class="q-ml-xs text-caption" v-if="isLowStock(props.row, 'sacks')">
                   LOW
                 </q-badge>
@@ -490,6 +490,19 @@ async function createCategoryInline(val, done) {
   } catch {
     $q.notify({ color: 'negative', message: 'Failed to create category.', icon: 'error' })
   }
+}
+
+// Pluralize unit names correctly (Box→Boxes, Piece→Pieces, Sack→Sacks, etc.)
+function pluralize(unit) {
+  if (!unit) return ''
+  const u = unit.trim()
+  const lower = u.toLowerCase()
+  // Words ending in x, ch, sh, s, z → add 'es'
+  if (/(?:x|ch|sh|s|z)$/.test(lower)) return u + 'es'
+  // Words ending in consonant + y → replace y with ies
+  if (/[^aeiou]y$/.test(lower)) return u.slice(0, -1) + 'ies'
+  // Default → add 's'
+  return u + 's'
 }
 
 // Filtered products list

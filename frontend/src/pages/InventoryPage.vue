@@ -91,16 +91,7 @@
                   LOW
                 </q-badge>
               </div>
-              <!-- Profit Margin Badge -->
-              <div class="text-caption text-weight-semibold q-mt-xs" v-if="props.row.cost_per_kilo">
-                <span class="text-slate-500">Cost: ₱{{ parseFloat(props.row.cost_per_kilo).toFixed(2) }} • </span>
-                <span class="text-positive text-weight-bold">
-                  Margin: +₱{{ (parseFloat(props.row.price_per_kilo) - parseFloat(props.row.cost_per_kilo)).toFixed(2) }}
-                  <span v-if="parseFloat(props.row.cost_per_kilo) > 0">
-                    ({{ (((parseFloat(props.row.price_per_kilo) - parseFloat(props.row.cost_per_kilo)) / parseFloat(props.row.cost_per_kilo)) * 100).toFixed(1) }}%)
-                  </span>
-                </span>
-              </div>
+
             </div>
             <div v-else class="text-slate-400">-</div>
           </q-td>
@@ -119,16 +110,7 @@
                   LOW
                 </q-badge>
               </div>
-              <!-- Profit Margin Badge -->
-              <div class="text-caption text-weight-semibold q-mt-xs" v-if="props.row.cost_per_sack">
-                <span class="text-slate-500">Cost: ₱{{ parseFloat(props.row.cost_per_sack).toFixed(2) }} • </span>
-                <span class="text-indigo-7 text-weight-bold">
-                  Margin: +₱{{ (parseFloat(props.row.price_per_sack) - parseFloat(props.row.cost_per_sack)).toFixed(2) }}
-                  <span v-if="parseFloat(props.row.cost_per_sack) > 0">
-                    ({{ (((parseFloat(props.row.price_per_sack) - parseFloat(props.row.cost_per_sack)) / parseFloat(props.row.cost_per_sack)) * 100).toFixed(1) }}%)
-                  </span>
-                </span>
-              </div>
+
             </div>
             <div v-else class="text-slate-400">-</div>
           </q-td>
@@ -272,30 +254,6 @@
             />
           </div>
 
-          <!-- Capital / Cost Price Inputs -->
-          <div :class="productForm.unit_bulk_name ? 'col-6' : 'col-12'">
-            <q-input
-              v-model.number="productForm.cost_per_kilo"
-              type="number"
-              step="0.01"
-              :label="'Capital Cost per ' + (productForm.unit_retail_name || 'Item') + ' (₱)'"
-              outlined
-              dense
-              prefix="₱"
-            />
-          </div>
-
-          <div class="col-6" v-if="productForm.unit_bulk_name">
-            <q-input
-              v-model.number="productForm.cost_per_sack"
-              type="number"
-              step="0.01"
-              :label="'Capital Cost per ' + productForm.unit_bulk_name + ' (₱)'"
-              outlined
-              dense
-              prefix="₱"
-            />
-          </div>
 
           <!-- Dynamic Stock Inputs -->
           <!-- Retail Stock -->

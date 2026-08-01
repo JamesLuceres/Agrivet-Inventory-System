@@ -83,7 +83,7 @@
               class="full-width q-py-sm shadow-3 text-weight-bold"
               style="background-color: #059669 !important;"
               :loading="loading"
-              label="Sign In to System"
+              label="Sign In"
               icon-right="login"
             />
           </q-form>

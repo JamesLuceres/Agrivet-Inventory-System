@@ -3,6 +3,16 @@
     <!-- Main App Header -->
     <q-header elevated class="bg-slate-900 text-white shadow-2">
       <q-toolbar class="q-py-xs q-px-md">
+        <!-- Hamburger for mobile only -->
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          class="lt-sm q-mr-sm"
+          @click="drawer = !drawer"
+        />
+
         <!-- Store Logo & Title -->
         <q-toolbar-title class="row items-center cursor-pointer min-width-auto q-mr-lg" @click="$router.push('/')">
           <q-avatar size="44px" class="q-mr-sm bg-white shadow-2 overflow-hidden" style="border: 2px solid #059669">
@@ -18,8 +28,8 @@
           </div>
         </q-toolbar-title>
 
-        <!-- Top Navigation Links -->
-        <div class="row items-center q-gutter-x-xs q-mr-md">
+        <!-- Top Navigation Links (desktop only) -->
+        <div class="row items-center q-gutter-x-xs q-mr-md gt-xs">
           <q-btn
             v-for="nav in navItems"
             :key="nav.to"
@@ -37,7 +47,7 @@
         <q-space />
 
         <!-- API Connection Status Badge -->
-        <div class="row items-center q-mr-md">
+        <div class="row items-center q-mr-md gt-xs">
           <div
             class="status-pill row items-center q-px-sm q-py-xs rounded-borders"
             :class="apiConnected ? 'status-online' : 'status-offline'"
@@ -49,8 +59,8 @@
           </div>
         </div>
 
-        <!-- Clock Widget -->
-        <div class="clock-widget gt-xs row items-center text-caption text-weight-medium q-px-sm q-py-xs rounded-borders">
+        <!-- Clock Widget (desktop only) -->
+        <div class="clock-widget gt-sm row items-center text-caption text-weight-medium q-px-sm q-py-xs rounded-borders">
           <q-icon name="schedule" class="q-mr-xs" size="16px" />
           <span>{{ currentTime }}</span>
         </div>
@@ -93,12 +103,89 @@
       </q-toolbar>
     </q-header>
 
+    <!-- Mobile Drawer Navigation -->
+    <q-drawer
+      v-model="drawer"
+      side="left"
+      overlay
+      behavior="mobile"
+      :width="280"
+      class="bg-slate-900"
+    >
+      <div class="q-pa-md">
+        <!-- Drawer Header -->
+        <div class="row items-center q-mb-lg q-pb-md" style="border-bottom: 1px solid rgba(255,255,255,0.1)">
+          <q-avatar size="38px" class="bg-white q-mr-sm overflow-hidden" style="border: 2px solid #059669">
+            <img :src="logoUrl" alt="Logo" style="object-fit: cover; transform: scale(1.15);" />
+          </q-avatar>
+          <div>
+            <div class="text-white text-weight-bold text-subtitle2">Nichole Agrivet</div>
+            <div class="text-caption text-emerald-400">Inventory System</div>
+          </div>
+        </div>
+
+        <!-- Drawer Nav Links -->
+        <q-list>
+          <q-item
+            v-for="nav in navItems"
+            :key="nav.to"
+            clickable
+            :to="nav.to"
+            exact
+            class="drawer-nav-item rounded-borders q-mb-xs"
+            :active-class="'drawer-nav-active'"
+            @click="drawer = false"
+          >
+            <q-item-section avatar>
+              <q-icon :name="nav.icon" size="22px" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-white text-weight-medium">{{ nav.label }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+
+        <!-- Drawer Footer -->
+        <div class="q-mt-xl q-pt-md" style="border-top: 1px solid rgba(255,255,255,0.1)">
+          <!-- API Status -->
+          <div class="row items-center q-mb-sm">
+            <div
+              class="status-pill row items-center q-px-sm q-py-xs rounded-borders full-width"
+              :class="apiConnected ? 'status-online' : 'status-offline'"
+            >
+              <span class="status-dot q-mr-xs" :class="apiConnected ? 'dot-online' : 'dot-offline'"></span>
+              <span class="text-caption text-weight-semibold">
+                {{ apiConnected ? 'API Online' : 'API Offline' }}
+              </span>
+            </div>
+          </div>
+          <!-- Clock -->
+          <div class="clock-widget row items-center text-caption text-weight-medium q-px-sm q-py-xs rounded-borders q-mb-md">
+            <q-icon name="schedule" class="q-mr-xs" size="16px" />
+            <span>{{ currentTime }}</span>
+          </div>
+          <!-- Logout -->
+          <q-btn
+            flat
+            dense
+            no-caps
+            icon="logout"
+            label="Log Out"
+            class="full-width text-weight-bold q-py-sm rounded-borders"
+            style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: #fb7185;"
+            @click="handleLogout"
+          />
+        </div>
+      </div>
+    </q-drawer>
+
     <!-- Page Content Container -->
     <q-page-container class="bg-slate-100">
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
+
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
@@ -112,6 +199,7 @@ const $q = useQuasar()
 
 const apiConnected = ref(false)
 const currentTime = ref('')
+const drawer = ref(false)
 
 const userName = ref(localStorage.getItem('userName') || 'admin')
 
@@ -284,6 +372,23 @@ onBeforeUnmount(() => {
 }
 .min-width-auto {
   min-width: auto;
+}
+
+.drawer-nav-item {
+  color: #94a3b8;
+  transition: all 0.15s ease;
+}
+.drawer-nav-item:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.drawer-nav-active {
+  color: #ffffff !important;
+  background: rgba(5, 150, 105, 0.25) !important;
+}
+.drawer-nav-active .q-item__label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
 }
 </style>
 

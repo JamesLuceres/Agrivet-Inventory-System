@@ -54,9 +54,12 @@ class TransactionSerializer(serializers.ModelSerializer):
         for item_data in items_data:
             item = TransactionItem.objects.create(transaction=transaction, **item_data)
             product = item.product
-            if item.unit_type == 'SACK':
+            unit_type_upper = (item.unit_type or '').upper()
+            bulk_name_upper = (product.unit_bulk_name or 'SACK').upper()
+
+            if unit_type_upper == bulk_name_upper or unit_type_upper in ['SACK', 'CASE', 'BOX', 'PACK', 'BULK']:
                 product.stock_sacks -= item.quantity
-            elif item.unit_type == 'KILO':
+            else:
                 product.stock_kilos -= item.quantity
             product.save()
 

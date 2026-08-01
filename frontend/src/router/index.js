@@ -26,5 +26,18 @@ export default defineRouter((/* { store, ssrContext } */) => {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
+  // Global Navigation Guard for Authentication
+  Router.beforeEach((to, from, next) => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+
+    if (to.matched.some(record => record.meta.requiresAuth) && !isLoggedIn) {
+      next('/login')
+    } else if (to.path === '/login' && isLoggedIn) {
+      next('/')
+    } else {
+      next()
+    }
+  })
+
   return Router
 })

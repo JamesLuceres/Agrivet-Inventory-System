@@ -14,8 +14,12 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    unit_bulk_name = models.CharField(max_length=50, default='Sack', blank=True, null=True)
+    unit_retail_name = models.CharField(max_length=50, default='Kilo', blank=True, null=True)
     price_per_sack = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     price_per_kilo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    cost_per_sack = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    cost_per_kilo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     stock_sacks = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     stock_kilos = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     low_stock_threshold = models.IntegerField(default=5)
@@ -38,9 +42,11 @@ class Customer(models.Model):
 class Transaction(models.Model):
     TRANSACTION_TYPES = [
         ('CASH', 'Cash'),
+        ('GCASH', 'GCash'),
         ('CREDIT', 'Credit'),
     ]
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPES)
+    reference_number = models.CharField(max_length=100, null=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True, related_name='transactions')
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
@@ -52,13 +58,9 @@ class Transaction(models.Model):
 
 
 class TransactionItem(models.Model):
-    UNIT_TYPES = [
-        ('SACK', 'Sack'),
-        ('KILO', 'Kilo'),
-    ]
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='transaction_items')
-    unit_type = models.CharField(max_length=10, choices=UNIT_TYPES)
+    unit_type = models.CharField(max_length=50)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)

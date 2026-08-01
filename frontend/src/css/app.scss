@@ -5,115 +5,143 @@ body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc; // Neutral-50 slate background
-  color: #1e293b;
+  background-color: #f8fafc; // Slate-50 background
+  color: #0f172a; // Slate-900 typography
+}
+
+// Numerical precision - tabular numerals for currency & counters
+.num-tabular, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6, .q-table td {
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 // Sleek Custom Scrollbar
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-// Explicit Visible Borders for Header App Bar
+// Sleek Header Styling
 .q-header {
-  border-bottom: 3px solid #312e81 !important; // Darker Indigo border
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
 }
 
-// Card Border Customization (Thick high-contrast borders)
+// Card High-Definition Customization
 .q-card {
   border-radius: 12px !important;
-  border: 2px solid #94a3b8 !important; // Thick visible Slate-400 border
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1.5px solid #cbd5e1 !important; // Clear, crisp Slate-300 border
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 // Micro-animation for cards
+.hover-grow {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
 .hover-grow:hover {
-  transform: translateY(-4px) scale(1.01);
-  border-color: #475569 !important; // Darker border on hover
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-3px);
+  border-color: #059669 !important; // Crisp primary emerald highlight on hover
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.1), 0 4px 8px -2px rgba(15, 23, 42, 0.05) !important;
 }
 
 // Custom typography adjustments
-.text-h3, .text-h4, .text-h5, .text-h6 {
+.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6 {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
-// Visible Borders for Table Layouts
+// Refined High-Contrast Table Layouts
 .q-table__container {
   border-radius: 12px !important;
-  border: 2px solid #94a3b8 !important; // Heavy outer border
+  border: 1.5px solid #cbd5e1 !important; // Clear outer table border
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05) !important;
 }
 
 .q-table th {
   font-weight: 700 !important;
-  color: #475569 !important;
+  color: #334155 !important;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
+  font-size: 0.725rem;
+  letter-spacing: 0.06em;
   background-color: #f1f5f9;
-  border-bottom: 2px solid #94a3b8 !important;
-  border-right: 1px solid #cbd5e1 !important;
+  border-bottom: 2px solid #cbd5e1 !important;
 }
 
 .q-table td {
   font-size: 0.875rem;
-  color: #334155;
-  border-bottom: 1.5px solid #cbd5e1 !important; // Grid line border
-  border-right: 1px solid #cbd5e1 !important;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0 !important;
 }
 
-.q-table th:last-child, .q-table td:last-child {
-  border-right: none !important;
+// Clear Outlined Inputs
+.q-field--outlined .q-field__control {
+  border-radius: 8px !important;
 }
 
-// Visible Borders for Text Inputs, Textareas, Selectors
 .q-field--outlined .q-field__control::before {
-  border: 2px solid #94a3b8 !important; // Solid input border
+  border: 1.5px solid #94a3b8 !important; // Solid, visible input border (Slate-400)
+  transition: border-color 0.2s ease;
 }
 
 .q-field--outlined:hover .q-field__control::before {
-  border-color: #475569 !important; // Slate-600 border
+  border-color: #475569 !important; // Darker on hover (Slate-600)
 }
 
 .q-field--outlined.q-field--focused .q-field__control::after {
-  border: 3px solid var(--q-primary) !important; // Active focus border
+  border: 2.5px solid var(--q-primary) !important;
 }
 
-// Heavy Separators
+// Clear Separators
 .q-separator {
-  background-color: #94a3b8 !important;
-  height: 2px !important;
+  background-color: #cbd5e1 !important;
+  height: 1.5px !important;
 }
 
-// Heavy Lists and List items
+// Lists & Navigation Drawers
 .q-list {
-  border: 2px solid #94a3b8 !important;
-  border-radius: 8px;
-  background-color: white;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
 }
 
-.q-list.q-list--separator > .q-item-type + .q-item-type {
-  border-top: 2px solid #cbd5e1 !important;
+.nav-item {
+  border-radius: 8px;
+  margin: 4px 8px;
+  color: #475569;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.15s ease-in-out;
 }
 
-// Banners
-.q-banner {
-  border: 2px solid #cbd5e1 !important;
-  border-radius: 8px;
+.nav-item:hover {
+  background-color: rgba(5, 150, 105, 0.08);
+  color: #059669;
+  border-color: rgba(5, 150, 105, 0.2);
+}
+
+.nav-item.q-router-link--exact-active,
+.nav-item.nav-item--active {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border-color: #047857 !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+}
+
+.nav-item.q-router-link--exact-active .q-icon,
+.nav-item.nav-item--active .q-icon {
+  color: #ffffff !important;
 }
 
 // Buttons
@@ -121,15 +149,16 @@ body {
   text-transform: none;
   font-weight: 600;
   border-radius: 8px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.q-btn:not(.q-btn--flat):not(.q-btn--round) {
-  border: 1.5px solid rgba(15, 23, 42, 0.2) !important; // Heavy outline definition
+  letter-spacing: -0.01em;
+  transition: all 0.15s ease-in-out;
 }
 
 .q-btn--outline {
-  border: 2px solid currentColor !important;
+  border: 1.5px solid currentColor !important;
+}
+
+.q-btn:active {
+  transform: scale(0.98);
 }
 
 // Badges
@@ -137,5 +166,22 @@ body {
   padding: 4px 8px;
   border-radius: 6px;
   font-weight: 600;
-  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
 }
+
+// Custom Utility Color Classes
+.bg-emerald-7 { background-color: #047857 !important; }
+.bg-emerald-6 { background-color: #059669 !important; }
+.bg-emerald-1 { background-color: #d1fae5 !important; }
+.text-emerald-7 { color: #047857 !important; }
+.text-emerald-9 { color: #064e3b !important; }
+.text-emerald-100 { color: #d1fae5 !important; }
+
+.bg-slate-50 { background-color: #f8fafc !important; }
+.bg-slate-100 { background-color: #f1f5f9 !important; }
+.border-slate { border: 1.5px solid #cbd5e1 !important; }
+.border-top-slate { border-top: 1.5px solid #cbd5e1 !important; }
+
+
+

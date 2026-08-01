@@ -113,7 +113,7 @@
             <!-- Type Column -->
             <template v-slot:body-cell-transaction_type="props">
               <q-td :props="props">
-                <q-badge :color="props.value === 'CASH' ? 'positive' : 'warning'" text-color="white" class="text-weight-bold">
+                <q-badge :color="props.value === 'CASH' ? 'positive' : (props.value === 'GCASH' ? 'primary' : 'warning')" text-color="white" class="text-weight-bold">
                   {{ props.value }}
                 </q-badge>
               </q-td>
@@ -294,62 +294,180 @@
             </template>
           </q-table>
         </q-card>
+
+        <!-- Monthly Individual Transactions Log Table -->
+        <q-card flat bordered class="bg-white shadow-1 q-mt-lg">
+          <q-card-section class="q-py-md row items-center justify-between">
+            <div class="text-h6 text-weight-bold text-indigo-10">
+              All Transactions for {{ getMonthName(selectedMonth) }} {{ selectedYear }}
+            </div>
+            <q-badge color="indigo-1" text-color="indigo-10" class="text-weight-bold">
+              {{ monthlyTransactions.length }} Transactions
+            </q-badge>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-table
+            :rows="monthlyTransactions"
+            :columns="monthlyTxColumns"
+            row-key="id"
+            flat
+            no-data-label="No transactions recorded for this month."
+            :rows-per-page-options="[10, 25, 50]"
+          >
+            <!-- Type Column -->
+            <template v-slot:body-cell-transaction_type="props">
+              <q-td :props="props">
+                <q-badge :color="props.value === 'CASH' ? 'positive' : (props.value === 'GCASH' ? 'primary' : 'warning')" text-color="white" class="text-weight-bold">
+                  {{ props.value }}
+                </q-badge>
+              </q-td>
+            </template>
+
+            <!-- Customer Column -->
+            <template v-slot:body-cell-customer_name="props">
+              <q-td :props="props">
+                {{ props.value || 'Walk-in Guest' }}
+              </q-td>
+            </template>
+
+            <!-- Created At (DateTime) Column -->
+            <template v-slot:body-cell-created_at="props">
+              <q-td :props="props">
+                {{ formatDateTime(props.value) }}
+              </q-td>
+            </template>
+
+            <!-- Total Amount Column -->
+            <template v-slot:body-cell-total_amount="props">
+              <q-td :props="props" class="text-weight-bold text-slate-900 num-tabular">
+                ₱{{ parseFloat(props.value).toFixed(2) }}
+              </q-td>
+            </template>
+
+            <!-- Amount Paid Column -->
+            <template v-slot:body-cell-amount_paid="props">
+              <q-td :props="props" class="num-tabular">
+                ₱{{ parseFloat(props.value).toFixed(2) }}
+              </q-td>
+            </template>
+
+            <!-- Action Column -->
+            <template v-slot:body-cell-actions="props">
+              <q-td :props="props" align="center">
+                <q-btn
+                  flat
+                  round
+                  dense
+                  color="primary"
+                  icon="visibility"
+                  @click="viewTransactionDetails(props.row)"
+                >
+                  <q-tooltip>View Receipt</q-tooltip>
+                </q-btn>
+              </q-td>
+            </template>
+          </q-table>
+        </q-card>
       </q-tab-panel>
     </q-tab-panels>
 
-    <!-- Detailed Transaction Dialog -->
+    <!-- Detailed Transaction Dialog / Official Store Receipt -->
     <q-dialog v-model="detailsDialog.open">
-      <q-card style="width: 500px; max-width: 90vw;">
-        <q-card-section class="bg-indigo-10 text-white q-py-md">
-          <div class="text-h6 text-weight-bold">Receipt details #{{ detailsDialog.tx.id }}</div>
-          <div class="text-subtitle2">{{ formatTime(detailsDialog.tx.created_at) }} • {{ detailsDialog.tx.transaction_type }}</div>
+      <q-card style="width: 520px; max-width: 95vw;" class="receipt-dialog-card">
+        <!-- Header Banner -->
+        <q-card-section class="bg-indigo-9 text-white q-py-md text-center">
+          <q-icon name="receipt_long" size="40px" class="q-mb-xs" />
+          <div class="text-h6 text-weight-bold tracking-tight">Receipt Details #{{ detailsDialog.tx.id }}</div>
+          <div class="text-caption text-indigo-100">
+            {{ formatTime(detailsDialog.tx.created_at) }} • {{ detailsDialog.tx.transaction_type }}
+          </div>
         </q-card-section>
 
-        <q-card-section class="q-py-md">
-          <!-- Summary Details -->
-          <div class="row q-col-gutter-xs q-mb-md">
-            <div class="col-6 text-grey-7">Customer:</div>
-            <div class="col-6 text-weight-bold text-right">{{ detailsDialog.tx.customer_name || 'Walk-in Guest' }}</div>
+        <!-- Printable Receipt Content -->
+        <q-card-section class="q-pa-lg printable-area">
+          <div class="receipt-paper bg-slate-50 border-slate q-pa-md rounded-borders">
+            <!-- Store Header -->
+            <div class="text-center q-mb-md">
+              <q-avatar size="50px" class="bg-white shadow-1 q-mb-xs overflow-hidden" style="border: 1.5px solid #059669">
+                <img :src="logoUrl" alt="Nichole Agrivet Logo" style="object-fit: cover; transform: scale(1.15);" />
+              </q-avatar>
+              <div class="text-h6 text-weight-bold text-slate-900 leading-tight">Nichole Agrivet</div>
+              <div class="text-caption text-slate-500">Official Store Receipt</div>
+            </div>
 
-            <div class="col-6 text-grey-7">Payment Type:</div>
-            <div class="col-6 text-weight-bold text-right text-uppercase">{{ detailsDialog.tx.transaction_type }}</div>
-          </div>
+            <q-separator class="q-mb-md" />
 
-          <q-separator class="q-my-sm" />
+            <!-- Receipt Meta Info -->
+            <div class="row q-col-gutter-xs text-caption q-mb-md">
+              <div class="col-6 text-slate-500">Receipt No:</div>
+              <div class="col-6 text-weight-bold text-right text-slate-900">#{{ detailsDialog.tx.id }}</div>
 
-          <!-- Items Table -->
-          <div class="text-weight-bold text-indigo-10 q-mb-sm">Items Purchased</div>
-          <q-list bordered separator class="rounded-borders">
-            <q-item v-for="item in detailsDialog.tx.items" :key="item.id" class="q-py-sm">
-              <q-item-section>
-                <q-item-label class="text-weight-bold">{{ item.product_name }}</q-item-label>
-                <q-item-label caption>{{ item.quantity }} {{ item.unit_type }}(s) @ ₱{{ parseFloat(item.unit_price).toFixed(2) }}</q-item-label>
-              </q-item-section>
-              <q-item-section side class="text-weight-bold text-dark">
-                ₱{{ parseFloat(item.subtotal).toFixed(2) }}
-              </q-item-section>
-            </q-item>
-          </q-list>
+              <div class="col-6 text-slate-500">Customer:</div>
+              <div class="col-6 text-weight-bold text-right text-slate-900">{{ detailsDialog.tx.customer_name || 'Walk-in Guest' }}</div>
 
-          <q-separator class="q-my-md" />
+              <div class="col-6 text-slate-500">Payment Method:</div>
+              <div class="col-6 text-weight-bold text-right text-uppercase" :class="detailsDialog.tx.transaction_type === 'CASH' ? 'text-emerald-7' : (detailsDialog.tx.transaction_type === 'GCASH' ? 'text-indigo-7' : 'text-amber-8')">
+                {{ detailsDialog.tx.transaction_type }}
+              </div>
 
-          <!-- Financial Breakdown -->
-          <div class="row q-col-gutter-xs text-subtitle1">
-            <div class="col-6 text-grey-8">Total Amount:</div>
-            <div class="col-6 text-weight-bold text-right">₱{{ parseFloat(detailsDialog.tx.total_amount).toFixed(2) }}</div>
+              <template v-if="detailsDialog.tx.reference_number">
+                <div class="col-6 text-slate-500">GCash Ref No:</div>
+                <div class="col-6 text-weight-bold text-right text-indigo-9 num-tabular">
+                  {{ detailsDialog.tx.reference_number }}
+                </div>
+              </template>
+            </div>
 
-            <div class="col-6 text-grey-8">Amount Tendered:</div>
-            <div class="col-6 text-weight-bold text-right text-green-10">₱{{ parseFloat(detailsDialog.tx.amount_paid).toFixed(2) }}</div>
+            <!-- Items Purchased List -->
+            <div class="text-caption text-weight-bold text-slate-700 text-uppercase q-mb-xs">Items Purchased</div>
+            <q-list bordered separator class="rounded-borders bg-white q-mb-md">
+              <q-item v-for="item in detailsDialog.tx.items" :key="item.id" class="q-py-xs">
+                <q-item-section>
+                  <q-item-label class="text-weight-bold text-body2 text-slate-900">{{ item.product_name }}</q-item-label>
+                  <q-item-label caption class="text-slate-500">
+                    {{ item.quantity }} {{ item.unit_type }}(s) @ ₱{{ parseFloat(item.unit_price).toFixed(2) }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side class="text-weight-bold text-slate-900 num-tabular">
+                  ₱{{ parseFloat(item.subtotal).toFixed(2) }}
+                </q-item-section>
+              </q-item>
+            </q-list>
 
-            <div class="col-6 text-grey-8">{{ detailsDialog.tx.transaction_type === 'CASH' ? 'Change Given:' : 'Remaining Balance:' }}</div>
-            <div class="col-6 text-weight-bold text-right" :class="detailsDialog.tx.transaction_type === 'CASH' ? 'text-indigo-10' : 'text-orange-10'">
-              ₱{{ detailsDialog.tx.transaction_type === 'CASH' ? parseFloat(detailsDialog.tx.change_given).toFixed(2) : (parseFloat(detailsDialog.tx.total_amount) - parseFloat(detailsDialog.tx.amount_paid)).toFixed(2) }}
+            <!-- Financial Totals Breakdown -->
+            <div class="row q-col-gutter-xs text-body2 q-pt-xs">
+              <div class="col-6 text-slate-600">Grand Total:</div>
+              <div class="col-6 text-weight-bold text-right text-h6 text-slate-900 num-tabular">
+                ₱{{ parseFloat(detailsDialog.tx.total_amount || 0).toFixed(2) }}
+              </div>
+
+              <div class="col-6 text-slate-600">Amount Tendered:</div>
+              <div class="col-6 text-weight-bold text-right text-emerald-7 num-tabular">
+                ₱{{ parseFloat(detailsDialog.tx.amount_paid || 0).toFixed(2) }}
+              </div>
+
+              <div class="col-6 text-slate-600">
+                {{ detailsDialog.tx.transaction_type === 'CASH' ? 'Change Given:' : 'Remaining Balance:' }}
+              </div>
+              <div class="col-6 text-weight-bold text-right num-tabular" :class="detailsDialog.tx.transaction_type === 'CASH' ? 'text-indigo-7' : 'text-rose-6'">
+                ₱{{ detailsDialog.tx.transaction_type === 'CASH'
+                      ? parseFloat(detailsDialog.tx.change_given || 0).toFixed(2)
+                      : (parseFloat(detailsDialog.tx.total_amount || 0) - parseFloat(detailsDialog.tx.amount_paid || 0)).toFixed(2) }}
+              </div>
+            </div>
+
+            <!-- Footer Message -->
+            <div class="text-center text-caption text-slate-400 q-mt-md pt-xs border-top-slate">
+              Thank you for shopping at Nichole Agrivet!
             </div>
           </div>
         </q-card-section>
 
-        <q-card-actions align="right" class="q-px-md q-pb-md">
-          <q-btn flat label="Close" color="primary" v-close-popup />
+        <q-card-actions align="between" class="q-px-lg q-pb-md">
+          <q-btn outline color="primary" icon="print" label="Print Receipt" @click="printReceipt" />
+          <q-btn flat label="Close" color="grey-8" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -359,6 +477,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { api } from 'boot/axios'
+import logoUrl from 'src/images/Nichole Agrivet.png'
 
 const tab = ref('daily')
 
@@ -421,28 +540,43 @@ const monthlyColumns = [
   { name: 'sales_count', label: 'Sales Count', field: 'sales_count', align: 'center', sortable: true }
 ]
 
+const monthlyTxColumns = [
+  { name: 'id', label: 'Receipt ID', field: 'id', align: 'left', sortable: true },
+  { name: 'created_at', label: 'Date & Time', field: 'created_at', align: 'left', sortable: true },
+  { name: 'transaction_type', label: 'Type', field: 'transaction_type', align: 'center', sortable: true },
+  { name: 'customer_name', label: 'Customer', field: 'customer_name', align: 'left', sortable: true },
+  { name: 'total_amount', label: 'Total Cost', field: 'total_amount', align: 'right', sortable: true },
+  { name: 'amount_paid', label: 'Amount Paid', field: 'amount_paid', align: 'right', sortable: true },
+  { name: 'actions', label: 'Actions', field: 'id', align: 'center' }
+]
+
 // Computed: filter transactions that occurred today (client timezone match)
 const todayTransactions = computed(() => {
   const todayStr = new Date().toLocaleDateString('en-CA') // Format YYYY-MM-DD
   return allTransactions.value.filter(tx => {
-    // tx.created_at format: YYYY-MM-DDTHH:mm:ss.sssZ
     return tx.created_at.startsWith(todayStr)
+  })
+})
+
+// Computed: filter all transactions that occurred in the selected month & year
+const monthlyTransactions = computed(() => {
+  return allTransactions.value.filter(tx => {
+    if (!tx.created_at) return false
+    const d = new Date(tx.created_at)
+    return d.getFullYear() === parseInt(selectedYear.value) && (d.getMonth() + 1) === parseInt(selectedMonth.value)
   })
 })
 
 // Fetch daily metrics and transactions
 async function fetchDailyData() {
   try {
-    // 1. Fetch raw transaction log list to display individual rows
     const txRes = await api.get('transactions/')
     allTransactions.value = txRes.data
 
-    // 2. Fetch daily aggregates
     const dailyRes = await api.get('transactions/daily-summary/')
     totalCashSales.value = dailyRes.data.total_cash_revenue
     totalCreditGiven.value = dailyRes.data.total_credit_given
 
-    // 3. Compute Cash on Hand (Sum of paid amounts for today's transactions)
     cashOnHand.value = todayTransactions.value.reduce((sum, tx) => sum + parseFloat(tx.amount_paid || 0), 0)
   } catch (error) {
     console.error('Failed to fetch daily sales data:', error)
@@ -464,6 +598,10 @@ async function fetchMonthlySummary() {
   }
 }
 
+function printReceipt() {
+  window.print()
+}
+
 // Dialog helper
 function viewTransactionDetails(tx) {
   detailsDialog.value.tx = tx
@@ -483,6 +621,12 @@ function formatTime(dateTimeStr) {
   if (!dateTimeStr) return ''
   const date = new Date(dateTimeStr)
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+}
+
+function formatDateTime(dateTimeStr) {
+  if (!dateTimeStr) return ''
+  const date = new Date(dateTimeStr)
+  return date.toLocaleString([], { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })
 }
 
 function formatDateString(dateStr) {
@@ -524,5 +668,33 @@ h1 {
 }
 .bg-purple-1 {
   background-color: #f3e5f5 !important;
+}
+.receipt-paper {
+  background: #f8fafc;
+}
+.border-slate {
+  border: 1.5px solid #cbd5e1;
+}
+.border-top-slate {
+  border-top: 1.5px solid #cbd5e1;
+  padding-top: 8px;
+}
+.num-tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-area, .printable-area * {
+    visibility: visible;
+  }
+  .printable-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
 </style>

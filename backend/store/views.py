@@ -55,8 +55,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         today = timezone.localtime(timezone.now()).date()
         today_transactions = Transaction.objects.filter(created_at__date=today)
 
-        # Cash revenue: total amount of all CASH transactions today
-        cash_revenue = today_transactions.filter(transaction_type='CASH').aggregate(
+        # Cash & Digital revenue: total amount of all CASH & GCASH transactions today
+        cash_revenue = today_transactions.filter(transaction_type__in=['CASH', 'GCASH']).aggregate(
             total=Sum('total_amount')
         )['total'] or 0.00
 
@@ -133,7 +133,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
                     'sales_count': 0
                 }
             
-            if tx.transaction_type == 'CASH':
+            if tx.transaction_type in ['CASH', 'GCASH']:
                 breakdown_dict[day_str]['cash_revenue'] += float(tx.total_amount)
             elif tx.transaction_type == 'CREDIT':
                 breakdown_dict[day_str]['credit_given'] += float(tx.total_amount - tx.amount_paid)

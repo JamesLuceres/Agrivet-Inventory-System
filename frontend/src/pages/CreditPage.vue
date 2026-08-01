@@ -233,7 +233,6 @@ const customerTransactions = computed(() => {
 })
 
 const columns = [
-  { name: 'id', label: 'Receipt ID', field: 'id', align: 'left', sortable: true },
   { name: 'created_at', label: 'Date/Time', field: 'created_at', align: 'left', sortable: true },
   { name: 'total_amount', label: 'Total Invoiced', field: 'total_amount', align: 'right', sortable: true },
   { name: 'amount_paid', label: 'Paid Down', field: 'amount_paid', align: 'right', sortable: true },

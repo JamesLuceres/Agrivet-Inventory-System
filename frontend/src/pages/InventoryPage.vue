@@ -510,14 +510,10 @@ const formCategoryOptions = computed(() => {
 })
 
 // Filter category options for search
-let filteredCategoryOpts = []
 function filterCategoryOptions(val, update) {
   update(() => {
     if (!val) {
-      filteredCategoryOpts = formCategoryOptions.value
-    } else {
-      const needle = val.toLowerCase()
-      filteredCategoryOpts = formCategoryOptions.value.filter(c => c.label.toLowerCase().includes(needle))
+      // no filtering needed, formCategoryOptions computed handles it
     }
   })
 }

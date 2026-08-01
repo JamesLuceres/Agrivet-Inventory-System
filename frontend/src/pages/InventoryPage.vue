@@ -194,8 +194,29 @@
               dense
               emit-value
               map-options
+              use-input
+              input-debounce="0"
+              hide-selected
+              fill-input
+              :display-value="productForm.category ? (formCategoryOptions.find(c => c.value === productForm.category)?.label || '') : ''"
               :rules="[val => !!val || 'Category is required']"
-            />
+              @new-value="createCategoryInline"
+              @filter="filterCategoryOptions"
+            >
+              <template v-slot:no-option="scope">
+                <q-item v-if="scope.inputValue" clickable @click="createCategoryInline(scope.inputValue)">
+                  <q-item-section>
+                    <q-item-label class="text-positive">
+                      <q-icon name="add_circle" class="q-mr-xs" />
+                      Create category "{{ scope.inputValue }}"
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item v-else>
+                  <q-item-section class="text-grey-6">No categories yet. Type to create one.</q-item-section>
+                </q-item>
+              </template>
+            </q-select>
           </div>
 
           <!-- Measurement Preset / Unit Type Mode -->
@@ -487,6 +508,35 @@ const categoryOptions = computed(() => {
 const formCategoryOptions = computed(() => {
   return categories.value.map(cat => ({ label: cat.name, value: cat.id }))
 })
+
+// Filter category options for search
+let filteredCategoryOpts = []
+function filterCategoryOptions(val, update) {
+  update(() => {
+    if (!val) {
+      filteredCategoryOpts = formCategoryOptions.value
+    } else {
+      const needle = val.toLowerCase()
+      filteredCategoryOpts = formCategoryOptions.value.filter(c => c.label.toLowerCase().includes(needle))
+    }
+  })
+}
+
+// Create a new category inline from the product form
+async function createCategoryInline(val, done) {
+  const name = typeof val === 'string' ? val.trim() : val
+  if (!name) return
+  try {
+    const res = await api.post('categories/', { name })
+    categories.value.push(res.data)
+    const newOpt = { label: res.data.name, value: res.data.id }
+    productForm.value.category = res.data.id
+    if (done) done(newOpt, 'add-unique')
+    $q.notify({ color: 'positive', message: `Category "${name}" created!`, icon: 'check_circle' })
+  } catch {
+    $q.notify({ color: 'negative', message: 'Failed to create category.', icon: 'error' })
+  }
+}
 
 // Filtered products list
 const filteredProducts = computed(() => {

@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node & Quasar frontend rules
+node_modules/
+.quasar/
+dist/
+

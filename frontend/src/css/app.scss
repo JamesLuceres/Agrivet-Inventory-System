@@ -1,0 +1,141 @@
+// Global Premium Styling for Nichole Agrivet POS & Inventory System
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc; // Neutral-50 slate background
+  color: #1e293b;
+}
+
+// Sleek Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+// Explicit Visible Borders for Header App Bar
+.q-header {
+  border-bottom: 3px solid #312e81 !important; // Darker Indigo border
+}
+
+// Card Border Customization (Thick high-contrast borders)
+.q-card {
+  border-radius: 12px !important;
+  border: 2px solid #94a3b8 !important; // Thick visible Slate-400 border
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Micro-animation for cards
+.hover-grow:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: #475569 !important; // Darker border on hover
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+}
+
+// Custom typography adjustments
+.text-h3, .text-h4, .text-h5, .text-h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+// Visible Borders for Table Layouts
+.q-table__container {
+  border-radius: 12px !important;
+  border: 2px solid #94a3b8 !important; // Heavy outer border
+}
+
+.q-table th {
+  font-weight: 700 !important;
+  color: #475569 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  background-color: #f1f5f9;
+  border-bottom: 2px solid #94a3b8 !important;
+  border-right: 1px solid #cbd5e1 !important;
+}
+
+.q-table td {
+  font-size: 0.875rem;
+  color: #334155;
+  border-bottom: 1.5px solid #cbd5e1 !important; // Grid line border
+  border-right: 1px solid #cbd5e1 !important;
+}
+
+.q-table th:last-child, .q-table td:last-child {
+  border-right: none !important;
+}
+
+// Visible Borders for Text Inputs, Textareas, Selectors
+.q-field--outlined .q-field__control::before {
+  border: 2px solid #94a3b8 !important; // Solid input border
+}
+
+.q-field--outlined:hover .q-field__control::before {
+  border-color: #475569 !important; // Slate-600 border
+}
+
+.q-field--outlined.q-field--focused .q-field__control::after {
+  border: 3px solid var(--q-primary) !important; // Active focus border
+}
+
+// Heavy Separators
+.q-separator {
+  background-color: #94a3b8 !important;
+  height: 2px !important;
+}
+
+// Heavy Lists and List items
+.q-list {
+  border: 2px solid #94a3b8 !important;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.q-list.q-list--separator > .q-item-type + .q-item-type {
+  border-top: 2px solid #cbd5e1 !important;
+}
+
+// Banners
+.q-banner {
+  border: 2px solid #cbd5e1 !important;
+  border-radius: 8px;
+}
+
+// Buttons
+.q-btn {
+  text-transform: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.q-btn:not(.q-btn--flat):not(.q-btn--round) {
+  border: 1.5px solid rgba(15, 23, 42, 0.2) !important; // Heavy outline definition
+}
+
+.q-btn--outline {
+  border: 2px solid currentColor !important;
+}
+
+// Badges
+.q-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}

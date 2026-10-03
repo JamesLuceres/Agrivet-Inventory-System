@@ -1,59 +1,159 @@
 <template>
-  <q-page class="q-pa-md">
-    <!-- Header -->
-    <div class="row items-center q-mb-lg justify-between">
-      <div class="row items-center">
-        <q-btn
-          flat
-          round
-          dense
-          icon="arrow_back"
-          size="lg"
-          color="blue-10"
-          class="q-mr-md"
-          @click="$router.push('/')"
+  <q-page class="inventory-management-page q-pa-lg">
+    <!-- Top Header & Controls -->
+    <div class="row items-center q-col-gutter-md q-mb-lg no-print">
+      <!-- Left: Title & Subtitle -->
+      <div class="col-auto">
+        <h1
+          class="text-h5 text-weight-bolder text-slate-900 q-my-none tracking-tight leading-tight"
         >
-          <q-tooltip>Back to Dashboard</q-tooltip>
-        </q-btn>
-        <q-icon name="inventory_2" size="lg" color="blue-10" class="q-mr-sm" />
-        <h1 class="text-h4 text-weight-bold text-blue-10 q-my-none">Available Items & Stocks</h1>
-      </div>
-      <div>
-        <q-btn color="primary" icon="add" label="Add New Product" @click="openAddDialog" />
-      </div>
-    </div>
-
-    <!-- Filters & Table Card -->
-    <q-card flat bordered class="bg-white shadow-1">
-      <!-- Search and Filter Header -->
-      <q-card-section class="row q-col-gutter-sm items-center q-pb-md">
-        <div class="col-12 col-sm-6 col-md-8">
-          <q-input
-            v-model="searchQuery"
-            placeholder="Search products by name..."
-            outlined
-            dense
-            clearable
-          >
-            <template v-slot:prepend>
-              <q-icon name="search" />
-            </template>
-          </q-input>
+          Inventory Catalog
+        </h1>
+        <div class="text-caption text-slate-500 font-medium">
+          Unified stock tracking, retail/bulk pricing, and inventory management
         </div>
-        <div class="col-12 col-sm-6 col-md-4">
+      </div>
+
+      <!-- Middle: Long Search Bar -->
+      <div class="col col-grow q-px-sm" style="min-width: 250px">
+        <q-input
+          v-model="searchQuery"
+          outlined
+          dense
+          placeholder="Search products by name or category..."
+          class="bg-white reports-search-input-long full-width"
+        >
+          <template v-slot:prepend>
+            <q-icon name="search" size="20px" color="slate-400" />
+          </template>
+          <template v-slot:append v-if="searchQuery">
+            <q-icon name="close" size="16px" class="cursor-pointer" @click="searchQuery = ''" />
+          </template>
+        </q-input>
+      </div>
+
+      <!-- Right: Category Filter + Add Product Button -->
+      <div class="col-auto">
+        <div class="row items-center q-gutter-x-sm no-wrap">
           <q-select
             v-model="selectedCategory"
             :options="categoryOptions"
-            label="Filter by Category"
             outlined
             dense
             emit-value
             map-options
+            class="bg-white filter-select"
+            dropdown-icon="expand_more"
+          />
+
+          <q-btn
+            unelevated
+            no-caps
+            icon="add"
+            label="Add New Product"
+            class="btn-agrivet-green export-btn text-weight-bold"
+            @click="openAddDialog"
           />
         </div>
-      </q-card-section>
+      </div>
+    </div>
 
-      <q-separator />
+    <!-- 4 Summary KPI Cards -->
+    <div class="row q-col-gutter-md q-mb-lg no-print items-stretch">
+      <!-- Card 1: Total Catalog Products -->
+      <div class="col-12 col-sm-6 col-lg-3 column">
+        <q-card flat class="kpi-metric-card full-height bg-white">
+          <div class="row items-center justify-between no-wrap">
+            <div>
+              <div class="text-caption text-slate-500 font-semibold text-uppercase tracking-wider">
+                Total Products
+              </div>
+              <div class="kpi-metric-value text-slate-900 num-tabular q-mt-xs">
+                {{ totalProductsCount }}
+              </div>
+              <div class="text-caption text-slate-500 q-mt-xs">Active store inventory</div>
+            </div>
+            <div class="kpi-icon-squircle bg-emerald-1 text-emerald-9">
+              <q-icon name="inventory_2" size="24px" color="primary" />
+            </div>
+          </div>
+        </q-card>
+      </div>
+
+      <!-- Card 2: Bulk Sacks in Stock -->
+      <div class="col-12 col-sm-6 col-lg-3 column">
+        <q-card flat class="kpi-metric-card full-height bg-white">
+          <div class="row items-center justify-between no-wrap">
+            <div>
+              <div class="text-caption text-slate-500 font-semibold text-uppercase tracking-wider">
+                Sacks in Stock
+              </div>
+              <div class="kpi-metric-value text-slate-900 num-tabular q-mt-xs">
+                {{ totalSacksInStock.toLocaleString() }}
+              </div>
+              <div class="text-caption text-slate-500 q-mt-xs">Warehouse bulk pool</div>
+            </div>
+            <div class="kpi-icon-squircle bg-blue-1 text-blue-9">
+              <q-icon name="inventory" size="24px" color="blue-8" />
+            </div>
+          </div>
+        </q-card>
+      </div>
+
+      <!-- Card 3: Low Stock Alerts -->
+      <div class="col-12 col-sm-6 col-lg-3 column">
+        <q-card flat class="kpi-metric-card full-height bg-white">
+          <div class="row items-center justify-between no-wrap">
+            <div>
+              <div class="text-caption text-slate-500 font-semibold text-uppercase tracking-wider">
+                Low Stock Alerts
+              </div>
+              <div class="kpi-metric-value text-amber-9 num-tabular q-mt-xs">
+                {{ lowStockProductsCount }}
+              </div>
+              <div class="text-caption text-slate-500 q-mt-xs">Near reorder limit</div>
+            </div>
+            <div class="kpi-icon-squircle bg-amber-1 text-amber-9">
+              <q-icon name="warning" size="24px" color="amber-9" />
+            </div>
+          </div>
+        </q-card>
+      </div>
+
+      <!-- Card 4: Out of Stock -->
+      <div class="col-12 col-sm-6 col-lg-3 column">
+        <q-card flat class="kpi-metric-card full-height bg-white">
+          <div class="row items-center justify-between no-wrap">
+            <div>
+              <div class="text-caption text-slate-500 font-semibold text-uppercase tracking-wider">
+                Out of Stock
+              </div>
+              <div class="kpi-metric-value text-rose-7 num-tabular q-mt-xs">
+                {{ outOfStockProductsCount }}
+              </div>
+              <div class="text-caption text-slate-500 q-mt-xs">Needs replenishment</div>
+            </div>
+            <div class="kpi-icon-squircle bg-rose-1 text-rose-7">
+              <q-icon name="remove_shopping_cart" size="24px" color="rose-7" />
+            </div>
+          </div>
+        </q-card>
+      </div>
+    </div>
+
+    <!-- Inventory Data Table Card -->
+    <q-card flat class="data-table-card bg-white">
+      <div
+        class="q-px-md q-py-sm row items-center justify-between border-bottom-subtle bg-slate-50"
+      >
+        <div class="row items-center">
+          <q-icon name="table_chart" size="20px" color="primary" class="q-mr-sm" />
+          <span class="text-subtitle2 text-weight-bold text-slate-800"> Available Stock Records </span>
+          <q-badge color="emerald-1" text-color="emerald-9" class="q-ml-sm text-weight-bold">
+            {{ filteredProducts.length }} items
+          </q-badge>
+        </div>
+      </div>
 
       <!-- Data Table -->
       <q-table
@@ -830,6 +930,24 @@ const filteredProducts = computed(() => {
   })
 })
 
+// KPI Summary Metrics
+const totalProductsCount = computed(() => products.value.filter((p) => p.is_active).length)
+const totalSacksInStock = computed(() => {
+  return products.value
+    .filter((p) => p.is_active && p.unit_bulk_name && p.price_per_sack)
+    .reduce((sum, p) => sum + (parseFloat(p.stock_sacks) || 0), 0)
+})
+const lowStockProductsCount = computed(() => {
+  return products.value.filter(
+    (p) => p.is_active && (isLowStock(p, 'sacks') || isLowStock(p, 'kilos')),
+  ).length
+})
+const outOfStockProductsCount = computed(() => {
+  return products.value.filter(
+    (p) => p.is_active && isOutOfStock(p, 'sacks') && isOutOfStock(p, 'kilos'),
+  ).length
+})
+
 const columns = [
   {
     name: 'name',
@@ -1113,28 +1231,126 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-h1 {
-  font-size: 2rem;
-  line-height: 2.5rem;
+<style scoped lang="scss">
+.inventory-management-page {
+  background-color: #f1f5f9;
+  min-height: 100vh;
 }
-.bg-red-1 {
-  background-color: #ffebee !important;
+
+.reports-search-input-long {
+  :deep(.q-field__control) {
+    border-radius: 12px;
+    height: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  :deep(.q-field--outlined .q-field__control:before) {
+    border: 1.5px solid #94a3b8;
+    border-radius: 12px;
+    transition: border-color 0.15s ease;
+  }
+  :deep(.q-field--outlined:hover .q-field__control:before) {
+    border-color: #475569;
+  }
+  :deep(.q-field--focused .q-field__control:after) {
+    border: 2px solid #0d6832 !important;
+    border-radius: 12px;
+  }
 }
-.text-red {
-  color: #c62828 !important;
+
+.filter-select {
+  width: 175px;
+  :deep(.q-field__control) {
+    border-radius: 10px;
+    height: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  :deep(.q-field--outlined .q-field__control:before) {
+    border: 1.5px solid #94a3b8;
+    border-radius: 10px;
+    transition: border-color 0.15s ease;
+  }
+  :deep(.q-field--outlined:hover .q-field__control:before) {
+    border-color: #475569;
+  }
 }
-.bg-indigo-10 {
-  background-color: #1a237e !important;
+
+.export-btn {
+  height: 40px;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 0.84rem;
+  transition: all 0.15s ease;
 }
-.rounded-borders {
-  border-radius: 4px;
+
+.kpi-metric-card {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  border-radius: 14px !important;
+  border: 1.5px solid #94a3b8 !important;
+  background-color: #ffffff !important;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+  padding: 18px 16px;
+  transition: all 0.15s ease;
+  &:hover {
+    border-color: #475569 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-1px);
+  }
 }
+
+.kpi-metric-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.kpi-icon-squircle {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.data-table-card {
+  border-radius: 16px !important;
+  border: 1.5px solid #94a3b8 !important;
+  background-color: #ffffff !important;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+  overflow: hidden;
+}
+
+.border-slate {
+  border: 1.5px solid #94a3b8;
+}
+
+.border-bottom-subtle {
+  border-bottom: 1.5px solid #cbd5e1;
+}
+
+.num-tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
 :deep(.table-header-bold),
 :deep(.q-table th) {
   font-weight: 800 !important;
   font-size: 0.93rem !important;
   color: #0f172a !important;
+  background-color: #f8fafc !important;
   letter-spacing: 0.01em;
 }
 

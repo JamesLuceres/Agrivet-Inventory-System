@@ -37,11 +37,11 @@
         </div>
       </div>
 
-      <!-- Center: Clean SKU/Product Search Input with Quick Calculator -->
+      <!-- Center: Clean Product Search Input -->
       <div class="col">
         <q-input
           v-model="searchQuery"
-          placeholder="Tap to search SKU or product name..."
+          placeholder="Search product name..."
           outlined
           dense
           clearable
@@ -49,19 +49,6 @@
         >
           <template v-slot:prepend>
             <q-icon name="search" color="slate-400" size="22px" />
-          </template>
-          <template v-slot:append>
-            <q-btn
-              flat
-              round
-              dense
-              icon="calculate"
-              color="deep-orange-7"
-              class="q-mr-xs"
-              @click="openCalculator"
-            >
-              <q-tooltip>Quick Price & Feeds Calculator</q-tooltip>
-            </q-btn>
           </template>
         </q-input>
       </div>
@@ -1668,9 +1655,6 @@
 
     <!-- Shift Z-Reading & Cash Balancing Modal -->
     <ShiftZReadingModal ref="zReadingModalRef" />
-
-    <!-- Agrivet Quick Calculator Modal -->
-    <QuickCalculatorModal ref="calculatorModalRef" />
   </q-page>
 </template>
 
@@ -1681,23 +1665,15 @@ import { useQuasar } from 'quasar'
 import logoUrl from 'src/images/Nichole Agrivet.png'
 import TopHeaderControls from 'src/components/TopHeaderControls.vue'
 import ShiftZReadingModal from 'src/components/ShiftZReadingModal.vue'
-import QuickCalculatorModal from 'src/components/QuickCalculatorModal.vue'
 import { playBeep, playChime, playWarning } from 'src/utils/audio'
 
 const $q = useQuasar()
 const toggleDrawer = inject('toggleDrawer', () => {})
 const zReadingModalRef = ref(null)
-const calculatorModalRef = ref(null)
 
 function openShiftZReading() {
   if (zReadingModalRef.value) {
     zReadingModalRef.value.openModal()
-  }
-}
-
-function openCalculator() {
-  if (calculatorModalRef.value) {
-    calculatorModalRef.value.openModal()
   }
 }
 

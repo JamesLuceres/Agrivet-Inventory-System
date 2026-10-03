@@ -218,7 +218,6 @@ function handleLogout() {
   }).onOk(() => {
     localStorage.setItem('isLoggedOut', 'true')
     localStorage.removeItem('isLoggedIn')
-    localStorage.removeItem('userName')
     $q.notify({
       color: 'info',
       message: 'Signed out successfully.',

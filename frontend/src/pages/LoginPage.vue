@@ -179,11 +179,14 @@ function handleLogin() {
     if (isCorrectUser && isCorrectPass) {
       localStorage.removeItem('isLoggedOut')
       localStorage.setItem('isLoggedIn', 'true')
-      localStorage.setItem('userName', 'Nichole_agrivet')
+      if (!localStorage.getItem('userName')) {
+        localStorage.setItem('userName', 'Nichole_agrivet')
+      }
+      const activeCashier = localStorage.getItem('userName') || 'Nichole Agrivet'
 
       $q.notify({
         color: 'positive',
-        message: 'Welcome back, Nichole Agrivet! Successfully signed in.',
+        message: `Welcome back, ${activeCashier}! Successfully signed in.`,
         icon: 'check_circle',
         timeout: 2500,
       })

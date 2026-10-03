@@ -11,14 +11,10 @@ export default defineConfig((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/boot-files
-    boot: [
-      'axios',
-    ],
+    boot: ['axios'],
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/quasar-config-file#css
-    css: [
-      'app.scss'
-    ],
+    css: ['app.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -38,7 +34,7 @@ export default defineConfig((/* ctx */) => {
     build: {
       target: {
         browser: 'baseline-widely-available',
-        node: 'node22'
+        node: 'node22',
       },
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
@@ -59,19 +55,24 @@ export default defineConfig((/* ctx */) => {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
-        ['vite-plugin-checker', {
-          eslint: {
-            lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{js,mjs,cjs,vue}"',
-            useFlatConfig: true
-          }
-        }, { server: false }]
-      ]
+        [
+          'vite-plugin-checker',
+          {
+            eslint: {
+              lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{js,mjs,cjs,vue}"',
+              useFlatConfig: true,
+            },
+          },
+          { server: false },
+        ],
+      ],
     },
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/quasar-config-file#devserver
     devServer: {
-      // https: true,
-      open: true // opens browser window automatically
+      host: '0.0.0.0',
+      port: 9000,
+      open: false,
     },
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/quasar-config-file#framework
@@ -89,10 +90,7 @@ export default defineConfig((/* ctx */) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: [
-        'Notify',
-        'Dialog'
-      ]
+      plugins: ['Notify', 'Dialog'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -115,10 +113,10 @@ export default defineConfig((/* ctx */) => {
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/developing-ssr/configuring-ssr
     ssr: {
       prodPort: 3000, // The default port that the production server should use
-                      // (gets superseded if process.env.PORT is specified at runtime)
+      // (gets superseded if process.env.PORT is specified at runtime)
 
       middlewares: [
-        'render' // keep this as last one
+        'render', // keep this as last one
       ],
 
       // extendPackageJson (json) {},
@@ -129,7 +127,7 @@ export default defineConfig((/* ctx */) => {
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      pwa: false
+      pwa: false,
       // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
 
       // pwaExtendGenerateSWOptions (cfg) {},
@@ -138,7 +136,7 @@ export default defineConfig((/* ctx */) => {
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/developing-pwa/configuring-pwa
     pwa: {
-      workboxMode: 'GenerateSW' // 'GenerateSW' or 'InjectManifest'
+      workboxMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       // swFilename: 'sw.js',
       // manifestFilename: 'manifest.json',
       // extendManifestJson (json) {},
@@ -156,7 +154,7 @@ export default defineConfig((/* ctx */) => {
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true
+      hideSplashscreen: true,
     },
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/developing-electron-apps/configuring-electron
@@ -167,7 +165,7 @@ export default defineConfig((/* ctx */) => {
       // extendPackageJson (json) {},
 
       // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
-      preloadScripts: [ 'electron-preload' ],
+      preloadScripts: ['electron-preload'],
 
       // specify the debugging port to use for the Electron app when running in development mode
       inspectPort: 5858,
@@ -176,13 +174,11 @@ export default defineConfig((/* ctx */) => {
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
-
         // Windows only
         // win32metadata: { ... }
       },
@@ -190,8 +186,8 @@ export default defineConfig((/* ctx */) => {
       builder: {
         // https://www.electron.build/configuration
 
-        appId: 'frontend'
-      }
+        appId: 'frontend',
+      },
     },
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/developing-browser-extensions/configuring-bex
@@ -207,7 +203,7 @@ export default defineConfig((/* ctx */) => {
        *
        * @example [ 'my-script.ts', 'sub-folder/my-other-script.js' ]
        */
-      extraScripts: []
-    }
+      extraScripts: [],
+    },
   }
 })

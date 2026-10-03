@@ -222,3 +222,10 @@ node_modules/
 .quasar/
 dist/
 
+# Capacitor & Android outputs
+frontend/src-capacitor/node_modules/
+frontend/src-capacitor/www/
+
+# Playwright & test tool artifacts
+.playwright-cli/
+

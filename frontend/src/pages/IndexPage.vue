@@ -1,24 +1,30 @@
 <template>
   <q-page class="q-pa-md q-pa-md-lg max-width-container">
     <!-- Dashboard Header Banner -->
-    <div class="dashboard-hero q-pa-md q-pa-md-lg rounded-borders-lg q-mb-lg bg-white border-slate shadow-xs">
+    <div
+      class="dashboard-hero q-pa-md q-pa-md-lg rounded-borders-lg q-mb-lg bg-white border-slate shadow-xs"
+    >
       <div class="row items-center justify-between">
         <div class="row items-center no-wrap">
-          <q-avatar size="90px" class="q-mr-lg shadow-3 bg-white gt-xs overflow-hidden" style="border: 2.5px solid #059669; min-width: 96px;">
-            <img :src="logoUrl" alt="Nichole Agrivet Logo" style="object-fit: cover; transform: scale(1.15);" />
-          </q-avatar>
+          <img
+            :src="logoUrl"
+            alt="Nichole Agrivet Mascot"
+            class="q-mr-md gt-xs"
+            style="height: 84px; width: auto; object-fit: contain"
+          />
           <div>
             <div class="row items-center q-mb-xs">
-              <q-badge color="emerald-1" text-color="emerald-9" class="q-px-sm q-py-xs text-caption text-weight-bold q-mr-sm">
+              <span class="badge-status-new text-caption text-weight-bold q-mr-sm">
                 Live Operations
-              </q-badge>
+              </span>
               <span class="text-caption text-slate-500">{{ currentDateFormatted }}</span>
             </div>
             <h1 class="text-h4 text-weight-bold text-slate-900 q-my-none tracking-tight">
               Nichole Agrivet Dashboard
             </h1>
             <p class="text-body2 text-slate-600 q-mt-xs q-mb-none max-w-65ch">
-              Manage your daily transactions, monitor store stock, track customer credit ledgers, and analyze sales reports.
+              Manage your daily transactions, monitor store stock, track customer credit ledgers,
+              and analyze sales reports.
             </p>
           </div>
         </div>
@@ -43,7 +49,9 @@
         <q-card flat class="stat-card bg-white q-pa-md">
           <div class="row items-center justify-between">
             <div>
-              <div class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider">
+              <div
+                class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider"
+              >
                 Sales Today
               </div>
               <div class="text-h5 text-weight-bold text-slate-900 num-tabular q-mt-xs">
@@ -67,10 +75,15 @@
         <q-card flat class="stat-card bg-white q-pa-md">
           <div class="row items-center justify-between">
             <div>
-              <div class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider">
+              <div
+                class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider"
+              >
                 Stock Alerts
               </div>
-              <div class="text-h5 text-weight-bold num-tabular q-mt-xs" :class="lowStockCount > 0 ? 'text-rose-6' : 'text-slate-900'">
+              <div
+                class="text-h5 text-weight-bold num-tabular q-mt-xs"
+                :class="lowStockCount > 0 ? 'text-rose-6' : 'text-slate-900'"
+              >
                 <template v-if="loadingStats">
                   <q-skeleton type="text" width="60px" />
                 </template>
@@ -91,7 +104,9 @@
         <q-card flat class="stat-card bg-white q-pa-md">
           <div class="row items-center justify-between">
             <div>
-              <div class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider">
+              <div
+                class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider"
+              >
                 Total Credit
               </div>
               <div class="text-h5 text-weight-bold text-slate-900 num-tabular q-mt-xs">
@@ -99,7 +114,11 @@
                   <q-skeleton type="text" width="80px" />
                 </template>
                 <template v-else>
-                  {{ totalUtang !== null ? `₱${totalUtang.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '₱0.00' }}
+                  {{
+                    totalUtang !== null
+                      ? `₱${totalUtang.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                      : '₱0.00'
+                  }}
                 </template>
               </div>
             </div>
@@ -115,7 +134,9 @@
         <q-card flat class="stat-card bg-white q-pa-md">
           <div class="row items-center justify-between">
             <div>
-              <div class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider">
+              <div
+                class="text-caption text-slate-500 text-weight-semibold text-uppercase tracking-wider"
+              >
                 Customers
               </div>
               <div class="text-h5 text-weight-bold text-slate-900 num-tabular q-mt-xs">
@@ -154,11 +175,10 @@
                 </q-avatar>
                 <q-icon name="arrow_forward" size="20px" class="text-slate-400 module-arrow" />
               </div>
-              <div class="text-h6 text-weight-bold text-slate-900 q-mb-xs">
-                Cashier
-              </div>
+              <div class="text-h6 text-weight-bold text-slate-900 q-mb-xs">Cashier</div>
               <p class="text-body2 text-slate-600 q-mb-md">
-                Scan products, handle cash or credit checkout, generate receipts, and manage active shopping carts.
+                Scan products, handle cash or credit checkout, generate receipts, and manage active
+                shopping carts.
               </p>
             </div>
 
@@ -193,7 +213,8 @@
                 Available Stock & Inventory
               </div>
               <p class="text-body2 text-slate-600 q-mb-md">
-                View catalog products, update prices, adjust inventory stock levels, and monitor low-stock warnings.
+                View catalog products, update prices, adjust inventory stock levels, and monitor
+                low-stock warnings.
               </p>
             </div>
 
@@ -228,14 +249,19 @@
                 Credit Tracker & Ledger
               </div>
               <p class="text-body2 text-slate-600 q-mb-md">
-                Track customer utang balances, record partial or full payments, and manage customer profile records.
+                Track customer utang balances, record partial or full payments, and manage customer
+                profile records.
               </p>
             </div>
 
             <div class="row items-center justify-between pt-sm border-top-slate">
               <span class="text-caption text-slate-500">Utang Accounts</span>
               <q-badge color="amber-1" text-color="amber-10" class="q-px-sm q-py-xs">
-                {{ totalUtang !== null ? `₱${totalUtang.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})} Outstanding` : 'Open Ledger' }}
+                {{
+                  totalUtang !== null
+                    ? `₱${totalUtang.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Outstanding`
+                    : 'Open Ledger'
+                }}
               </q-badge>
             </div>
           </div>
@@ -263,7 +289,8 @@
                 Sales Reports & Analytics
               </div>
               <p class="text-body2 text-slate-600 q-mb-md">
-                Review daily transaction logs, filter sales date ranges, export store reports, and track revenue totals.
+                Review daily transaction logs, filter sales date ranges, export store reports, and
+                track revenue totals.
               </p>
             </div>
 
@@ -296,7 +323,7 @@ const currentDateFormatted = computed(() => {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   })
 })
 
@@ -311,7 +338,10 @@ async function fetchStats() {
     const customerRes = await api.get('customers/')
     if (Array.isArray(customerRes.data)) {
       totalCustomers.value = customerRes.data.length
-      totalUtang.value = customerRes.data.reduce((sum, cust) => sum + parseFloat(cust.total_utang || 0), 0)
+      totalUtang.value = customerRes.data.reduce(
+        (sum, cust) => sum + parseFloat(cust.total_utang || 0),
+        0,
+      )
     } else {
       totalCustomers.value = 0
       totalUtang.value = 0
@@ -319,7 +349,7 @@ async function fetchStats() {
 
     // 3. Fetch daily sales summaries
     const salesRes = await api.get('transactions/daily-summary/')
-    dailySalesCount.value = salesRes.data ? (salesRes.data.total_sales_count || 0) : 0
+    dailySalesCount.value = salesRes.data ? salesRes.data.total_sales_count || 0 : 0
   } catch (error) {
     console.error('Failed to fetch dashboard statistics:', error)
   } finally {
@@ -372,27 +402,62 @@ onMounted(() => {
   transition: all 0.2s ease;
 }
 
-.bg-emerald-50 { background-color: #ecfdf5 !important; }
-.text-emerald-7 { color: #047857 !important; }
-.text-emerald-9 { color: #064e3b !important; }
-.bg-emerald-1 { background-color: #d1fae5 !important; }
+.bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+}
+.text-emerald-7 {
+  color: #047857 !important;
+}
+.text-emerald-9 {
+  color: #064e3b !important;
+}
+.bg-emerald-1 {
+  background-color: #d1fae5 !important;
+}
 
-.bg-indigo-50 { background-color: #e0e7ff !important; }
-.text-indigo-7 { color: #4338ca !important; }
-.text-indigo-9 { color: #312e81 !important; }
-.bg-indigo-1 { background-color: #e0e7ff !important; }
+.bg-indigo-50 {
+  background-color: #e0e7ff !important;
+}
+.text-indigo-7 {
+  color: #4338ca !important;
+}
+.text-indigo-9 {
+  color: #312e81 !important;
+}
+.bg-indigo-1 {
+  background-color: #e0e7ff !important;
+}
 
-.bg-sky-50 { background-color: #f0f9ff !important; }
-.text-sky-7 { color: #0369a1 !important; }
-.text-sky-9 { color: #0c4a6e !important; }
-.bg-sky-1 { background-color: #e0f2fe !important; }
+.bg-sky-50 {
+  background-color: #f0f9ff !important;
+}
+.text-sky-7 {
+  color: #0369a1 !important;
+}
+.text-sky-9 {
+  color: #0c4a6e !important;
+}
+.bg-sky-1 {
+  background-color: #e0f2fe !important;
+}
 
-.bg-amber-50 { background-color: #fffbeb !important; }
-.text-amber-8 { color: #92400e !important; }
-.text-amber-10 { color: #451a03 !important; }
-.bg-amber-1 { background-color: #fef3c7 !important; }
+.bg-amber-50 {
+  background-color: #fffbeb !important;
+}
+.text-amber-8 {
+  color: #92400e !important;
+}
+.text-amber-10 {
+  color: #451a03 !important;
+}
+.bg-amber-1 {
+  background-color: #fef3c7 !important;
+}
 
-.bg-rose-50 { background-color: #ffe4e6 !important; }
-.text-rose-6 { color: #e11d48 !important; }
+.bg-rose-50 {
+  background-color: #ffe4e6 !important;
+}
+.text-rose-6 {
+  color: #e11d48 !important;
+}
 </style>
-

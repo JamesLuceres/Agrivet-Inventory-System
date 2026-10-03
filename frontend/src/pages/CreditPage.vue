@@ -1,20 +1,29 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="q-pa-md">
     <!-- Header -->
-    <div class="row items-center q-mb-lg">
-      <q-btn flat round dense icon="arrow_back" size="lg" color="orange-10" class="q-mr-md" @click="$router.push('/')">
+    <div class="row items-center q-mb-md">
+      <q-btn
+        flat
+        round
+        dense
+        icon="arrow_back"
+        size="lg"
+        color="primary"
+        class="q-mr-md"
+        @click="$router.push('/')"
+      >
         <q-tooltip>Back to Dashboard</q-tooltip>
       </q-btn>
-      <q-icon name="payment" size="lg" color="orange-10" class="q-mr-sm" />
-      <h1 class="text-h4 text-weight-bold text-orange-10 q-my-none">Credit Tracker (Utang Log)</h1>
+      <q-icon name="payment" size="lg" color="primary" class="q-mr-sm" />
+      <h1 class="text-h4 text-weight-bold text-slate-900 q-my-none">Credit Tracker (Utang Log)</h1>
     </div>
 
-    <div class="row q-col-gutter-lg">
+    <div class="row q-col-gutter-md">
       <!-- 1. LEFT COLUMN: CUSTOMERS LIST -->
       <div class="col-12 col-md-6 col-lg-5">
         <q-card flat bordered class="bg-white shadow-1 fit-height">
           <q-card-section class="q-pb-none">
-            <div class="text-h6 text-weight-bold text-indigo-10 q-mb-md">Customer Ledgers</div>
+            <div class="text-h6 text-weight-bold text-slate-900 q-mb-md">Customer Ledgers</div>
             <!-- Search bar -->
             <q-input
               v-model="searchQuery"
@@ -33,7 +42,7 @@
           <q-separator />
 
           <!-- Customer Cards List -->
-          <q-card-section class="q-pa-none scroll-container" style="max-height: 60vh;">
+          <q-card-section class="q-pa-none scroll-container" style="max-height: 60vh">
             <div v-if="filteredCustomers.length === 0" class="text-center text-grey-6 q-py-xl">
               <q-icon name="people" size="xl" class="q-mb-sm" />
               <div>No customers matching criteria.</div>
@@ -46,16 +55,18 @@
                 clickable
                 v-ripple
                 :active="selectedCustomer?.id === customer.id"
-                active-class="bg-orange-1 text-orange-10"
+                active-class="bg-emerald-50 text-emerald-9"
                 @click="selectCustomer(customer)"
                 class="q-py-md"
               >
                 <q-item-section avatar>
-                  <q-avatar color="orange-2" text-color="orange-10" icon="person" />
+                  <q-avatar color="emerald-1" text-color="emerald-9" icon="person" />
                 </q-item-section>
 
                 <q-item-section>
-                  <q-item-label class="text-subtitle1 text-weight-bold">{{ customer.name }}</q-item-label>
+                  <q-item-label class="text-subtitle1 text-weight-bold">{{
+                    customer.name
+                  }}</q-item-label>
                   <q-item-label caption class="text-grey-7" v-if="customer.contact_number">
                     📞 {{ customer.contact_number }}
                   </q-item-label>
@@ -66,7 +77,11 @@
 
                 <q-item-section side class="text-right">
                   <q-item-label class="text-subtitle1 text-weight-bold text-red-10">
-                    ₱{{ parseFloat(customer.total_utang).toLocaleString('en-US', { minimumFractionDigits: 2 }) }}
+                    ₱{{
+                      parseFloat(customer.total_utang).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                      })
+                    }}
                   </q-item-label>
                   <div class="row q-gutter-xs q-mt-xs justify-end">
                     <q-btn
@@ -90,7 +105,11 @@
         <q-card flat bordered class="bg-white shadow-1 fit-height">
           <q-card-section class="q-py-md">
             <div class="text-h6 text-weight-bold text-indigo-10">
-              {{ selectedCustomer ? `${selectedCustomer.name}'s Account History` : 'Select a customer to view ledger history' }}
+              {{
+                selectedCustomer
+                  ? `${selectedCustomer.name}'s Account History`
+                  : 'Select a customer to view ledger history'
+              }}
             </div>
           </q-card-section>
 
@@ -99,7 +118,10 @@
           <q-card-section class="q-pa-md" v-if="!selectedCustomer">
             <div class="text-center text-grey-6 q-py-xl">
               <q-icon name="history" size="xl" class="q-mb-sm" />
-              <div>Click on a customer ledger in the list to view their invoices and transaction histories.</div>
+              <div>
+                Click on a customer ledger in the list to view their invoices and transaction
+                histories.
+              </div>
             </div>
           </q-card-section>
 
@@ -110,6 +132,9 @@
               :columns="columns"
               row-key="id"
               flat
+              bordered
+              separator="cell"
+              class="inventory-data-table"
               no-data-label="No transactions recorded for this customer."
               :rows-per-page-options="[5, 10, 20]"
             >
@@ -137,7 +162,11 @@
               <!-- Unpaid Balance Column -->
               <template v-slot:body-cell-unpaid_balance="props">
                 <q-td :props="props" class="text-red-10 text-weight-bold">
-                  ₱{{ (parseFloat(props.row.total_amount) - parseFloat(props.row.amount_paid)).toFixed(2) }}
+                  ₱{{
+                    (
+                      parseFloat(props.row.total_amount) - parseFloat(props.row.amount_paid)
+                    ).toFixed(2)
+                  }}
                 </q-td>
               </template>
             </q-table>
@@ -148,7 +177,7 @@
 
     <!-- Record Payment Dialog -->
     <q-dialog v-model="paymentDialog.open">
-      <q-card style="width: 400px; max-width: 90vw;">
+      <q-card style="width: 400px; max-width: 90vw">
         <q-card-section class="bg-indigo-10 text-white q-py-md">
           <div class="text-h6 text-weight-bold">Record Payment (Bayad)</div>
           <div class="text-subtitle2">{{ paymentDialog.customerName }}</div>
@@ -159,7 +188,11 @@
           <div class="row justify-between items-center q-mb-md bg-grey-2 q-pa-md rounded-borders">
             <div class="text-subtitle1 text-grey-8">Outstanding Debt:</div>
             <div class="text-h6 text-weight-bold text-red-10">
-              ₱{{ parseFloat(paymentDialog.maxAmount).toLocaleString('en-US', { minimumFractionDigits: 2 }) }}
+              ₱{{
+                parseFloat(paymentDialog.maxAmount).toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                })
+              }}
             </div>
           </div>
 
@@ -174,9 +207,9 @@
             prefix="₱"
             class="q-mb-sm"
             :rules="[
-              val => !!val || 'Amount is required',
-              val => val > 0 || 'Amount must be greater than 0',
-              val => val <= paymentDialog.maxAmount || 'Amount cannot exceed outstanding balance'
+              (val) => !!val || 'Amount is required',
+              (val) => val > 0 || 'Amount must be greater than 0',
+              (val) => val <= paymentDialog.maxAmount || 'Amount cannot exceed outstanding balance',
             ]"
           />
         </q-card-section>
@@ -199,6 +232,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { api } from 'boot/axios'
 import { useQuasar } from 'quasar'
+import { playChime, playWarning } from 'src/utils/audio'
 
 const $q = useQuasar()
 
@@ -216,12 +250,12 @@ const paymentDialog = ref({
   open: false,
   customerId: null,
   customerName: '',
-  maxAmount: 0.0
+  maxAmount: 0.0,
 })
 
 // Filtered Customer list
 const filteredCustomers = computed(() => {
-  return customers.value.filter(customer => {
+  return customers.value.filter((customer) => {
     return customer.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   })
 })
@@ -229,14 +263,20 @@ const filteredCustomers = computed(() => {
 // Transactions for selected customer
 const customerTransactions = computed(() => {
   if (!selectedCustomer.value) return []
-  return transactions.value.filter(tx => tx.customer === selectedCustomer.value.id)
+  return transactions.value.filter((tx) => tx.customer === selectedCustomer.value.id)
 })
 
 const columns = [
   { name: 'created_at', label: 'Date/Time', field: 'created_at', align: 'left', sortable: true },
-  { name: 'total_amount', label: 'Total Invoiced', field: 'total_amount', align: 'right', sortable: true },
+  {
+    name: 'total_amount',
+    label: 'Total Bill',
+    field: 'total_amount',
+    align: 'right',
+    sortable: true,
+  },
   { name: 'amount_paid', label: 'Paid Down', field: 'amount_paid', align: 'right', sortable: true },
-  { name: 'unpaid_balance', label: 'Unpaid Balance', field: 'id', align: 'right', sortable: true }
+  { name: 'unpaid_balance', label: 'Balance Due', field: 'id', align: 'right', sortable: true },
 ]
 
 // API Requests
@@ -250,7 +290,7 @@ async function fetchData() {
 
     // Keep selected customer synchronized if it is open
     if (selectedCustomer.value) {
-      const match = customers.value.find(c => c.id === selectedCustomer.value.id)
+      const match = customers.value.find((c) => c.id === selectedCustomer.value.id)
       if (match) {
         selectedCustomer.value = match
       }
@@ -259,7 +299,7 @@ async function fetchData() {
     $q.notify({
       color: 'negative',
       message: 'Failed to synchronize credit database.',
-      icon: 'error'
+      icon: 'error',
     })
   }
 }
@@ -287,34 +327,36 @@ async function submitPayment() {
 
     // PATCH update to customer total_utang
     await api.patch(`customers/${paymentDialog.value.customerId}/`, {
-      total_utang: newUtang.toFixed(2)
+      total_utang: newUtang.toFixed(2),
     })
 
     // Also register this cash receipt by posting a dummy Transaction representing the debt payment
-    // E.g., CASH payment of amount 'reduction' associated with customer
+    // E.g., DEBT_PAYMENT payment of amount 'reduction' associated with customer
     await api.post('transactions/', {
-      transaction_type: 'CASH',
+      transaction_type: 'DEBT_PAYMENT',
       customer: paymentDialog.value.customerId,
       total_amount: reduction.toFixed(2),
       amount_paid: reduction.toFixed(2),
       change_given: '0.00',
-      items: [] // No items, represents a payment ledger record
+      items: [], // No items, represents a payment ledger record
     })
 
+    playChime()
     $q.notify({
       color: 'positive',
       message: `Payment of ₱${reduction.toFixed(2)} recorded for ${paymentDialog.value.customerName}!`,
-      icon: 'payments'
+      icon: 'payments',
     })
 
     paymentDialog.value.open = false
     paymentAmount.value = null
     fetchData() // Refresh ledgers
   } catch {
+    playWarning()
     $q.notify({
       color: 'negative',
       message: 'Failed to record payment transaction.',
-      icon: 'error'
+      icon: 'error',
     })
   }
 }
@@ -323,7 +365,12 @@ async function submitPayment() {
 function formatDate(dateTimeStr) {
   if (!dateTimeStr) return ''
   const date = new Date(dateTimeStr)
-  return date.toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+  return date.toLocaleString([], {
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 
 onMounted(() => {

@@ -1,247 +1,229 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <!-- Main App Header -->
-    <q-header elevated class="bg-slate-900 text-white shadow-2">
-      <q-toolbar class="q-py-xs q-px-md">
-        <!-- Hamburger for mobile only -->
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          class="lt-sm q-mr-sm"
-          @click="drawer = !drawer"
-        />
-
-        <!-- Store Logo & Title -->
-        <q-toolbar-title class="row items-center cursor-pointer min-width-auto q-mr-lg" @click="$router.push('/')">
-          <q-avatar size="44px" class="q-mr-sm bg-white shadow-2 overflow-hidden" style="border: 2px solid #059669">
-            <img :src="logoUrl" alt="Nichole Agrivet Logo" style="object-fit: cover; transform: scale(1.15);" />
-          </q-avatar>
-          <div>
-            <div class="text-weight-bold text-subtitle1 leading-tight tracking-tight">
-              Nichole Agrivet
-            </div>
-            <div class="text-caption text-emerald-400 leading-none text-weight-medium gt-xs">
-              Inventory System
-            </div>
-          </div>
-        </q-toolbar-title>
-
-        <!-- Top Navigation Links (desktop only) -->
-        <div class="row items-center q-gutter-x-xs q-mr-md gt-xs">
-          <q-btn
-            v-for="nav in navItems"
-            :key="nav.to"
-            flat
-            dense
-            no-caps
-            :to="nav.to"
-            :label="nav.label"
-            :icon="nav.icon"
-            class="header-nav-btn q-px-sm"
-            :class="{ 'header-nav-active': $route.path === nav.to }"
-          />
-        </div>
-
-        <q-space />
-
-        <!-- API Connection Status Badge -->
-        <div class="row items-center q-mr-md gt-xs">
-          <div
-            class="status-pill row items-center q-px-sm q-py-xs rounded-borders"
-            :class="apiConnected ? 'status-online' : 'status-offline'"
-          >
-            <span class="status-dot q-mr-xs" :class="apiConnected ? 'dot-online' : 'dot-offline'"></span>
-            <span class="text-caption text-weight-semibold">
-              {{ apiConnected ? 'API Online' : 'API Offline' }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Clock Widget (desktop only) -->
-        <div class="clock-widget gt-sm row items-center text-caption text-weight-medium q-px-sm q-py-xs rounded-borders">
-          <q-icon name="schedule" class="q-mr-xs" size="16px" />
-          <span>{{ currentTime }}</span>
-        </div>
-
-        <!-- User Profile & Log Out Button -->
-        <div class="row items-center q-ml-md q-gutter-x-xs">
-          <q-btn flat no-caps dense class="user-pill q-px-sm">
-            <q-avatar size="26px" color="positive" text-color="white" icon="person" class="q-mr-xs" />
-            <span class="text-caption text-weight-bold text-slate-200 gt-xs">{{ userName }}</span>
-            <q-menu auto-close anchor="bottom right" self="top right">
-              <q-list style="min-width: 180px">
-                <q-item class="text-slate-700">
-                  <q-item-section avatar><q-icon name="person" color="primary" /></q-item-section>
-                  <q-item-section>
-                    <q-item-label class="text-weight-bold">{{ userName }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item clickable class="text-negative" @click="handleLogout">
-                  <q-item-section avatar><q-icon name="logout" color="negative" /></q-item-section>
-                  <q-item-section class="text-weight-bold">Log Out</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-
-          <q-btn
-            flat
-            dense
-            color="rose-4"
-            icon="logout"
-            label="Log Out"
-            class="gt-xs text-weight-bold q-px-sm rounded-borders"
-            style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3);"
-            @click="handleLogout"
-          >
-            <q-tooltip>Sign out of system</q-tooltip>
-          </q-btn>
-        </div>
-      </q-toolbar>
-    </q-header>
-
-    <!-- Mobile Drawer Navigation -->
+  <q-layout view="lHh lpR lFf" class="tablet-layout-root">
+    <!-- Collapsible Tablet Left Sidebar (Floating Overlay Drawer: Never squishes screen) -->
     <q-drawer
       v-model="drawer"
       side="left"
+      :breakpoint="0"
+      :width="230"
       overlay
-      behavior="mobile"
-      :width="280"
-      class="bg-slate-900"
+      bordered
+      class="tablet-sidebar bg-white"
     >
-      <div class="q-pa-md">
-        <!-- Drawer Header -->
-        <div class="row items-center q-mb-lg q-pb-md" style="border-bottom: 1px solid rgba(255,255,255,0.1)">
-          <q-avatar size="38px" class="bg-white q-mr-sm overflow-hidden" style="border: 2px solid #059669">
-            <img :src="logoUrl" alt="Logo" style="object-fit: cover; transform: scale(1.15);" />
-          </q-avatar>
-          <div>
-            <div class="text-white text-weight-bold text-subtitle2">Nichole Agrivet</div>
-            <div class="text-caption text-emerald-400">Inventory System</div>
+      <div class="column full-height justify-between q-pa-md">
+        <!-- Top: Brand Header & Nav List -->
+        <div>
+          <!-- Brand Logo Header with Close Button -->
+          <div
+            class="row items-center justify-between no-wrap q-mb-lg q-pt-xs"
+          >
+            <div
+              class="row items-center no-wrap cursor-pointer"
+              @click="$router.push('/'); drawer = false"
+            >
+              <img :src="logoUrl" alt="Nichole Agrivet" class="brand-mascot-raw q-mr-sm" />
+              <div class="row items-center no-wrap">
+                <span
+                  class="text-weight-bolder text-subtitle2 text-slate-900 leading-tight q-mr-xs tracking-tight"
+                >
+                  NICHOLE AGRIVET
+                </span>
+                <span class="badge-mint text-caption" style="font-size: 0.65rem">Tablet #01</span>
+              </div>
+            </div>
+            <q-btn
+              flat
+              round
+              dense
+              icon="close"
+              color="slate-6"
+              size="11px"
+              class="bg-slate-100"
+              @click="drawer = false"
+            />
           </div>
+
+          <!-- Main Navigation Links -->
+          <div
+            class="text-caption text-weight-bold text-slate-400 text-uppercase tracking-wider q-mb-xs q-px-sm"
+          >
+            Menu
+          </div>
+          <q-list class="q-gutter-y-xs no-border">
+            <q-item
+              v-for="nav in navItems"
+              :key="nav.to"
+              clickable
+              v-ripple
+              :to="nav.to"
+              exact
+              class="sidebar-nav-item"
+              :active-class="'sidebar-nav-active'"
+              @click="drawer = false"
+            >
+              <q-item-section avatar class="min-width-auto q-pr-sm">
+                <q-icon :name="nav.icon" size="20px" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-weight-medium text-body2">{{ nav.label }}</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <!-- Help & User Guide Link -->
+            <q-item
+              clickable
+              v-ripple
+              class="sidebar-nav-item"
+              @click="showHelpGuide = true; drawer = false"
+            >
+              <q-item-section avatar class="min-width-auto q-pr-sm">
+                <q-icon name="help_outline" size="20px" color="primary" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-weight-medium text-body2">Help & Guide</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </div>
 
-        <!-- Drawer Nav Links -->
-        <q-list>
-          <q-item
-            v-for="nav in navItems"
-            :key="nav.to"
-            clickable
-            :to="nav.to"
-            exact
-            class="drawer-nav-item rounded-borders q-mb-xs"
-            :active-class="'drawer-nav-active'"
-            @click="drawer = false"
+        <!-- Bottom: Status & Quick Info -->
+        <div class="q-pt-md border-top-slate">
+          <!-- Connection Status Pill -->
+          <div
+            class="status-pill row items-center q-px-sm q-py-xs rounded-borders q-mb-sm"
+            :class="apiConnected ? 'status-online' : 'status-offline'"
           >
-            <q-item-section avatar>
-              <q-icon :name="nav.icon" size="22px" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-white text-weight-medium">{{ nav.label }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
+            <span
+              class="status-dot q-mr-xs"
+              :class="apiConnected ? 'dot-online' : 'dot-offline'"
+            ></span>
+            <span class="text-caption text-weight-semibold">
+              {{ apiConnected ? 'Server Online' : 'Server Offline' }}
+            </span>
+          </div>
 
-        <!-- Drawer Footer -->
-        <div class="q-mt-xl q-pt-md" style="border-top: 1px solid rgba(255,255,255,0.1)">
-          <!-- API Status -->
-          <div class="row items-center q-mb-sm">
-            <div
-              class="status-pill row items-center q-px-sm q-py-xs rounded-borders full-width"
-              :class="apiConnected ? 'status-online' : 'status-offline'"
-            >
-              <span class="status-dot q-mr-xs" :class="apiConnected ? 'dot-online' : 'dot-offline'"></span>
-              <span class="text-caption text-weight-semibold">
-                {{ apiConnected ? 'API Online' : 'API Offline' }}
-              </span>
-            </div>
+          <!-- Time Display -->
+          <div class="row items-center text-caption text-slate-500 q-mb-sm q-px-xs">
+            <q-icon name="schedule" size="14px" class="q-mr-xs text-slate-400" />
+            <span class="num-tabular">{{ currentTime }}</span>
           </div>
-          <!-- Clock -->
-          <div class="clock-widget row items-center text-caption text-weight-medium q-px-sm q-py-xs rounded-borders q-mb-md">
-            <q-icon name="schedule" class="q-mr-xs" size="16px" />
-            <span>{{ currentTime }}</span>
-          </div>
-          <!-- Logout -->
+
+          <!-- Log Out Button -->
           <q-btn
             flat
             dense
             no-caps
             icon="logout"
             label="Log Out"
-            class="full-width text-weight-bold q-py-sm rounded-borders"
-            style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); color: #fb7185;"
+            color="negative"
+            class="full-width sidebar-logout-btn q-py-xs text-weight-bold"
             @click="handleLogout"
           />
         </div>
       </div>
     </q-drawer>
 
+    <!-- Top Tablet Header (Hidden on POS to match full-screen mockup) -->
+    <q-header
+      v-if="route.path !== '/pos'"
+      class="tablet-header bg-white text-slate-900 border-bottom-slate"
+    >
+      <q-toolbar class="q-px-md q-py-xs">
+        <!-- Toggle button for drawer navigation -->
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          color="slate-7"
+          class="q-mr-sm"
+          @click="drawer = !drawer"
+        />
+
+        <!-- Active View Title (Lowered to sit balanced in header) -->
+        <q-toolbar-title
+          class="text-weight-bold text-h6 text-slate-900 q-pl-none"
+          style="margin-top: 5px"
+        >
+          {{ currentViewTitle }}
+        </q-toolbar-title>
+
+        <q-space />
+
+        <!-- Right Header Items: Notifications & Cashier User Profile -->
+        <TopHeaderControls />
+      </q-toolbar>
+    </q-header>
+
     <!-- Page Content Container -->
-    <q-page-container class="bg-slate-100">
+    <q-page-container class="tablet-main-bg">
       <router-view />
     </q-page-container>
+
+    <!-- Help & Guide Modal Component -->
+    <HelpGuideModal v-model="showHelpGuide" />
   </q-layout>
 </template>
 
-
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, onBeforeUnmount, provide } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 import logoUrl from 'src/images/Nichole Agrivet.png'
+import TopHeaderControls from 'src/components/TopHeaderControls.vue'
+import HelpGuideModal from 'src/components/HelpGuideModal.vue'
 
 const router = useRouter()
+const route = useRoute()
 const $q = useQuasar()
 
+const drawer = ref(false)
+const showHelpGuide = ref(false)
 const apiConnected = ref(false)
 const currentTime = ref('')
-const drawer = ref(false)
 
-const userName = ref(localStorage.getItem('userName') || 'admin')
+function toggleDrawer() {
+  drawer.value = !drawer.value
+}
+provide('toggleDrawer', toggleDrawer)
+
+const currentViewTitle = computed(() => {
+  if (route.path === '/pos') return 'Orders'
+  if (route.path === '/inventory') return 'Inventory Catalog'
+  if (route.path === '/credit') return 'Credit & Utang Tracker'
+  if (route.path === '/sales') return 'Reports & Analytics'
+  return 'Dashboard'
+})
+
+const navItems = [
+  { label: 'Dashboard', icon: 'grid_view', to: '/' },
+  { label: 'Orders / POS', icon: 'receipt_long', to: '/pos' },
+  { label: 'Inventory', icon: 'inventory_2', to: '/inventory' },
+  { label: 'Credit Tracker', icon: 'account_balance_wallet', to: '/credit' },
+  { label: 'Reports', icon: 'bar_chart', to: '/sales' },
+]
 
 function handleLogout() {
   $q.dialog({
     title: 'Confirm Logout',
-    message: 'Are you sure you want to log out of Nichole Agrivet System?',
-    cancel: {
-      flat: true,
-      color: 'grey-7',
-      label: 'Cancel'
-    },
-    ok: {
-      color: 'negative',
-      label: 'Log Out',
-      unelevated: true,
-      icon: 'logout'
-    },
-    persistent: true
+    message: 'Are you sure you want to sign out of the POS system?',
+    cancel: { flat: true, color: 'grey-7', label: 'Cancel' },
+    ok: { color: 'primary', label: 'Log Out', unelevated: true, icon: 'logout' },
+    persistent: true,
   }).onOk(() => {
+    localStorage.setItem('isLoggedOut', 'true')
     localStorage.removeItem('isLoggedIn')
     localStorage.removeItem('userName')
-
     $q.notify({
       color: 'info',
-      message: 'You have logged out successfully.',
-      icon: 'lock'
+      message: 'Signed out successfully.',
+      icon: 'lock',
     })
-
     router.push('/login')
   })
 }
 
-const navItems = [
-  { label: 'Dashboard', caption: 'Overview & Analytics', icon: 'dashboard', to: '/' },
-  { label: 'Cashier', caption: 'Process Sales & Cash', icon: 'point_of_sale', to: '/pos' },
-  { label: 'Inventory', caption: 'Stock List & Products', icon: 'inventory_2', to: '/inventory' },
-  { label: 'Credit Tracker', caption: 'Customer Accounts & Utang', icon: 'account_balance_wallet', to: '/credit' },
-  { label: 'Sales Reports', caption: 'Daily & Monthly Logs', icon: 'bar_chart', to: '/sales' }
-]
-
-// Update clock every second
 let clockInterval
 function updateTime() {
   const options = {
@@ -250,13 +232,11 @@ function updateTime() {
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
-    hour12: true
+    hour12: true,
   }
   currentTime.value = new Date().toLocaleString('en-US', options)
 }
 
-// Check Django API status
 let apiInterval
 async function checkApiStatus() {
   try {
@@ -270,7 +250,6 @@ async function checkApiStatus() {
 onMounted(() => {
   updateTime()
   clockInterval = setInterval(updateTime, 1000)
-
   checkApiStatus()
   apiInterval = setInterval(checkApiStatus, 5000)
 })
@@ -281,50 +260,75 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped>
-.bg-slate-900 {
-  background-color: #0f172a !important;
-}
-.bg-slate-100 {
-  background-color: #f8fafc !important;
-}
-.bg-slate-50 {
-  background-color: #f8fafc !important;
-}
-.text-slate-200 {
-  color: #e2e8f0 !important;
-}
-.text-slate-400 {
-  color: #94a3b8 !important;
-}
-.text-slate-500 {
-  color: #64748b !important;
-}
-.text-emerald-400 {
-  color: #34d399 !important;
+<style scoped lang="scss">
+.tablet-layout-root {
+  background-color: #f8f9fa;
 }
 
-.brand-avatar {
-  width: 32px;
-  height: 32px;
-  background: #059669;
-  border-radius: 8px;
+.tablet-main-bg {
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
-.header-nav-btn {
-  color: #94a3b8;
-  border-radius: 6px;
-  font-weight: 500;
+.tablet-sidebar {
+  border-right: 1px solid #e5e7eb !important;
+}
+
+.sidebar-nav-item {
+  border-radius: 10px;
+  color: #64748b;
+  margin-bottom: 4px;
+  padding: 8px 12px;
   transition: all 0.15s ease;
 }
-.header-nav-btn:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
+.sidebar-nav-item:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
 }
-.header-nav-active {
-  color: #ffffff !important;
-  background: rgba(5, 150, 105, 0.3) !important;
-  font-weight: 600;
+
+.brand-mascot-raw {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Active State matching user's Forest Green & Mint theme */
+.sidebar-nav-active {
+  background-color: #e6f4ea !important;
+  color: #0d6832 !important;
+  font-weight: 700 !important;
+  border-left: 3.5px solid #0d6832 !important;
+}
+.sidebar-nav-active .q-icon {
+  color: #0d6832 !important;
+}
+
+.header-icon-btn {
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+}
+
+.user-avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ff8a65;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-pill {
+  background-color: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  padding: 4px 8px;
 }
 
 .status-pill {
@@ -332,63 +336,42 @@ onBeforeUnmount(() => {
   font-size: 0.75rem;
 }
 .status-online {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
 }
 .status-offline {
-  background: rgba(244, 63, 94, 0.15);
-  color: #fb7185;
-  border: 1px solid rgba(244, 63, 94, 0.3);
+  background: #fff1ee;
+  color: #ef4444;
+  border: 1px solid #fecaca;
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   display: inline-block;
 }
 .dot-online {
   background-color: #10b981;
-  box-shadow: 0 0 8px #10b981;
 }
 .dot-offline {
-  background-color: #f43f5e;
-  box-shadow: 0 0 8px #f43f5e;
+  background-color: #ef4444;
 }
 
-.clock-widget {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #cbd5e1;
+.sidebar-logout-btn {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
 }
 
-.border-bottom-slate {
-  border-bottom: 1.5px solid #cbd5e1;
-}
 .border-top-slate {
-  border-top: 1.5px solid #cbd5e1;
+  border-top: 1px solid #e5e7eb;
+}
+.border-bottom-slate {
+  border-bottom: 1px solid #e5e7eb;
 }
 .min-width-auto {
   min-width: auto;
 }
-
-.drawer-nav-item {
-  color: #94a3b8;
-  transition: all 0.15s ease;
-}
-.drawer-nav-item:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
-}
-.drawer-nav-active {
-  color: #ffffff !important;
-  background: rgba(5, 150, 105, 0.25) !important;
-}
-.drawer-nav-active .q-item__label {
-  color: #ffffff !important;
-  font-weight: 600 !important;
-}
 </style>
-

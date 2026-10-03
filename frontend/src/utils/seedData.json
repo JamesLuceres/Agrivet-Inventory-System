@@ -1,0 +1,839 @@
+﻿{
+    "app":  "Nichole Agrivet POS \u0026 Inventory",
+    "version":  "1.0",
+    "exported_at":  "2026-10-02T17:20:38.436547+00:00",
+    "categories":  [
+                       {
+                           "id":  2,
+                           "name":  "Pet Food",
+                           "description":  "Food items for household pets."
+                       },
+                       {
+                           "id":  4,
+                           "name":  "Essentials",
+                           "description":  "Veterinary medicines, tools, and basic store items."
+                       },
+                       {
+                           "id":  9,
+                           "name":  "Swine Feeds",
+                           "description":  null
+                       },
+                       {
+                           "id":  10,
+                           "name":  "Injectables",
+                           "description":  null
+                       },
+                       {
+                           "id":  11,
+                           "name":  "Antibiotics",
+                           "description":  null
+                       },
+                       {
+                           "id":  12,
+                           "name":  "Vitamins \u0026 C",
+                           "description":  null
+                       },
+                       {
+                           "id":  13,
+                           "name":  "Disinfectants",
+                           "description":  null
+                       },
+                       {
+                           "id":  14,
+                           "name":  "Rice \u0026 Grains",
+                           "description":  null
+                       },
+                       {
+                           "id":  15,
+                           "name":  "Services \u0026 Others",
+                           "description":  "Digital cash services and custom non-catalog items"
+                       }
+                   ],
+    "products":  [
+                     {
+                         "id":  1,
+                         "category_name":  "Swine Feeds",
+                         "total_base_stock":  511.0,
+                         "name":  "Piglet Starter (Sack/Kilo)",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "1500.00",
+                         "price_per_kilo":  "35.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "10.00",
+                         "stock_kilos":  "11.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  9
+                     },
+                     {
+                         "id":  2,
+                         "category_name":  "Swine Feeds",
+                         "total_base_stock":  250.0,
+                         "name":  "Grown Pig Hog Feed",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "1200.00",
+                         "price_per_kilo":  "28.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "5.00",
+                         "stock_kilos":  "0.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  9
+                     },
+                     {
+                         "id":  3,
+                         "category_name":  "Pet Food",
+                         "total_base_stock":  0.0,
+                         "name":  "Adult Dog Food",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "1800.00",
+                         "price_per_kilo":  "95.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "0.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  2
+                     },
+                     {
+                         "id":  4,
+                         "category_name":  "Rice \u0026 Grains",
+                         "total_base_stock":  1047.0,
+                         "name":  "Super Premium Dinorado Rice",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "2600.00",
+                         "price_per_kilo":  "55.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "20.00",
+                         "stock_kilos":  "47.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  8,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  14
+                     },
+                     {
+                         "id":  5,
+                         "category_name":  "Essentials",
+                         "total_base_stock":  1200.0,
+                         "name":  "hotdog",
+                         "unit_bulk_name":  "Box",
+                         "unit_retail_name":  "Piece",
+                         "price_per_sack":  "25.00",
+                         "price_per_kilo":  "1.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "24.00",
+                         "stock_kilos":  "0.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  false,
+                         "is_service":  false,
+                         "category":  4
+                     },
+                     {
+                         "id":  8,
+                         "category_name":  "Essentials",
+                         "total_base_stock":  30.0,
+                         "name":  "egg",
+                         "unit_bulk_name":  null,
+                         "unit_retail_name":  "Piece",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "7.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "30.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  false,
+                         "is_service":  false,
+                         "category":  4
+                     },
+                     {
+                         "id":  9,
+                         "category_name":  "Essentials",
+                         "total_base_stock":  6273.0,
+                         "name":  "basd",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "213.00",
+                         "price_per_kilo":  "123.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "123.00",
+                         "stock_kilos":  "123.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  23,
+                         "is_active":  false,
+                         "is_service":  false,
+                         "category":  4
+                     },
+                     {
+                         "id":  10,
+                         "category_name":  "Swine Feeds",
+                         "total_base_stock":  4167.0,
+                         "name":  "B-Meg Hog Starter Pellet",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "1680.00",
+                         "price_per_kilo":  "38.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "83.00",
+                         "stock_kilos":  "17.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  10,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  9
+                     },
+                     {
+                         "id":  11,
+                         "category_name":  "Injectables",
+                         "total_base_stock":  32.0,
+                         "name":  "Iron Dextran + Vit B12",
+                         "unit_bulk_name":  null,
+                         "unit_retail_name":  "100ml",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "350.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "32.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  10
+                     },
+                     {
+                         "id":  12,
+                         "category_name":  "Antibiotics",
+                         "total_base_stock":  120.0,
+                         "name":  "Vetracin Gold Powder",
+                         "unit_bulk_name":  null,
+                         "unit_retail_name":  "100g",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "85.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "120.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  15,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  11
+                     },
+                     {
+                         "id":  13,
+                         "category_name":  "Swine Feeds",
+                         "total_base_stock":  3340.0,
+                         "name":  "Hog Grower Pellets (Univet)",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Kilo",
+                         "price_per_sack":  "1590.00",
+                         "price_per_kilo":  "36.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "65.00",
+                         "stock_kilos":  "90.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  10,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  9
+                     },
+                     {
+                         "id":  14,
+                         "category_name":  "Injectables",
+                         "total_base_stock":  4.0,
+                         "name":  "Piglet Anti-Scour Liquid",
+                         "unit_bulk_name":  null,
+                         "unit_retail_name":  "100ml",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "240.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "4.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  10,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  10
+                     },
+                     {
+                         "id":  15,
+                         "category_name":  "Vitamins \u0026 C",
+                         "total_base_stock":  41.0,
+                         "name":  "Electro-Gen Electrolytes + C",
+                         "unit_bulk_name":  null,
+                         "unit_retail_name":  "1kg",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "285.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "41.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  8,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  12
+                     },
+                     {
+                         "id":  16,
+                         "category_name":  "Disinfectants",
+                         "total_base_stock":  25.0,
+                         "name":  "Virucide Farm Disinfectant 1L",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "1L",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "320.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "25.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  false,
+                         "category":  13
+                     },
+                     {
+                         "id":  17,
+                         "category_name":  "Services \u0026 Others",
+                         "total_base_stock":  999999.0,
+                         "name":  "GCash (Cash In / Cash Out)",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Transaction",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "0.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "999999.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  true,
+                         "category":  15
+                     },
+                     {
+                         "id":  18,
+                         "category_name":  "Services \u0026 Others",
+                         "total_base_stock":  999999.0,
+                         "name":  "Other / Custom Items",
+                         "unit_bulk_name":  "Sack",
+                         "unit_retail_name":  "Item",
+                         "price_per_sack":  null,
+                         "price_per_kilo":  "0.00",
+                         "cost_per_sack":  null,
+                         "cost_per_kilo":  null,
+                         "stock_sacks":  "0.00",
+                         "stock_kilos":  "999999.00",
+                         "units_per_bulk":  "50.00",
+                         "low_stock_threshold":  5,
+                         "is_active":  true,
+                         "is_service":  true,
+                         "category":  15
+                     }
+                 ],
+    "customers":  [
+                      {
+                          "id":  1,
+                          "name":  "Mang Juan",
+                          "contact_number":  "09171234567",
+                          "total_utang":  "0.00",
+                          "notes":  "Regular feeds buyer. Pays credit balances bi-weekly."
+                      },
+                      {
+                          "id":  2,
+                          "name":  "Aling Nena",
+                          "contact_number":  "09187654321",
+                          "total_utang":  "0.00",
+                          "notes":  "Owns a small sari-sari store. Buys dog food."
+                      },
+                      {
+                          "id":  3,
+                          "name":  "vall",
+                          "contact_number":  "09667953859",
+                          "total_utang":  "0.00",
+                          "notes":  ""
+                      },
+                      {
+                          "id":  4,
+                          "name":  "Mang Juan Swine Farm",
+                          "contact_number":  "0917-888-9999",
+                          "total_utang":  "0.00",
+                          "notes":  "Registered Farm Account"
+                      }
+                  ],
+    "transactions":  [
+                         {
+                             "id":  1,
+                             "items":  [
+                                           {
+                                               "id":  1,
+                                               "product_name":  "Piglet Starter (Sack/Kilo)",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "35.00",
+                                               "subtotal":  "35.00",
+                                               "notes":  null,
+                                               "transaction":  1,
+                                               "product":  1
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "35.00",
+                             "amount_paid":  "35.00",
+                             "change_given":  "5.00",
+                             "created_at":  "2026-07-23T00:51:21.498537+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  2,
+                             "items":  [
+                                           {
+                                               "id":  2,
+                                               "product_name":  "Piglet Starter (Sack/Kilo)",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "35.00",
+                                               "subtotal":  "35.00",
+                                               "notes":  null,
+                                               "transaction":  2,
+                                               "product":  1
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "35.00",
+                             "amount_paid":  "35.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T17:49:55.220523+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  3,
+                             "items":  [
+                                           {
+                                               "id":  3,
+                                               "product_name":  "Piglet Starter (Sack/Kilo)",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "35.00",
+                                               "subtotal":  "35.00",
+                                               "notes":  null,
+                                               "transaction":  3,
+                                               "product":  1
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "35.00",
+                             "amount_paid":  "35.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T17:49:57.834479+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  4,
+                             "items":  [
+                                           {
+                                               "id":  4,
+                                               "product_name":  "Piglet Starter (Sack/Kilo)",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "35.00",
+                                               "subtotal":  "35.00",
+                                               "notes":  null,
+                                               "transaction":  4,
+                                               "product":  1
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "35.00",
+                             "amount_paid":  "35.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T17:52:41.340526+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  5,
+                             "items":  [
+
+                                       ],
+                             "customer_name":  "Aling Nena",
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "2.00",
+                             "amount_paid":  "2.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:01:29.713605+08:00",
+                             "customer":  2
+                         },
+                         {
+                             "id":  6,
+                             "items":  [
+
+                                       ],
+                             "customer_name":  "Aling Nena",
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "2.00",
+                             "amount_paid":  "2.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:01:31.203492+08:00",
+                             "customer":  2
+                         },
+                         {
+                             "id":  7,
+                             "items":  [
+                                           {
+                                               "id":  5,
+                                               "product_name":  "hotdog",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "24.00",
+                                               "unit_price":  "1.00",
+                                               "subtotal":  "24.00",
+                                               "notes":  null,
+                                               "transaction":  7,
+                                               "product":  5
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "24.00",
+                             "amount_paid":  "24.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:36:00.508149+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  8,
+                             "items":  [
+
+                                       ],
+                             "customer_name":  "Aling Nena",
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "498.00",
+                             "amount_paid":  "498.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:38:44.392718+08:00",
+                             "customer":  2
+                         },
+                         {
+                             "id":  9,
+                             "items":  [
+                                           {
+                                               "id":  6,
+                                               "product_name":  "hotdog",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "12.00",
+                                               "unit_price":  "1.00",
+                                               "subtotal":  "12.00",
+                                               "notes":  null,
+                                               "transaction":  9,
+                                               "product":  5
+                                           },
+                                           {
+                                               "id":  7,
+                                               "product_name":  "Super Premium Dinorado Rice",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "3.00",
+                                               "unit_price":  "55.00",
+                                               "subtotal":  "165.00",
+                                               "notes":  null,
+                                               "transaction":  9,
+                                               "product":  4
+                                           }
+                                       ],
+                             "customer_name":  "vall",
+                             "transaction_type":  "CREDIT",
+                             "reference_number":  null,
+                             "total_amount":  "177.00",
+                             "amount_paid":  "0.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:40:05.297396+08:00",
+                             "customer":  3
+                         },
+                         {
+                             "id":  10,
+                             "items":  [
+
+                                       ],
+                             "customer_name":  "vall",
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "177.00",
+                             "amount_paid":  "177.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:40:50.941218+08:00",
+                             "customer":  3
+                         },
+                         {
+                             "id":  11,
+                             "items":  [
+
+                                       ],
+                             "customer_name":  "Mang Juan",
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "1500.00",
+                             "amount_paid":  "1500.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-08-01T18:41:01.813388+08:00",
+                             "customer":  1
+                         },
+                         {
+                             "id":  12,
+                             "items":  [
+                                           {
+                                               "id":  8,
+                                               "product_name":  "Piglet Starter (Sack/Kilo)",
+                                               "unit_type":  "Kilo",
+                                               "quantity":  "2.00",
+                                               "unit_price":  "35.00",
+                                               "subtotal":  "70.00",
+                                               "notes":  null,
+                                               "transaction":  12,
+                                               "product":  1
+                                           }
+                                       ],
+                             "transaction_type":  "CREDIT",
+                             "reference_number":  null,
+                             "total_amount":  "70.00",
+                             "amount_paid":  "0.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-24T23:34:46.306722+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  13,
+                             "items":  [
+                                           {
+                                               "id":  9,
+                                               "product_name":  "Piglet Starter (Sack/Kilo)",
+                                               "unit_type":  "Kilo",
+                                               "quantity":  "2.00",
+                                               "unit_price":  "35.00",
+                                               "subtotal":  "70.00",
+                                               "notes":  null,
+                                               "transaction":  13,
+                                               "product":  1
+                                           }
+                                       ],
+                             "transaction_type":  "CREDIT",
+                             "reference_number":  null,
+                             "total_amount":  "70.00",
+                             "amount_paid":  "0.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-24T23:34:56.761658+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  15,
+                             "items":  [
+                                           {
+                                               "id":  10,
+                                               "product_name":  "Adult Dog Food",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "95.00",
+                                               "subtotal":  "95.00",
+                                               "notes":  null,
+                                               "transaction":  15,
+                                               "product":  3
+                                           },
+                                           {
+                                               "id":  11,
+                                               "product_name":  "B-Meg Hog Starter Pellet",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "3.00",
+                                               "unit_price":  "38.00",
+                                               "subtotal":  "114.00",
+                                               "notes":  null,
+                                               "transaction":  15,
+                                               "product":  10
+                                           },
+                                           {
+                                               "id":  12,
+                                               "product_name":  "Electro-Gen Electrolytes + C",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "6.00",
+                                               "unit_price":  "285.00",
+                                               "subtotal":  "1710.00",
+                                               "notes":  null,
+                                               "transaction":  15,
+                                               "product":  15
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "1919.00",
+                             "amount_paid":  "1919.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-25T00:02:32.780013+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  16,
+                             "items":  [
+                                           {
+                                               "id":  13,
+                                               "product_name":  "Grown Pig Hog Feed",
+                                               "unit_type":  "SACK",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "1200.00",
+                                               "subtotal":  "1200.00",
+                                               "notes":  null,
+                                               "transaction":  16,
+                                               "product":  2
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "1200.00",
+                             "amount_paid":  "1500.00",
+                             "change_given":  "300.00",
+                             "created_at":  "2026-09-25T00:16:15.670542+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  17,
+                             "items":  [
+                                           {
+                                               "id":  14,
+                                               "product_name":  "Grown Pig Hog Feed",
+                                               "unit_type":  "SACK",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "1200.00",
+                                               "subtotal":  "1200.00",
+                                               "notes":  null,
+                                               "transaction":  17,
+                                               "product":  2
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "1200.00",
+                             "amount_paid":  "1200.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-25T00:19:10.367062+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  18,
+                             "items":  [
+                                           {
+                                               "id":  15,
+                                               "product_name":  "Adult Dog Food",
+                                               "unit_type":  "SACK",
+                                               "quantity":  "4.00",
+                                               "unit_price":  "1800.00",
+                                               "subtotal":  "7200.00",
+                                               "notes":  null,
+                                               "transaction":  18,
+                                               "product":  3
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "7200.00",
+                             "amount_paid":  "7200.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-25T20:30:53.734471+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  19,
+                             "items":  [
+                                           {
+                                               "id":  16,
+                                               "product_name":  "B-Meg Hog Starter Pellet",
+                                               "unit_type":  "SACK",
+                                               "quantity":  "3.00",
+                                               "unit_price":  "1680.00",
+                                               "subtotal":  "5040.00",
+                                               "notes":  null,
+                                               "transaction":  19,
+                                               "product":  10
+                                           }
+                                       ],
+                             "transaction_type":  "GCASH",
+                             "reference_number":  null,
+                             "total_amount":  "5040.00",
+                             "amount_paid":  "5040.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-25T20:46:37.764355+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  20,
+                             "items":  [
+                                           {
+                                               "id":  17,
+                                               "product_name":  "Electro-Gen Electrolytes + C",
+                                               "unit_type":  "KILO",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "285.00",
+                                               "subtotal":  "285.00",
+                                               "notes":  null,
+                                               "transaction":  20,
+                                               "product":  15
+                                           }
+                                       ],
+                             "transaction_type":  "CASH",
+                             "reference_number":  null,
+                             "total_amount":  "285.00",
+                             "amount_paid":  "285.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-25T20:53:00.130498+08:00",
+                             "customer":  null
+                         },
+                         {
+                             "id":  21,
+                             "items":  [
+                                           {
+                                               "id":  18,
+                                               "product_name":  "Grown Pig Hog Feed",
+                                               "unit_type":  "SACK",
+                                               "quantity":  "1.00",
+                                               "unit_price":  "1200.00",
+                                               "subtotal":  "1200.00",
+                                               "notes":  null,
+                                               "transaction":  21,
+                                               "product":  2
+                                           }
+                                       ],
+                             "transaction_type":  "GCASH",
+                             "reference_number":  null,
+                             "total_amount":  "1200.00",
+                             "amount_paid":  "1200.00",
+                             "change_given":  "0.00",
+                             "created_at":  "2026-09-25T21:01:02.380371+08:00",
+                             "customer":  null
+                         }
+                     ]
+}

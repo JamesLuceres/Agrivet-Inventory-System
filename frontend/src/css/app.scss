@@ -1,27 +1,41 @@
-// Global Premium Styling for Nichole Agrivet POS & Inventory System
+// Global Tablet POS Styling for Nichole Agrivet
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family:
+    'Plus Jakarta Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc; // Slate-50 background
-  color: #0f172a; // Slate-900 typography
+  background-color: #f8f9fa;
+  color: #111827;
 }
 
-// Numerical precision - tabular numerals for currency & counters
-.num-tabular, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6, .q-table td {
+// Numerical precision - tabular numerals for financial alignment
+.num-tabular,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6,
+.q-table td {
   font-variant-numeric: tabular-nums lining-nums;
 }
 
-// Sleek Custom Scrollbar
+// Minimalist Scrollbar
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 9999px;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
@@ -31,157 +45,297 @@ body {
   background: #94a3b8;
 }
 
-// Sleek Header Styling
-.q-header {
-  background: rgba(15, 23, 42, 0.95) !important;
-  backdrop-filter: blur(12px);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
+// Hide scrollbar utility for touch categories swipe
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-// Card High-Definition Customization
+// Header
+.q-header {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+// Clean Mascot Image (NO CIRCLE BORDER!)
+.brand-logo-clean {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+// Tablet Cards
 .q-card {
-  border-radius: 12px !important;
-  border: 1.5px solid #cbd5e1 !important; // Clear, crisp Slate-300 border
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05) !important;
+  border-radius: 16px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.02);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-// Micro-animation for cards
 .hover-grow {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease-in-out;
 }
 .hover-grow:hover {
-  transform: translateY(-3px);
-  border-color: #059669 !important; // Crisp primary emerald highlight on hover
-  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.1), 0 4px 8px -2px rgba(15, 23, 42, 0.05) !important;
+  transform: translateY(-2px);
+  border-color: #0d6832 !important;
+  box-shadow: 0 8px 24px -4px rgba(13, 104, 50, 0.12) !important;
 }
 
-// Custom typography adjustments
-.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.025em;
+// Category Pills (Exact replica of user design!)
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: 1.5px solid #e5e7eb;
+  background-color: #ffffff;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease-in-out;
+}
+.category-pill:hover {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+}
+.category-pill-active {
+  background-color: #0d6832 !important;
+  color: #ffffff !important;
+  border-color: #0d6832 !important;
+  box-shadow: 0 4px 12px rgba(13, 104, 50, 0.22);
 }
 
-// Refined High-Contrast Table Layouts
-.q-table__container {
-  border-radius: 12px !important;
-  border: 1.5px solid #cbd5e1 !important; // Clear outer table border
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05) !important;
-}
-
-.q-table th {
-  font-weight: 700 !important;
-  color: #334155 !important;
-  text-transform: uppercase;
-  font-size: 0.725rem;
-  letter-spacing: 0.06em;
-  background-color: #f1f5f9;
-  border-bottom: 2px solid #cbd5e1 !important;
-}
-
-.q-table td {
-  font-size: 0.875rem;
-  color: #0f172a;
-  border-bottom: 1px solid #e2e8f0 !important;
-}
-
-// Clear Outlined Inputs
+// Tablet Inputs
 .q-field--outlined .q-field__control {
-  border-radius: 8px !important;
+  border-radius: 12px !important;
+  background: #ffffff;
 }
-
 .q-field--outlined .q-field__control::before {
-  border: 1.5px solid #94a3b8 !important; // Solid, visible input border (Slate-400)
-  transition: border-color 0.2s ease;
+  border: 1px solid #e2e8f0 !important;
+  transition: border-color 0.15s ease;
 }
-
 .q-field--outlined:hover .q-field__control::before {
-  border-color: #475569 !important; // Darker on hover (Slate-600)
+  border-color: #cbd5e1 !important;
 }
-
 .q-field--outlined.q-field--focused .q-field__control::after {
-  border: 2.5px solid var(--q-primary) !important;
+  border: 2px solid #0d6832 !important;
 }
 
-// Clear Separators
+// Tablet SKU Search with visible green border
+.tablet-sku-search.q-field--outlined .q-field__control {
+  border-radius: 9999px !important;
+  border: 1.5px solid #0d6832 !important;
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(13, 104, 50, 0.08) !important;
+}
+.tablet-sku-search.q-field--outlined .q-field__control::before {
+  border: none !important;
+}
+.tablet-sku-search.q-field--outlined.q-field--focused .q-field__control {
+  border: 2px solid #0d6832 !important;
+  box-shadow: 0 0 0 3px rgba(13, 104, 50, 0.15) !important;
+}
+.tablet-sku-search.q-field--outlined.q-field--focused .q-field__control::after {
+  border: none !important;
+}
+
+// Separators
 .q-separator {
-  background-color: #cbd5e1 !important;
-  height: 1.5px !important;
+  background-color: #e5e7eb !important;
+  height: 1px !important;
 }
 
-// Lists & Navigation Drawers
-.q-list {
-  border-radius: 10px;
-  border: 1.5px solid #e2e8f0;
-}
-
-.nav-item {
-  border-radius: 8px;
-  margin: 4px 8px;
-  color: #475569;
-  font-weight: 500;
-  border: 1px solid transparent;
-  transition: all 0.15s ease-in-out;
-}
-
-.nav-item:hover {
-  background-color: rgba(5, 150, 105, 0.08);
-  color: #059669;
-  border-color: rgba(5, 150, 105, 0.2);
-}
-
-.nav-item.q-router-link--exact-active,
-.nav-item.nav-item--active {
-  background-color: #059669 !important;
+// Primary Forest Green Buttons
+.btn-agrivet-green {
+  background-color: #0d6832 !important;
   color: #ffffff !important;
-  font-weight: 600;
-  border-color: #047857 !important;
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(13, 104, 50, 0.25) !important;
+  transition: all 0.15s ease;
+}
+.btn-agrivet-green:hover {
+  background-color: #0a5227 !important;
+  transform: translateY(-1px);
+}
+.btn-agrivet-green:active {
+  transform: translateY(0);
 }
 
-.nav-item.q-router-link--exact-active .q-icon,
-.nav-item.nav-item--active .q-icon {
+// Mint Quick Badges
+.badge-mint {
+  background-color: #e6f4ea !important;
+  color: #0d6832 !important;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+}
+
+// Low Stock Urgent Red Badge
+.badge-low-stock {
+  background-color: #dc2626 !important; /* Urgent High-Contrast Crimson Red */
   color: #ffffff !important;
+  font-weight: 800 !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.05em;
 }
 
-// Buttons
-.q-btn {
-  text-transform: none;
-  font-weight: 600;
-  border-radius: 8px;
-  letter-spacing: -0.01em;
-  transition: all 0.15s ease-in-out;
+// Out of Stock High-Contrast Charcoal Slate Badge
+.badge-out-of-stock {
+  background-color: #475569 !important; /* Neutral Slate Charcoal */
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.05em;
 }
 
-.q-btn--outline {
-  border: 1.5px solid currentColor !important;
+.badge-tag-out-of-stock {
+  background-color: #f1f5f9 !important;
+  color: #64748b !important;
+  border: 1px solid #cbd5e1 !important;
+  font-weight: 700 !important;
+  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.02em;
 }
 
-.q-btn:active {
-  transform: scale(0.98);
+// High-Contrast Active & Inactive Status Badges
+.badge-status-active {
+  background-color: #0d6832 !important; /* Deep Agrivet Forest Green (Darkened for maximum readability) */
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  padding: 3px 10px !important;
+  border-radius: 9999px !important;
+  letter-spacing: 0.02em;
 }
 
-// Badges
-.q-badge {
-  padding: 4px 8px;
+.badge-status-inactive {
+  background-color: #64748b !important; /* Neutral Slate */
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  padding: 3px 10px !important;
+  border-radius: 9999px !important;
+  letter-spacing: 0.02em;
+}
+
+.badge-tag-amber {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  font-weight: 700;
   border-radius: 6px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  padding: 2px 8px;
+  font-size: 0.7rem;
 }
 
-// Custom Utility Color Classes
-.bg-emerald-7 { background-color: #047857 !important; }
-.bg-emerald-6 { background-color: #059669 !important; }
-.bg-emerald-1 { background-color: #d1fae5 !important; }
-.text-emerald-7 { color: #047857 !important; }
-.text-emerald-9 { color: #064e3b !important; }
-.text-emerald-100 { color: #d1fae5 !important; }
+.badge-tag-blue {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+}
 
-.bg-slate-50 { background-color: #f8fafc !important; }
-.bg-slate-100 { background-color: #f1f5f9 !important; }
-.border-slate { border: 1.5px solid #cbd5e1 !important; }
-.border-top-slate { border-top: 1.5px solid #cbd5e1 !important; }
+.badge-tag-red {
+  background-color: #fee2e2 !important;
+  color: #b91c1c !important;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+}
 
+.badge-tag-purple {
+  background-color: #f3e8ff !important;
+  color: #7e22ce !important;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+}
 
+// Steppers in Cart
+.cart-stepper-btn {
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  color: #374151;
+  transition: all 0.15s ease;
+}
+.cart-stepper-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
 
+// Crisp, Bold Borders & Visible Gridlines for Data Tables
+.inventory-data-table,
+.app-grid-table,
+.q-table--bordered {
+  border: 2px solid #94a3b8 !important;
+  border-radius: 8px;
+  overflow: hidden;
+
+  thead tr th,
+  .table-header-bold {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    font-size: 0.93rem !important;
+    letter-spacing: 0.01em;
+    border-bottom: 2.5px solid #64748b !important;
+    border-right: 1.5px solid #94a3b8 !important;
+    padding: 12px 14px !important;
+  }
+
+  tbody tr td {
+    border-bottom: 1.5px solid #cbd5e1 !important;
+    border-right: 1.5px solid #cbd5e1 !important;
+    padding: 11px 14px !important;
+    font-size: 0.88rem;
+  }
+
+  thead tr th:last-child,
+  tbody tr td:last-child {
+    border-right: none !important;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  tbody tr:hover {
+    background-color: #f0fdf4 !important;
+  }
+
+  .q-table__bottom {
+    border-top: 2px solid #94a3b8 !important;
+    background-color: #f8fafc !important;
+  }
+}

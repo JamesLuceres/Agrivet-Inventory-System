@@ -1,9 +1,11 @@
 <template>
+  <AppStartupSplash />
   <router-view />
 </template>
 
 <script setup>
 import { onMounted } from 'vue'
+import AppStartupSplash from 'src/components/AppStartupSplash.vue'
 
 onMounted(async () => {
   // 1. Lock orientation to landscape on tablets / devices supporting Screen Orientation API

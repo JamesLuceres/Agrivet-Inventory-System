@@ -2,8 +2,13 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 import {
   getOfflineCategories,
+  saveOfflineCategory,
   getOfflineProducts,
+  saveOfflineProduct,
+  deleteOfflineProduct,
   getOfflineCustomers,
+  saveOfflineCustomer,
+  patchOfflineCustomer,
   getOfflineTransactions,
   saveOfflineTransaction,
   deleteOfflineTransaction,
@@ -35,7 +40,7 @@ const getApiBaseURL = () => {
 
 const api = axios.create({
   baseURL: getApiBaseURL(),
-  timeout: 5000,
+  timeout: 4000,
 })
 
 // Seamless offline fallback interceptor
@@ -52,10 +57,23 @@ api.interceptors.response.use(
     if (isOffline && error.config) {
       const url = error.config.url || ''
       const method = (error.config.method || 'get').toLowerCase()
-
-      if (url.includes('categories/')) {
-        return { data: getOfflineCategories(), status: 200, statusText: 'OK (Offline Cache)' }
+      const parseBody = () => {
+        if (!error.config.data) return {}
+        return typeof error.config.data === 'string'
+          ? JSON.parse(error.config.data)
+          : error.config.data
       }
+
+      // CATEGORIES
+      if (url.includes('categories/')) {
+        if (method === 'post') {
+          const created = saveOfflineCategory(parseBody())
+          return { data: created, status: 201, statusText: 'Created (Offline Mode)' }
+        }
+        return { data: getOfflineCategories(), status: 200, statusText: 'OK (Offline Mode)' }
+      }
+
+      // PRODUCTS LOW STOCK
       if (url.includes('products/low-stock/')) {
         const prods = getOfflineProducts().filter((p) => {
           const bulk =
@@ -63,37 +81,72 @@ api.interceptors.response.use(
             parseFloat(p.stock_kilos || 0) / (parseFloat(p.units_per_bulk) || 50)
           return bulk < (p.low_stock_threshold || 5)
         })
-        return { data: prods, status: 200, statusText: 'OK (Offline Cache)' }
+        return { data: prods, status: 200, statusText: 'OK (Offline Mode)' }
       }
+
+      // PRODUCTS CRUD
       if (url.includes('products/')) {
-        return { data: getOfflineProducts(), status: 200, statusText: 'OK (Offline Cache)' }
-      }
-      if (url.includes('customers/')) {
-        return { data: getOfflineCustomers(), status: 200, statusText: 'OK (Offline Cache)' }
-      }
-      if (url.includes('transactions/daily-summary/')) {
-        return { data: getOfflineDailySummary(), status: 200, statusText: 'OK (Offline Cache)' }
-      }
-      if (url.includes('transactions/') && method === 'post') {
-        const payload =
-          typeof error.config.data === 'string' ? JSON.parse(error.config.data) : error.config.data
-        const created = saveOfflineTransaction(payload)
-        return { data: created, status: 201, statusText: 'Created (Offline Cache)' }
-      }
-      if (url.includes('transactions/') && method === 'delete') {
-        const match = url.match(/transactions\/(\d+)\//)
-        if (match) {
-          deleteOfflineTransaction(match[1])
-          return { data: { success: true }, status: 204, statusText: 'No Content (Offline Cache)' }
+        if (method === 'post') {
+          const created = saveOfflineProduct(parseBody())
+          return { data: created, status: 201, statusText: 'Created (Offline Mode)' }
         }
+        if (method === 'put' || method === 'patch') {
+          const match = url.match(/products\/(\d+)\//)
+          const prodId = match ? match[1] : null
+          const updated = saveOfflineProduct(parseBody(), prodId)
+          return { data: updated, status: 200, statusText: 'OK (Offline Mode)' }
+        }
+        if (method === 'delete') {
+          const match = url.match(/products\/(\d+)\//)
+          if (match) {
+            deleteOfflineProduct(match[1])
+            return { data: { success: true }, status: 204, statusText: 'No Content (Offline Mode)' }
+          }
+        }
+        return { data: getOfflineProducts(), status: 200, statusText: 'OK (Offline Mode)' }
       }
+
+      // CUSTOMERS CRUD
+      if (url.includes('customers/')) {
+        if (method === 'post') {
+          const created = saveOfflineCustomer(parseBody())
+          return { data: created, status: 201, statusText: 'Created (Offline Mode)' }
+        }
+        if (method === 'patch' || method === 'put') {
+          const match = url.match(/customers\/(\d+)\//)
+          const custId = match ? match[1] : null
+          const updated = patchOfflineCustomer(custId, parseBody())
+          return { data: updated, status: 200, statusText: 'OK (Offline Mode)' }
+        }
+        return { data: getOfflineCustomers(), status: 200, statusText: 'OK (Offline Mode)' }
+      }
+
+      // DAILY SUMMARY
+      if (url.includes('transactions/daily-summary/')) {
+        return { data: getOfflineDailySummary(), status: 200, statusText: 'OK (Offline Mode)' }
+      }
+
+      // TRANSACTIONS CRUD
       if (url.includes('transactions/')) {
-        return { data: getOfflineTransactions(), status: 200, statusText: 'OK (Offline Cache)' }
+        if (method === 'post') {
+          const created = saveOfflineTransaction(parseBody())
+          return { data: created, status: 201, statusText: 'Created (Offline Mode)' }
+        }
+        if (method === 'delete') {
+          const match = url.match(/transactions\/(\d+)\//)
+          if (match) {
+            deleteOfflineTransaction(match[1])
+            return { data: { success: true }, status: 204, statusText: 'No Content (Offline Mode)' }
+          }
+        }
+        return { data: getOfflineTransactions(), status: 200, statusText: 'OK (Offline Mode)' }
       }
+
+      // BACKUP EXPORT & RESTORE
       if (url.includes('backup/export/')) {
         return {
           data: {
-            app: 'Nichole Agrivet POS & Inventory (Offline)',
+            app: 'Nichole Agrivet POS & Inventory (Standalone Tablet)',
             version: '1.0',
             exported_at: new Date().toISOString(),
             categories: getOfflineCategories(),
@@ -103,6 +156,22 @@ api.interceptors.response.use(
           },
           status: 200,
         }
+      }
+      if (url.includes('backup/restore/') && method === 'post') {
+        const payload = parseBody()
+        if (payload.categories) {
+          localStorage.setItem('offline_categories', JSON.stringify(payload.categories))
+        }
+        if (payload.products) {
+          localStorage.setItem('offline_products', JSON.stringify(payload.products))
+        }
+        if (payload.customers) {
+          localStorage.setItem('offline_customers', JSON.stringify(payload.customers))
+        }
+        if (payload.transactions) {
+          localStorage.setItem('offline_transactions', JSON.stringify(payload.transactions))
+        }
+        return { data: { success: true, message: 'Database restored successfully!' }, status: 200 }
       }
     }
     return Promise.reject(error)

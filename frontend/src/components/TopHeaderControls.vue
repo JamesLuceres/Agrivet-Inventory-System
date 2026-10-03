@@ -218,15 +218,6 @@
             >
           </q-item>
 
-          <q-item clickable v-ripple @click="openServerSettings">
-            <q-item-section avatar style="min-width: 36px">
-              <q-icon name="settings_ethernet" color="primary" size="20px" />
-            </q-item-section>
-            <q-item-section class="text-body2 text-slate-800"
-              >Server & Network Settings</q-item-section
-            >
-          </q-item>
-
           <q-separator class="q-my-xs" />
 
           <q-item clickable v-ripple class="text-negative" @click="handleLogout">

@@ -95,14 +95,14 @@
           <!-- Connection Status Pill -->
           <div
             class="status-pill row items-center q-px-sm q-py-xs rounded-borders q-mb-sm"
-            :class="apiConnected ? 'status-online' : 'status-offline'"
+            :class="apiConnected ? 'status-online' : 'status-standalone'"
           >
             <span
               class="status-dot q-mr-xs"
-              :class="apiConnected ? 'dot-online' : 'dot-offline'"
+              :class="apiConnected ? 'dot-online' : 'dot-standalone'"
             ></span>
             <span class="text-caption text-weight-semibold">
-              {{ apiConnected ? 'Server Online' : 'Server Offline' }}
+              {{ apiConnected ? 'Server Online' : '📱 Standalone Tablet' }}
             </span>
           </div>
 
@@ -344,6 +344,11 @@ onBeforeUnmount(() => {
   color: #059669;
   border: 1px solid #a7f3d0;
 }
+.status-standalone {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
 .status-offline {
   background: #fff1ee;
   color: #ef4444;
@@ -356,7 +361,8 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   display: inline-block;
 }
-.dot-online {
+.dot-online,
+.dot-standalone {
   background-color: #10b981;
 }
 .dot-offline {

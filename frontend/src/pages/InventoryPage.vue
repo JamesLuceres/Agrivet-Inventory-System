@@ -209,14 +209,6 @@
           </q-td>
         </template>
 
-        <!-- Status -->
-        <template v-slot:body-cell-is_active="props">
-          <q-td :props="props" align="center">
-            <q-badge :class="props.value ? 'badge-status-active' : 'badge-status-inactive'">
-              {{ props.value ? 'Active' : 'Inactive' }}
-            </q-badge>
-          </q-td>
-        </template>
 
         <!-- Actions -->
         <template v-slot:body-cell-actions="props">
@@ -875,14 +867,6 @@ const columns = [
     label: 'Bulk Stock',
     field: 'price_per_sack',
     align: 'left',
-    sortable: true,
-    headerClasses: 'table-header-bold text-weight-bolder text-dark',
-  },
-  {
-    name: 'is_active',
-    label: 'Status',
-    field: 'is_active',
-    align: 'center',
     sortable: true,
     headerClasses: 'table-header-bold text-weight-bolder text-dark',
   },

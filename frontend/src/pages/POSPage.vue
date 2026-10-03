@@ -16,20 +16,17 @@
         </q-btn>
 
         <div
-          class="shift-counter-pill row items-center q-px-md bg-white border-slate cursor-pointer"
+          class="shift-counter-pill row items-center no-wrap bg-white cursor-pointer"
           @click="openShiftZReading"
         >
-          <q-icon name="point_of_sale" size="24px" color="primary" class="q-mr-sm" />
-          <div class="column">
-            <span
-              class="text-caption text-weight-bold text-slate-400 text-uppercase leading-none"
-              style="font-size: 0.62rem; letter-spacing: 0.05em"
-            >
-              TODAY'S SHIFT
+          <div class="shift-icon-wrap flex flex-center q-mr-sm">
+            <q-icon name="point_of_sale" size="20px" color="primary" />
+          </div>
+          <div class="column justify-center no-wrap">
+            <span class="shift-label text-uppercase text-weight-bold">
+              Today's Shift
             </span>
-            <span
-              class="text-subtitle1 text-weight-bolder text-slate-900 num-tabular leading-tight q-mt-xs"
-            >
+            <span class="shift-amount text-weight-bolder num-tabular">
               ₱{{
                 todayShiftTotal.toLocaleString('en-US', {
                   minimumFractionDigits: 2,
@@ -979,368 +976,494 @@
       </q-card>
     </q-dialog>
 
-    <!-- ===== CASH TENDERED / CASHIER MODAL ===== -->
+    <!-- ===== CASH TENDERED / CASHIER MODAL (2-COLUMN SIDE-BY-SIDE) ===== -->
     <q-dialog v-model="cashModal.open" persistent>
-      <q-card style="width: 420px; max-width: 95vw">
+      <q-card style="width: 760px; max-width: 96vw; border-radius: 16px; overflow: hidden">
         <!-- Header -->
         <q-card-section
           class="row items-center justify-between bg-slate-50 q-py-sm q-px-md border-bottom-subtle"
         >
-          <div>
+          <div class="row items-center">
             <div
-              class="text-caption text-slate-400 text-uppercase text-weight-bold"
-              style="font-size: 0.65rem; letter-spacing: 0.05em"
+              class="shift-icon-wrap row items-center justify-center q-mr-sm"
+              style="width: 32px; height: 32px; background-color: #e6f4ea; border-radius: 8px"
             >
-              TOTAL DUE
+              <q-icon name="payments" size="20px" color="primary" />
             </div>
-            <div class="text-h4 text-weight-bolder text-slate-900 num-tabular">
-              ₱{{
-                totalDueAmount.toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              }}
+            <div>
+              <div class="text-subtitle1 text-weight-bolder text-slate-900 leading-none">
+                Cash Payment & Change
+              </div>
+              <div class="text-caption text-slate-500" style="font-size: 0.7rem">
+                Fast cash checkout with real-time change calculation
+              </div>
             </div>
           </div>
-          <q-btn flat round dense icon="close" @click="cashModal.open = false" />
+          <q-btn flat round dense icon="close" color="grey-7" @click="cashModal.open = false" />
         </q-card-section>
 
+        <!-- Body: 2 Columns Side-by-Side -->
         <q-card-section class="q-pa-md">
-          <!-- Amount Tendered Display -->
-          <div class="q-mb-md">
-            <div
-              class="text-caption text-slate-500 text-uppercase text-weight-bold q-mb-xs"
-              style="font-size: 0.68rem"
-            >
-              Amount Tendered by Customer
-            </div>
-            <div
-              class="rounded-borders border-slate bg-slate-50 q-px-md q-py-sm text-right num-tabular text-h4 text-weight-bold text-slate-900"
-              style="min-height: 60px; line-height: 60px"
-            >
-              {{ cashModal.displayValue || '0' }}
-            </div>
-          </div>
+          <div class="row q-col-gutter-md items-stretch">
+            <!-- LEFT COLUMN: Tendered Display + Presets + Numpad -->
+            <div class="col-12 col-sm-6 column justify-between">
+              <div>
+                <!-- Amount Tendered Display -->
+                <div class="q-mb-sm">
+                  <div class="row items-center justify-between q-mb-xs">
+                    <span
+                      class="text-caption text-slate-600 text-uppercase text-weight-bold"
+                      style="font-size: 0.68rem; letter-spacing: 0.04em"
+                    >
+                      Amount Tendered
+                    </span>
+                    <span
+                      v-if="cashModal.rawValue"
+                      class="text-caption text-primary text-weight-bold"
+                      style="font-size: 0.72rem"
+                    >
+                      ₱{{
+                        parseFloat(cashModal.rawValue || 0).toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      }}
+                    </span>
+                  </div>
+                  <div
+                    class="rounded-borders border-slate bg-slate-50 q-px-md q-py-xs text-right num-tabular text-h4 text-weight-bold text-slate-900"
+                    style="min-height: 52px; line-height: 52px"
+                  >
+                    {{ cashModal.displayValue || '0' }}
+                  </div>
+                </div>
 
-          <!-- Quick Preset Amounts -->
-          <div class="row q-col-gutter-sm q-mb-md">
-            <div class="col-3" v-for="amt in cashModal.presets" :key="amt">
-              <q-btn
-                unelevated
-                class="full-width bg-slate-100 text-slate-800 text-weight-bold"
-                style="height: 44px; font-size: 0.85rem"
-                no-caps
-                @click="setCashPreset(amt)"
-                >₱{{ amt.toLocaleString() }}</q-btn
-              >
-            </div>
-          </div>
+                <!-- Quick Preset Amounts -->
+                <div class="row q-col-gutter-xs q-mb-sm">
+                  <div class="col-3" v-for="amt in cashModal.presets" :key="amt">
+                    <q-btn
+                      unelevated
+                      class="full-width bg-slate-100 text-slate-800 text-weight-bold"
+                      style="height: 38px; font-size: 0.82rem; border-radius: 8px"
+                      no-caps
+                      @click="setCashPreset(amt)"
+                    >
+                      ₱{{ amt.toLocaleString() }}
+                    </q-btn>
+                  </div>
+                </div>
 
-          <!-- Numpad -->
-          <div class="numpad-grid q-mb-md">
-            <q-btn
-              v-for="key in ['7', '8', '9', '4', '5', '6', '1', '2', '3', '000', '0', '⌫']"
-              :key="key"
-              unelevated
-              class="numpad-key bg-white border-slate text-slate-900 text-weight-bold"
-              :class="key === '⌫' ? 'text-negative' : ''"
-              no-caps
-              @click="numpadPress(key)"
-              >{{ key }}</q-btn
-            >
-          </div>
-
-          <!-- Exact Amount shortcut -->
-          <q-btn
-            outline
-            color="primary"
-            label="Exact Amount"
-            icon="check_circle"
-            class="full-width q-mb-md"
-            no-caps
-            @click="setCashExact"
-          />
-
-          <!-- Change Due -->
-          <div
-            class="rounded-borders q-pa-md text-center"
-            :class="cashModal.changeDue >= 0 ? 'bg-emerald-50' : 'bg-red-50'"
-          >
-            <div
-              class="text-caption text-slate-500 text-uppercase text-weight-bold q-mb-xs"
-              style="font-size: 0.65rem"
-            >
-              CHANGE DUE
+                <!-- Numpad -->
+                <div class="numpad-grid">
+                  <q-btn
+                    v-for="key in ['7', '8', '9', '4', '5', '6', '1', '2', '3', '000', '0', '⌫']"
+                    :key="key"
+                    unelevated
+                    class="numpad-key bg-white border-slate text-slate-900 text-weight-bold"
+                    :class="key === '⌫' ? 'text-negative' : ''"
+                    no-caps
+                    @click="numpadPress(key)"
+                  >
+                    {{ key }}
+                  </q-btn>
+                </div>
+              </div>
             </div>
-            <div
-              class="text-h3 text-weight-bolder num-tabular"
-              :class="cashModal.changeDue >= 0 ? 'text-primary' : 'text-negative'"
-            >
-              ₱{{
-                Math.max(0, cashModal.changeDue).toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              }}
-            </div>
-            <div v-if="cashModal.changeDue < 0" class="text-caption text-negative q-mt-xs">
-              ₱{{
-                Math.abs(cashModal.changeDue).toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-              }}
-              short
+
+            <!-- RIGHT COLUMN (Second Picture): Total Due, Exact Amount, Change Due, Action Buttons -->
+            <div class="col-12 col-sm-6 column justify-between">
+              <div>
+                <!-- Total Due Card -->
+                <div class="rounded-borders border-slate bg-slate-50 q-pa-sm q-mb-sm text-center">
+                  <div
+                    class="text-caption text-slate-400 text-uppercase text-weight-bold"
+                    style="font-size: 0.65rem; letter-spacing: 0.05em"
+                  >
+                    TOTAL DUE
+                  </div>
+                  <div class="text-h4 text-weight-bolder text-slate-900 num-tabular">
+                    ₱{{
+                      totalDueAmount.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    }}
+                  </div>
+                </div>
+
+                <!-- Exact Amount shortcut button -->
+                <q-btn
+                  outline
+                  color="primary"
+                  label="Exact Amount"
+                  icon="check_circle"
+                  class="full-width q-mb-sm bg-white"
+                  style="height: 42px; font-weight: 700; border-radius: 8px"
+                  no-caps
+                  @click="setCashExact"
+                />
+
+                <!-- Change Due Box -->
+                <div
+                  class="rounded-borders q-pa-md text-center border-slate"
+                  :class="cashModal.changeDue >= 0 ? 'bg-emerald-50' : 'bg-red-50'"
+                  style="min-height: 104px; display: flex; flex-direction: column; justify-content: center"
+                >
+                  <div
+                    class="text-caption text-slate-500 text-uppercase text-weight-bold q-mb-xs"
+                    style="font-size: 0.68rem; letter-spacing: 0.05em"
+                  >
+                    CHANGE DUE
+                  </div>
+                  <div
+                    class="text-h3 text-weight-bolder num-tabular leading-tight"
+                    :class="cashModal.changeDue >= 0 ? 'text-primary' : 'text-negative'"
+                  >
+                    ₱{{
+                      Math.max(0, cashModal.changeDue).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    }}
+                  </div>
+                  <div
+                    v-if="cashModal.changeDue < 0"
+                    class="text-caption text-negative text-weight-bold q-mt-xs"
+                  >
+                    ₱{{
+                      Math.abs(cashModal.changeDue).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    }}
+                    short
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Actions Row inside Right Column -->
+              <div class="q-pt-sm">
+                <div class="row q-col-gutter-sm items-center">
+                  <div class="col-4">
+                    <q-btn
+                      flat
+                      label="Cancel"
+                      color="grey-7"
+                      class="full-width"
+                      style="height: 48px; border-radius: 8px"
+                      @click="cashModal.open = false"
+                    />
+                  </div>
+                  <div class="col-8">
+                    <q-btn
+                      unelevated
+                      class="btn-agrivet-green full-width"
+                      icon="receipt_long"
+                      label="Confirm & Print"
+                      style="height: 48px; font-weight: 700; border-radius: 8px"
+                      :disable="parseFloat(cashModal.rawValue || 0) < totalDueAmount"
+                      :loading="cashModal.submitting"
+                      @click="confirmCashPayment"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </q-card-section>
-
-        <q-card-actions class="q-px-md q-pb-md">
-          <q-btn flat label="Cancel" color="grey-7" class="col" @click="cashModal.open = false" />
-          <q-btn
-            unelevated
-            class="btn-agrivet-green col-8"
-            icon="receipt_long"
-            label="Confirm & Print Receipt"
-            :disable="parseFloat(cashModal.rawValue || 0) < totalDueAmount"
-            :loading="cashModal.submitting"
-            @click="confirmCashPayment"
-          />
-        </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <!-- Official Receipt Modal -->
+    <!-- Official Receipt Modal (Side-by-Side 2-Column Layout) -->
     <q-dialog v-model="receiptDialog.open" persistent>
-      <q-card style="width: 440px; max-width: 95vw">
-        <!-- Success Header (Screen only) -->
-        <q-card-section class="text-center q-pt-md q-pb-xs no-print">
-          <div
-            class="badge-mint q-mx-auto q-mb-xs"
-            style="
-              width: 46px;
-              height: 46px;
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            "
-          >
-            <q-icon name="check" size="26px" color="primary" />
-          </div>
-          <div class="text-subtitle1 text-weight-bold text-slate-900 leading-tight">
-            Payment Successful!
-          </div>
-          <div class="text-caption text-slate-400">Order #TX-{{ receiptDialog.tx.id }}</div>
-        </q-card-section>
-
-        <q-card-section class="q-pa-md">
-          <!-- The Clean Printable Slip (#pos-receipt-slip) -->
-          <div
-            id="pos-receipt-slip"
-            class="receipt-paper-slip bg-white q-pa-md border-slate rounded-borders"
-          >
-            <!-- Store Header with Logo -->
-            <div class="text-center q-mb-xs">
-              <img :src="logoUrl" alt="Nichole Agrivet Mascot" class="receipt-logo q-mb-xs" />
-              <div class="receipt-store-title text-slate-900 text-weight-bolder">
-                NICHOLE AGRIVET
-              </div>
-              <div class="receipt-store-subtitle text-slate-600 text-weight-medium">
-                Agricultural & Veterinary Supplies
-              </div>
-              <div class="text-caption text-slate-500 font-tabular" style="font-size: 0.72rem">
-                VillaReal, Samar
-              </div>
-            </div>
-
-            <div class="receipt-dashed-line"></div>
-
-            <!-- Receipt Meta Info -->
-            <div class="row justify-between text-caption q-mb-xs">
-              <span class="text-slate-500">Receipt No:</span>
-              <span class="text-weight-bold text-slate-900 num-tabular"
-                >#TX-{{ receiptDialog.tx.id }}</span
-              >
-            </div>
-            <div class="row justify-between text-caption q-mb-xs">
-              <span class="text-slate-500">Date & Time:</span>
-              <span class="text-weight-bold text-slate-900">{{
-                formatReceiptDate(receiptDialog.tx.created_at)
-              }}</span>
-            </div>
-            <div class="row justify-between text-caption q-mb-xs">
-              <span class="text-slate-500">Cashier:</span>
-              <span class="text-weight-bold text-slate-900">{{ userName }}</span>
-            </div>
-            <div class="row justify-between text-caption q-mb-xs">
-              <span class="text-slate-500">Customer:</span>
-              <span class="text-weight-bold text-slate-900">{{
-                receiptDialog.tx.customer_name || 'Walk-in Customer'
-              }}</span>
-            </div>
-            <div class="row justify-between text-caption q-mb-xs">
-              <span class="text-slate-500">Payment:</span>
-              <span class="text-weight-bold text-primary">{{
-                receiptDialog.tx.transaction_type
-              }}</span>
-            </div>
-
-            <div class="receipt-dashed-line"></div>
-
-            <!-- Itemized Table Header -->
-            <div class="row text-caption text-weight-bolder text-slate-700 text-uppercase q-pb-xs">
-              <div class="col-7">Item Description</div>
-              <div class="col-2 text-center">Qty</div>
-              <div class="col-3 text-right">Amount</div>
-            </div>
-
-            <!-- Items Purchased List -->
-            <div class="q-gutter-y-xs">
-              <div
-                v-for="item in receiptDialog.items"
-                :key="item.id || item.product_name"
-                class="text-caption"
-              >
-                <div class="text-weight-bold text-slate-900 leading-tight">
-                  {{ item.product_name }}
-                </div>
-                <div
-                  v-if="item.notes || item.feeDetails"
-                  class="text-caption text-primary font-medium"
-                  style="font-size: 0.72rem"
-                >
-                  {{ item.notes || item.feeDetails }}
-                </div>
-                <div
-                  class="row justify-between text-slate-500 text-caption num-tabular"
-                  style="font-size: 0.73rem"
-                >
-                  <span
-                    >{{ item.quantity }} {{ item.unit_type || 'pc' }} @ ₱{{
-                      parseFloat(item.unit_price).toFixed(2)
-                    }}</span
-                  >
-                  <span class="text-weight-bold text-slate-900"
-                    >₱{{ parseFloat(item.subtotal).toFixed(2) }}</span
-                  >
-                </div>
-              </div>
-            </div>
-
-            <div class="receipt-dashed-line"></div>
-
-            <!-- Financial Totals -->
-            <div class="row justify-between text-body2 q-mb-xs">
-              <span class="text-slate-600">Subtotal:</span>
-              <span class="text-weight-medium text-slate-900 num-tabular"
-                >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
-              >
-            </div>
-            <div class="row justify-between items-center text-subtitle1 q-mb-xs">
-              <span class="text-weight-bolder text-slate-900 text-uppercase">TOTAL DUE:</span>
-              <span class="text-h6 text-weight-bolder text-slate-900 num-tabular"
-                >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
-              >
-            </div>
-
-            <template v-if="receiptDialog.tx.transaction_type === 'CASH'">
-              <div class="row justify-between text-body2 q-mb-xs">
-                <span class="text-slate-600">Amount Tendered:</span>
-                <span class="text-weight-bold text-slate-900 num-tabular"
-                  >₱{{ parseFloat(receiptDialog.tx.amount_paid || 0).toFixed(2) }}</span
-                >
-              </div>
-              <div
-                class="row justify-between text-subtitle1 q-mt-xs bg-slate-50 q-pa-xs rounded-borders"
-              >
-                <span class="text-weight-bolder text-slate-900">CHANGE DUE:</span>
-                <span class="text-weight-bolder text-primary num-tabular text-h6"
-                  >₱{{ parseFloat(receiptDialog.tx.change_given || 0).toFixed(2) }}</span
-                >
-              </div>
-            </template>
-
-            <template v-else-if="receiptDialog.tx.transaction_type === 'CREDIT'">
-              <div class="row justify-between text-body2 q-mt-xs text-negative">
-                <span class="text-weight-bold">Added to Utang:</span>
-                <span class="text-weight-bolder num-tabular"
-                  >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
-                >
-              </div>
-            </template>
-
-            <template v-else-if="receiptDialog.tx.transaction_type === 'GCASH'">
-              <div class="row justify-between text-body2 q-mt-xs text-indigo-8">
-                <span class="text-weight-bold">Paid via GCash:</span>
-                <span class="text-weight-bolder num-tabular"
-                  >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
-                >
-              </div>
-            </template>
-
-            <div class="receipt-dashed-line"></div>
-
-            <!-- Footer Message -->
-            <div
-              class="text-center text-caption text-slate-500 q-pt-xs leading-tight"
-              style="font-size: 0.72rem"
-            >
-              <div class="text-weight-bold text-slate-700">
-                Thank you for trusting Nichole Agrivet!
-              </div>
-              <div>Quality Feeds • Quality Care for Your Animals</div>
-              <div class="text-slate-400 q-mt-xs" style="font-size: 0.65rem">
-                *** Official Sales Invoice ***
-              </div>
-            </div>
-          </div>
-        </q-card-section>
-
-        <!-- Paper Size Selector (80mm vs 58mm) -->
-        <div
-          class="q-px-md q-pt-xs q-pb-xs row items-center justify-between no-print border-top-subtle bg-slate-50"
+      <q-card style="width: 760px; max-width: 96vw; border-radius: 16px; overflow: hidden">
+        <!-- Modal Top Bar -->
+        <q-card-section
+          class="row items-center justify-between bg-slate-50 q-py-sm q-px-md border-bottom-subtle no-print"
         >
-          <span class="text-caption text-slate-600 font-medium">Thermal Paper Size:</span>
-          <q-btn-toggle
-            v-model="receiptPaperSize"
-            dense
-            rounded
-            unelevated
-            toggle-color="primary"
-            color="white"
-            text-color="slate-7"
-            class="border-slate"
-            size="sm"
-            @update:model-value="(val) => localStorage.setItem('receiptPaperSize', val)"
-            :options="[
-              { label: '80mm (Standard)', value: '80mm' },
-              { label: '58mm (Handheld)', value: '58mm' },
-            ]"
-          />
-        </div>
-
-        <!-- Action Buttons (Hidden when printing!) -->
-        <q-card-actions align="between" class="q-px-md q-py-sm no-print">
-          <q-btn flat label="Close" color="grey-7" v-close-popup />
-          <div class="row items-center q-gutter-x-sm">
-            <q-btn
-              outline
-              icon="bluetooth"
-              label="Share / Bluetooth"
-              color="primary"
-              @click="shareReceiptViaBluetooth"
+          <div class="row items-center">
+            <div
+              class="shift-icon-wrap row items-center justify-center q-mr-sm"
+              style="width: 32px; height: 32px; background-color: #e6f4ea; border-radius: 8px"
             >
-              <q-tooltip>Share or Print via Bluetooth Print App (RawBT / ESC POS)</q-tooltip>
-            </q-btn>
-            <q-btn
-              icon="print"
-              :label="'Print Receipt (' + receiptPaperSize + ')'"
-              class="btn-agrivet-green"
-              @click="printReceipt"
-            />
+              <q-icon name="receipt_long" size="20px" color="primary" />
+            </div>
+            <div>
+              <div class="text-subtitle1 text-weight-bolder text-slate-900 leading-none">
+                Official Receipt Preview
+              </div>
+              <div class="text-caption text-slate-500" style="font-size: 0.7rem">
+                Order #TX-{{ receiptDialog.tx.id }}
+              </div>
+            </div>
           </div>
-        </q-card-actions>
+          <q-btn flat round dense icon="close" color="grey-7" v-close-popup />
+        </q-card-section>
+
+        <!-- Body: 2 Columns Side-by-Side -->
+        <q-card-section class="q-pa-md">
+          <div class="row q-col-gutter-md items-stretch">
+            <!-- LEFT COLUMN: The Printable Receipt Slip -->
+            <div class="col-12 col-sm-7">
+              <div
+                class="rounded-borders border-slate bg-slate-50 q-pa-sm"
+                style="max-height: 65vh; overflow-y: auto"
+              >
+                <!-- The Clean Printable Slip (#pos-receipt-slip) -->
+                <div
+                  id="pos-receipt-slip"
+                  class="receipt-paper-slip bg-white q-pa-md border-slate rounded-borders"
+                >
+                  <!-- Store Header with Logo -->
+                  <div class="text-center q-mb-xs">
+                    <img :src="logoUrl" alt="Nichole Agrivet Mascot" class="receipt-logo q-mb-xs" />
+                    <div class="receipt-store-title text-slate-900 text-weight-bolder">
+                      NICHOLE AGRIVET
+                    </div>
+                    <div class="receipt-store-subtitle text-slate-600 text-weight-medium">
+                      Agricultural & Veterinary Supplies
+                    </div>
+                    <div
+                      class="text-caption text-slate-500 font-tabular"
+                      style="font-size: 0.72rem"
+                    >
+                      VillaReal, Samar
+                    </div>
+                  </div>
+
+                  <div class="receipt-dashed-line"></div>
+
+                  <!-- Receipt Meta Info -->
+                  <div class="row justify-between text-caption q-mb-xs">
+                    <span class="text-slate-500">Receipt No:</span>
+                    <span class="text-weight-bold text-slate-900 num-tabular"
+                      >#TX-{{ receiptDialog.tx.id }}</span
+                    >
+                  </div>
+                  <div class="row justify-between text-caption q-mb-xs">
+                    <span class="text-slate-500">Date & Time:</span>
+                    <span class="text-weight-bold text-slate-900">{{
+                      formatReceiptDate(receiptDialog.tx.created_at)
+                    }}</span>
+                  </div>
+                  <div class="row justify-between text-caption q-mb-xs">
+                    <span class="text-slate-500">Cashier:</span>
+                    <span class="text-weight-bold text-slate-900">{{ userName }}</span>
+                  </div>
+                  <div class="row justify-between text-caption q-mb-xs">
+                    <span class="text-slate-500">Customer:</span>
+                    <span class="text-weight-bold text-slate-900">{{
+                      receiptDialog.tx.customer_name || 'Walk-in Customer'
+                    }}</span>
+                  </div>
+                  <div class="row justify-between text-caption q-mb-xs">
+                    <span class="text-slate-500">Payment:</span>
+                    <span class="text-weight-bold text-primary">{{
+                      receiptDialog.tx.transaction_type
+                    }}</span>
+                  </div>
+
+                  <div class="receipt-dashed-line"></div>
+
+                  <!-- Itemized Table Header -->
+                  <div
+                    class="row text-caption text-weight-bolder text-slate-700 text-uppercase q-pb-xs"
+                  >
+                    <div class="col-7">Item Description</div>
+                    <div class="col-2 text-center">Qty</div>
+                    <div class="col-3 text-right">Amount</div>
+                  </div>
+
+                  <!-- Items Purchased List -->
+                  <div class="q-gutter-y-xs">
+                    <div
+                      v-for="item in receiptDialog.items"
+                      :key="item.id || item.product_name"
+                      class="text-caption"
+                    >
+                      <div class="text-weight-bold text-slate-900 leading-tight">
+                        {{ item.product_name }}
+                      </div>
+                      <div
+                        v-if="item.notes || item.feeDetails"
+                        class="text-caption text-primary font-medium"
+                        style="font-size: 0.72rem"
+                      >
+                        {{ item.notes || item.feeDetails }}
+                      </div>
+                      <div
+                        class="row justify-between text-slate-500 text-caption num-tabular"
+                        style="font-size: 0.73rem"
+                      >
+                        <span
+                          >{{ item.quantity }} {{ item.unit_type || 'pc' }} @ ₱{{
+                            parseFloat(item.unit_price).toFixed(2)
+                          }}</span
+                        >
+                        <span class="text-weight-bold text-slate-900"
+                          >₱{{ parseFloat(item.subtotal).toFixed(2) }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="receipt-dashed-line"></div>
+
+                  <!-- Financial Totals -->
+                  <div class="row justify-between text-body2 q-mb-xs">
+                    <span class="text-slate-600">Subtotal:</span>
+                    <span class="text-weight-medium text-slate-900 num-tabular"
+                      >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
+                    >
+                  </div>
+                  <div class="row justify-between items-center text-subtitle1 q-mb-xs">
+                    <span class="text-weight-bolder text-slate-900 text-uppercase"
+                      >TOTAL DUE:</span
+                    >
+                    <span class="text-h6 text-weight-bolder text-slate-900 num-tabular"
+                      >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
+                    >
+                  </div>
+
+                  <template v-if="receiptDialog.tx.transaction_type === 'CASH'">
+                    <div class="row justify-between text-body2 q-mb-xs">
+                      <span class="text-slate-600">Amount Tendered:</span>
+                      <span class="text-weight-bold text-slate-900 num-tabular"
+                        >₱{{ parseFloat(receiptDialog.tx.amount_paid || 0).toFixed(2) }}</span
+                      >
+                    </div>
+                    <div
+                      class="row justify-between text-subtitle1 q-mt-xs bg-slate-50 q-pa-xs rounded-borders"
+                    >
+                      <span class="text-weight-bolder text-slate-900">CHANGE DUE:</span>
+                      <span class="text-weight-bolder text-primary num-tabular text-h6"
+                        >₱{{ parseFloat(receiptDialog.tx.change_given || 0).toFixed(2) }}</span
+                      >
+                    </div>
+                  </template>
+
+                  <template v-else-if="receiptDialog.tx.transaction_type === 'CREDIT'">
+                    <div class="row justify-between text-body2 q-mt-xs text-negative">
+                      <span class="text-weight-bold">Added to Utang:</span>
+                      <span class="text-weight-bolder num-tabular"
+                        >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
+                      >
+                    </div>
+                  </template>
+
+                  <template v-else-if="receiptDialog.tx.transaction_type === 'GCASH'">
+                    <div class="row justify-between text-body2 q-mt-xs text-indigo-8">
+                      <span class="text-weight-bold">Paid via GCash:</span>
+                      <span class="text-weight-bolder num-tabular"
+                        >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
+                      >
+                    </div>
+                  </template>
+
+                  <div class="receipt-dashed-line"></div>
+
+                  <!-- Footer Message -->
+                  <div
+                    class="text-center text-caption text-slate-500 q-pt-xs leading-tight"
+                    style="font-size: 0.72rem"
+                  >
+                    <div class="text-weight-bold text-slate-700">
+                      Thank you for trusting Nichole Agrivet!
+                    </div>
+                    <div>Quality Feeds • Quality Care for Your Animals</div>
+                    <div class="text-slate-400 q-mt-xs" style="font-size: 0.65rem">
+                      *** Official Sales Invoice ***
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Payment Success, Paper Size Toggle & Actions on the Side -->
+            <div class="col-12 col-sm-5 column justify-between no-print">
+              <div>
+                <!-- Success Header -->
+                <div class="rounded-borders border-slate bg-emerald-50 q-pa-md text-center q-mb-md">
+                  <div
+                    class="badge-mint q-mx-auto q-mb-xs"
+                    style="
+                      width: 44px;
+                      height: 44px;
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background-color: #d1fae5;
+                    "
+                  >
+                    <q-icon name="check" size="24px" color="primary" />
+                  </div>
+                  <div class="text-subtitle1 text-weight-bolder text-slate-900 leading-tight">
+                    Payment Successful!
+                  </div>
+                  <div class="text-caption text-slate-500 q-mt-xs">
+                    Order #TX-{{ receiptDialog.tx.id }}
+                  </div>
+                  <div class="text-h5 text-weight-bolder text-primary num-tabular q-mt-xs">
+                    ₱{{
+                      parseFloat(receiptDialog.tx.total_amount || 0).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
+                    }}
+                  </div>
+                </div>
+
+                <!-- Paper Size Selector -->
+                <div class="rounded-borders border-slate bg-slate-50 q-pa-sm q-mb-md">
+                  <div
+                    class="text-caption text-slate-600 text-weight-bold q-mb-xs"
+                    style="font-size: 0.68rem; letter-spacing: 0.04em"
+                  >
+                    THERMAL PAPER SIZE
+                  </div>
+                  <q-btn-toggle
+                    v-model="receiptPaperSize"
+                    dense
+                    rounded
+                    unelevated
+                    spread
+                    toggle-color="primary"
+                    color="white"
+                    text-color="slate-7"
+                    class="border-slate full-width"
+                    size="sm"
+                    @update:model-value="(val) => localStorage.setItem('receiptPaperSize', val)"
+                    :options="[
+                      { label: '80mm (Standard)', value: '80mm' },
+                      { label: '58mm (Handheld)', value: '58mm' },
+                    ]"
+                  />
+                </div>
+              </div>
+
+              <!-- Action Buttons on the Side -->
+              <div class="q-gutter-y-sm q-pt-sm">
+                <q-btn
+                  unelevated
+                  icon="print"
+                  :label="'Print Receipt (' + receiptPaperSize + ')'"
+                  class="btn-agrivet-green full-width"
+                  style="height: 50px; font-weight: 700; border-radius: 8px; font-size: 0.95rem"
+                  @click="printReceipt"
+                />
+                <q-btn
+                  flat
+                  label="Close & Next Sale"
+                  color="grey-7"
+                  class="full-width"
+                  style="height: 42px; border-radius: 8px"
+                  v-close-popup
+                />
+              </div>
+            </div>
+          </div>
+        </q-card-section>
       </q-card>
     </q-dialog>
 
@@ -2558,11 +2681,11 @@ onMounted(() => {
 .numpad-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 
 .numpad-key {
-  height: 52px;
+  height: 46px;
   font-size: 1.15rem;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
@@ -2593,7 +2716,38 @@ onMounted(() => {
 .shift-counter-pill {
   border-radius: 12px;
   height: 44px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e2e8f0;
+  padding: 0 14px 0 8px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.shift-counter-pill:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.shift-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #e6f4ea;
+  flex-shrink: 0;
+}
+
+.shift-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  line-height: 1;
+}
+
+.shift-amount {
+  font-size: 0.95rem;
+  line-height: 1.15;
+  color: #0f172a;
+  margin-top: 1px;
 }
 
 .user-profile-pill {

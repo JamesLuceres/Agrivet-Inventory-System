@@ -76,9 +76,7 @@ api.interceptors.response.use(
       }
       if (url.includes('transactions/') && method === 'post') {
         const payload =
-          typeof error.config.data === 'string'
-            ? JSON.parse(error.config.data)
-            : error.config.data
+          typeof error.config.data === 'string' ? JSON.parse(error.config.data) : error.config.data
         const created = saveOfflineTransaction(payload)
         return { data: created, status: 201, statusText: 'Created (Offline Cache)' }
       }

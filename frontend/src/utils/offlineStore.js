@@ -58,7 +58,10 @@ export function saveOfflineTransaction(payload) {
         const debt = parseFloat(payload.total_amount) - parseFloat(payload.amount_paid || 0)
         cust.total_utang = (parseFloat(cust.total_utang || 0) + debt).toFixed(2)
       } else if (payload.transaction_type === 'DEBT_PAYMENT') {
-        cust.total_utang = Math.max(0, parseFloat(cust.total_utang || 0) - parseFloat(payload.amount_paid || 0)).toFixed(2)
+        cust.total_utang = Math.max(
+          0,
+          parseFloat(cust.total_utang || 0) - parseFloat(payload.amount_paid || 0),
+        ).toFixed(2)
       }
       localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers))
     }

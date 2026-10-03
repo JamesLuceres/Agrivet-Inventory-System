@@ -275,7 +275,8 @@
                 </template>
               </div>
               <div class="text-caption text-slate-400 q-mt-xs">
-                {{ summaryMetrics.lowStockCount }} low • {{ summaryMetrics.outOfStockCount }} out of stock
+                {{ summaryMetrics.lowStockCount }} low • {{ summaryMetrics.outOfStockCount }} out of
+                stock
               </div>
             </div>
             <div
@@ -1831,7 +1832,9 @@ function viewInTableBelow() {
   stockAlertsModal.value.open = false
   activeTableTab.value = 'INVENTORY'
   nextTick(() => {
-    const el = document.getElementById('detailed-records-section') || document.querySelector('.data-table-card')
+    const el =
+      document.getElementById('detailed-records-section') ||
+      document.querySelector('.data-table-card')
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   })
 }
@@ -1839,7 +1842,9 @@ function viewInTableBelow() {
 function scrollToDetailedSales() {
   activeTableTab.value = 'TRANSACTIONS'
   nextTick(() => {
-    const el = document.getElementById('detailed-records-section') || document.querySelector('.data-table-card')
+    const el =
+      document.getElementById('detailed-records-section') ||
+      document.querySelector('.data-table-card')
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }

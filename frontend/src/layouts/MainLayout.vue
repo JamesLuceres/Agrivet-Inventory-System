@@ -14,12 +14,13 @@
         <!-- Top: Brand Header & Nav List -->
         <div>
           <!-- Brand Logo Header with Close Button -->
-          <div
-            class="row items-center justify-between no-wrap q-mb-lg q-pt-xs"
-          >
+          <div class="row items-center justify-between no-wrap q-mb-lg q-pt-xs">
             <div
               class="row items-center no-wrap cursor-pointer"
-              @click="$router.push('/'); drawer = false"
+              @click="
+                $router.push('/');
+                drawer = false
+              "
             >
               <img :src="logoUrl" alt="Nichole Agrivet" class="brand-mascot-raw q-mr-sm" />
               <div class="row items-center no-wrap">
@@ -74,7 +75,10 @@
               clickable
               v-ripple
               class="sidebar-nav-item"
-              @click="showHelpGuide = true; drawer = false"
+              @click="
+                showHelpGuide = true;
+                drawer = false
+              "
             >
               <q-item-section avatar class="min-width-auto q-pr-sm">
                 <q-icon name="help_outline" size="20px" color="primary" />

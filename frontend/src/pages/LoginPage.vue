@@ -127,11 +127,7 @@
         <div class="mascot-stage text-center">
           <!-- Animated Mascot Character -->
           <div class="mascot-img-wrapper">
-            <img
-              :src="logoUrl"
-              alt="Nichole Agrivet Mascot"
-              class="mascot-img"
-            />
+            <img :src="logoUrl" alt="Nichole Agrivet Mascot" class="mascot-img" />
           </div>
           <!-- Ground Ambient Shadow -->
           <div class="mascot-ground-shadow"></div>
@@ -303,7 +299,8 @@ function handleLogin() {
 }
 
 @keyframes floatLeaf {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
@@ -399,7 +396,9 @@ function handleLogin() {
   font-size: 1rem;
   letter-spacing: 0.01em;
   box-shadow: 0 10px 22px rgba(244, 67, 54, 0.32) !important;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .sign-in-btn:hover {
@@ -439,7 +438,8 @@ function handleLogin() {
 }
 
 @keyframes mascotFloat {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
   50% {
@@ -450,14 +450,19 @@ function handleLogin() {
 .mascot-ground-shadow {
   width: 260px;
   height: 22px;
-  background: radial-gradient(ellipse at center, rgba(180, 100, 70, 0.22) 0%, rgba(180, 100, 70, 0) 70%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(180, 100, 70, 0.22) 0%,
+    rgba(180, 100, 70, 0) 70%
+  );
   border-radius: 50%;
   margin-top: -6px;
   animation: shadowPulse 4.5s ease-in-out infinite;
 }
 
 @keyframes shadowPulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.8;
   }

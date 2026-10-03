@@ -1,6 +1,9 @@
 <template>
   <q-dialog v-model="isOpen">
-    <q-card style="width: 340px; max-width: 90vw; border-radius: 20px" class="q-pa-sm bg-slate-900 text-white">
+    <q-card
+      style="width: 340px; max-width: 90vw; border-radius: 20px"
+      class="q-pa-sm bg-slate-900 text-white"
+    >
       <!-- Calculator Header -->
       <q-card-section class="row items-center justify-between q-pb-none">
         <div class="row items-center q-gutter-x-xs">
@@ -16,7 +19,9 @@
           <div class="calc-history text-slate-400 font-mono text-caption" style="min-height: 18px">
             {{ formula || '&nbsp;' }}
           </div>
-          <div class="calc-display text-h5 text-weight-bolder text-white font-mono num-tabular q-mt-xs">
+          <div
+            class="calc-display text-h5 text-weight-bolder text-white font-mono num-tabular q-mt-xs"
+          >
             {{ currentInput || '0' }}
           </div>
         </div>
@@ -25,30 +30,130 @@
       <!-- Calculator Keypad Grid -->
       <q-card-section class="q-pt-none">
         <div class="calc-grid">
-          <q-btn unelevated class="calc-btn text-orange-4 bg-slate-700" label="C" @click="clearAll" />
-          <q-btn unelevated class="calc-btn text-orange-4 bg-slate-700" icon="backspace" @click="backspace" />
-          <q-btn unelevated class="calc-btn text-orange-4 bg-slate-700" label="%" @click="applyPercent" />
-          <q-btn unelevated class="calc-btn text-white bg-deep-orange-7" label="÷" @click="setOperator('/')" />
+          <q-btn
+            unelevated
+            class="calc-btn text-orange-4 bg-slate-700"
+            label="C"
+            @click="clearAll"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-orange-4 bg-slate-700"
+            icon="backspace"
+            @click="backspace"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-orange-4 bg-slate-700"
+            label="%"
+            @click="applyPercent"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-white bg-deep-orange-7"
+            label="÷"
+            @click="setOperator('/')"
+          />
 
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="7" @click="appendDigit('7')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="8" @click="appendDigit('8')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="9" @click="appendDigit('9')" />
-          <q-btn unelevated class="calc-btn text-white bg-deep-orange-7" label="×" @click="setOperator('*')" />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="7"
+            @click="appendDigit('7')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="8"
+            @click="appendDigit('8')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="9"
+            @click="appendDigit('9')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-white bg-deep-orange-7"
+            label="×"
+            @click="setOperator('*')"
+          />
 
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="4" @click="appendDigit('4')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="5" @click="appendDigit('5')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="6" @click="appendDigit('6')" />
-          <q-btn unelevated class="calc-btn text-white bg-deep-orange-7" label="-" @click="setOperator('-')" />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="4"
+            @click="appendDigit('4')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="5"
+            @click="appendDigit('5')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="6"
+            @click="appendDigit('6')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-white bg-deep-orange-7"
+            label="-"
+            @click="setOperator('-')"
+          />
 
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="1" @click="appendDigit('1')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="2" @click="appendDigit('2')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="3" @click="appendDigit('3')" />
-          <q-btn unelevated class="calc-btn text-white bg-deep-orange-7" label="+" @click="setOperator('+')" />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="1"
+            @click="appendDigit('1')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="2"
+            @click="appendDigit('2')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="3"
+            @click="appendDigit('3')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-white bg-deep-orange-7"
+            label="+"
+            @click="setOperator('+')"
+          />
 
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="0" @click="appendDigit('0')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="00" @click="appendDigit('00')" />
-          <q-btn unelevated class="calc-btn bg-slate-800 text-white" label="." @click="appendDecimal" />
-          <q-btn unelevated class="calc-btn text-white bg-positive text-weight-bold" label="=" @click="calculateResult" />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="0"
+            @click="appendDigit('0')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="00"
+            @click="appendDigit('00')"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn bg-slate-800 text-white"
+            label="."
+            @click="appendDecimal"
+          />
+          <q-btn
+            unelevated
+            class="calc-btn text-white bg-positive text-weight-bold"
+            label="="
+            @click="calculateResult"
+          />
         </div>
 
         <!-- Copy Action Button -->

@@ -111,7 +111,9 @@
       class="header-icon-btn"
       @click="toggleSound"
     >
-      <q-tooltip>{{ soundOn ? 'Sound Effects: ON (Click to Mute)' : 'Sound Effects: MUTED (Click to Unmute)' }}</q-tooltip>
+      <q-tooltip>{{
+        soundOn ? 'Sound Effects: ON (Click to Mute)' : 'Sound Effects: MUTED (Click to Unmute)'
+      }}</q-tooltip>
     </q-btn>
 
     <!-- 3. Database Backup & Recovery Button -->
@@ -211,14 +213,18 @@
             <q-item-section avatar style="min-width: 36px">
               <q-icon name="cloud_download" color="primary" size="20px" />
             </q-item-section>
-            <q-item-section class="text-body2 text-slate-800">Database Backup & Recovery</q-item-section>
+            <q-item-section class="text-body2 text-slate-800"
+              >Database Backup & Recovery</q-item-section
+            >
           </q-item>
 
           <q-item clickable v-ripple @click="openServerSettings">
             <q-item-section avatar style="min-width: 36px">
               <q-icon name="settings_ethernet" color="primary" size="20px" />
             </q-item-section>
-            <q-item-section class="text-body2 text-slate-800">Server & Network Settings</q-item-section>
+            <q-item-section class="text-body2 text-slate-800"
+              >Server & Network Settings</q-item-section
+            >
           </q-item>
 
           <q-separator class="q-my-xs" />

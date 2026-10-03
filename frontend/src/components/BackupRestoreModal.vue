@@ -7,7 +7,9 @@
           <q-avatar size="40px" color="orange-1" text-color="deep-orange-8" icon="cloud_download" />
           <div>
             <div class="text-h6 text-weight-bold text-slate-800">Database Backup & Recovery</div>
-            <div class="text-caption text-slate-500">Safeguard your sales records and customer utang</div>
+            <div class="text-caption text-slate-500">
+              Safeguard your sales records and customer utang
+            </div>
           </div>
         </div>
         <q-btn flat round dense icon="close" v-close-popup />
@@ -20,7 +22,8 @@
           <template v-slot:avatar>
             <q-icon name="shield" color="primary" size="24px" />
           </template>
-          Regularly exporting a backup ensures your store data is safe if your tablet is replaced, damaged, or formatted.
+          Regularly exporting a backup ensures your store data is safe if your tablet is replaced,
+          damaged, or formatted.
         </q-banner>
 
         <!-- 1. Export Backup Card -->
@@ -30,7 +33,9 @@
               <q-icon name="file_download" color="positive" size="24px" />
               <div>
                 <div class="text-weight-bold text-slate-800">1-Click Full Backup (JSON)</div>
-                <div class="text-caption text-slate-500">All products, stock counts, customers, utang, and sales</div>
+                <div class="text-caption text-slate-500">
+                  All products, stock counts, customers, utang, and sales
+                </div>
               </div>
             </div>
             <q-btn
@@ -51,7 +56,9 @@
               <q-icon name="restore_page" color="deep-orange-8" size="24px" />
               <div>
                 <div class="text-weight-bold text-slate-800">Restore Database from Backup</div>
-                <div class="text-caption text-slate-600">Select a previously exported <code>.json</code> backup file</div>
+                <div class="text-caption text-slate-600">
+                  Select a previously exported <code>.json</code> backup file
+                </div>
               </div>
             </div>
           </div>
@@ -89,11 +96,15 @@
           v-if="statusMessage"
           :class="[
             'rounded-borders q-pa-sm text-caption',
-            isSuccess ? 'bg-green-1 text-positive' : 'bg-red-1 text-negative'
+            isSuccess ? 'bg-green-1 text-positive' : 'bg-red-1 text-negative',
           ]"
         >
           <template v-slot:avatar>
-            <q-icon :name="isSuccess ? 'check_circle' : 'error'" :color="isSuccess ? 'positive' : 'negative'" size="20px" />
+            <q-icon
+              :name="isSuccess ? 'check_circle' : 'error'"
+              :color="isSuccess ? 'positive' : 'negative'"
+              size="20px"
+            />
           </template>
           {{ statusMessage }}
         </q-banner>
@@ -132,7 +143,8 @@ async function handleExportBackup() {
   statusMessage.value = ''
   try {
     const res = await api.get('backup/export/')
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(res.data, null, 2))
+    const dataStr =
+      'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(res.data, null, 2))
     const downloadAnchor = document.createElement('a')
     const dateTag = new Date().toISOString().slice(0, 10)
     downloadAnchor.setAttribute('href', dataStr)
@@ -166,7 +178,8 @@ function confirmRestore() {
 
   $q.dialog({
     title: 'Confirm Database Restore',
-    message: 'Restoring a backup will merge and update products, categories, customers, and transactions. Are you sure you want to proceed?',
+    message:
+      'Restoring a backup will merge and update products, categories, customers, and transactions. Are you sure you want to proceed?',
     cancel: { flat: true, color: 'grey-7', label: 'Cancel' },
     ok: { color: 'deep-orange-8', label: 'Yes, Restore Now', unelevated: true, icon: 'warning' },
     persistent: true,

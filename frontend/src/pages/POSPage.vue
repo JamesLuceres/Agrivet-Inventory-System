@@ -23,9 +23,7 @@
             <q-icon name="point_of_sale" size="20px" color="primary" />
           </div>
           <div class="column justify-center no-wrap">
-            <span class="shift-label text-uppercase text-weight-bold">
-              Today's Shift
-            </span>
+            <span class="shift-label text-uppercase text-weight-bold"> Today's Shift </span>
             <span class="shift-amount text-weight-bolder num-tabular">
               ₱{{
                 todayShiftTotal.toLocaleString('en-US', {
@@ -140,8 +138,18 @@
                   </div>
 
                   <!-- Tag: Out of Stock pill OR Low stock pill OR unit tag OR Service tag -->
-                  <div v-if="product.is_service || product.name.includes('GCash') || product.name.includes('Other')">
-                    <span :class="product.name.includes('GCash') ? 'badge-tag-blue' : 'badge-tag-purple'">
+                  <div
+                    v-if="
+                      product.is_service ||
+                      product.name.includes('GCash') ||
+                      product.name.includes('Other')
+                    "
+                  >
+                    <span
+                      :class="
+                        product.name.includes('GCash') ? 'badge-tag-blue' : 'badge-tag-purple'
+                      "
+                    >
                       {{ product.name.includes('GCash') ? '📱 E-Money' : '🏷️ Custom' }}
                     </span>
                   </div>
@@ -171,7 +179,9 @@
                 <div
                   class="text-caption q-mt-xs"
                   :class="
-                    product.is_service || product.name.includes('GCash') || product.name.includes('Other')
+                    product.is_service ||
+                    product.name.includes('GCash') ||
+                    product.name.includes('Other')
                       ? 'text-primary font-medium'
                       : isProductOutOfStock(product)
                         ? 'text-slate-400 font-medium'
@@ -180,7 +190,13 @@
                           : 'text-slate-400'
                   "
                 >
-                  <span v-if="product.is_service || product.name.includes('GCash') || product.name.includes('Other')">
+                  <span
+                    v-if="
+                      product.is_service ||
+                      product.name.includes('GCash') ||
+                      product.name.includes('Other')
+                    "
+                  >
                     Tap to set Amount & Charge
                   </span>
                   <span v-else-if="isProductOutOfStock(product)">Out of Stock</span>
@@ -196,34 +212,68 @@
                 <!-- Bottom Row: Price & Green Plus Button -->
                 <div class="row items-center justify-between q-mt-md q-pt-xs border-top-subtle">
                   <div class="text-subtitle1 text-weight-bold text-slate-900 num-tabular">
-                    <span v-if="product.is_service || product.name.includes('GCash') || product.name.includes('Other')" class="text-caption text-weight-bolder text-primary">
+                    <span
+                      v-if="
+                        product.is_service ||
+                        product.name.includes('GCash') ||
+                        product.name.includes('Other')
+                      "
+                      class="text-caption text-weight-bolder text-primary"
+                    >
                       Custom Amount
                     </span>
                     <span v-else>
-                      ₱{{
-                        (
-                          parseFloat(product.price_per_sack) ||
-                          parseFloat(product.price_per_kilo) ||
-                          0
-                        ).toLocaleString('en-US', {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
-                      }}
+                      <template v-if="product.price_per_kilo">
+                        ₱{{
+                          parseFloat(product.price_per_kilo).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                        }}
+                        <span class="text-caption text-slate-500" style="font-size: 0.72rem"
+                          >/{{ getRetailUnitLabel(product) }}</span
+                        >
+                      </template>
+                      <template v-else>
+                        ₱{{
+                          (parseFloat(product.price_per_sack) || 0).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                        }}
+                      </template>
                     </span>
                   </div>
 
                   <div
                     class="mint-plus-btn row items-center justify-center cursor-pointer"
                     :class="{
-                      'mint-plus-btn-disabled cursor-not-allowed': !product.is_service && !product.name.includes('GCash') && !product.name.includes('Other') && isProductOutOfStock(product),
+                      'mint-plus-btn-disabled cursor-not-allowed':
+                        !product.is_service &&
+                        !product.name.includes('GCash') &&
+                        !product.name.includes('Other') &&
+                        isProductOutOfStock(product),
                     }"
                     @click.stop="quickAddToCart(product, $event)"
                   >
                     <q-icon
-                      :name="!product.is_service && !product.name.includes('GCash') && !product.name.includes('Other') && isProductOutOfStock(product) ? 'block' : 'add'"
+                      :name="
+                        !product.is_service &&
+                        !product.name.includes('GCash') &&
+                        !product.name.includes('Other') &&
+                        isProductOutOfStock(product)
+                          ? 'block'
+                          : 'add'
+                      "
                       size="18px"
-                      :color="!product.is_service && !product.name.includes('GCash') && !product.name.includes('Other') && isProductOutOfStock(product) ? 'grey-5' : 'primary'"
+                      :color="
+                        !product.is_service &&
+                        !product.name.includes('GCash') &&
+                        !product.name.includes('Other') &&
+                        isProductOutOfStock(product)
+                          ? 'grey-5'
+                          : 'primary'
+                      "
                     />
                   </div>
                 </div>
@@ -310,7 +360,9 @@
                     {{ item.customName || item.product.name }}
                   </q-item-label>
                   <q-item-label caption class="text-slate-400 q-mt-xs num-tabular">
-                    <span v-if="item.feeDetails" class="text-primary text-weight-medium q-mr-xs">{{ item.feeDetails }} • </span>
+                    <span v-if="item.feeDetails" class="text-primary text-weight-medium q-mr-xs"
+                      >{{ item.feeDetails }} •
+                    </span>
                     ₱{{ item.price.toFixed(2) }} × {{ item.quantity }}
                   </q-item-label>
                 </q-item-section>
@@ -493,7 +545,7 @@
                 <div
                   class="category-pill full-width justify-center cursor-pointer"
                   :class="{ 'category-pill-active': addItemModal.unitType === 'KILO' }"
-                  @click="addItemModal.unitType = 'KILO'"
+                  @click="setUnitType('KILO')"
                 >
                   By {{ getRetailUnitLabel(addItemModal.product) }} • ₱{{
                     parseFloat(addItemModal.product.price_per_kilo).toFixed(2)
@@ -504,7 +556,7 @@
                 <div
                   class="category-pill full-width justify-center cursor-pointer"
                   :class="{ 'category-pill-active': addItemModal.unitType === 'SACK' }"
-                  @click="addItemModal.unitType = 'SACK'"
+                  @click="setUnitType('SACK')"
                 >
                   By {{ getBulkUnitLabel(addItemModal.product) }} • ₱{{
                     parseFloat(addItemModal.product.price_per_sack).toFixed(2)
@@ -537,10 +589,112 @@
             </span>
           </div>
 
-          <!-- Quantity Stepper -->
-          <div class="q-mb-md">
+          <!-- If Unit Type is KILO: Mode Selector (By Weight vs By Budget) -->
+          <div class="q-mb-md" v-if="addItemModal.unitType === 'KILO'">
+            <q-btn-toggle
+              v-model="addItemModal.pricingMode"
+              spread
+              rounded
+              unelevated
+              dense
+              toggle-color="primary"
+              color="slate-100"
+              text-color="slate-7"
+              class="border-slate text-weight-bold text-caption"
+              @update:model-value="onPricingModeSwitch"
+              :options="[
+                {
+                  label: '⚖️ By Weight (' + getRetailUnitLabel(addItemModal.product) + ')',
+                  value: 'WEIGHT',
+                },
+                { label: '₱ By Peso Budget', value: 'BUDGET' },
+              ]"
+            />
+          </div>
+
+          <!-- 1. BUDGET MODE: Customer has a budget in Pesos (e.g. ₱50) -->
+          <div
+            v-if="addItemModal.unitType === 'KILO' && addItemModal.pricingMode === 'BUDGET'"
+            class="q-mb-md"
+          >
+            <div class="row justify-between items-center q-mb-xs">
+              <span
+                class="text-caption text-weight-bold text-slate-700 text-uppercase"
+                style="font-size: 0.68rem; letter-spacing: 0.04em"
+              >
+                Customer Peso Budget (₱)
+              </span>
+              <span class="text-caption text-primary text-weight-bold" style="font-size: 0.72rem">
+                @ ₱{{ currentUnitPrice.toFixed(2) }} /
+                {{ getRetailUnitLabel(addItemModal.product) }}
+              </span>
+            </div>
+            <q-input
+              v-model.number="addItemModal.budgetAmount"
+              type="number"
+              prefix="₱"
+              placeholder="e.g. 50"
+              outlined
+              dense
+              class="text-weight-bold text-h6"
+              autofocus
+              @update:model-value="onBudgetAmountChange"
+            />
+
+            <!-- Quick Budget Presets -->
+            <div class="row q-col-gutter-xs q-mt-xs">
+              <div class="col-3" v-for="bAmt in [20, 50, 100, 200]" :key="bAmt">
+                <q-btn
+                  unelevated
+                  no-caps
+                  dense
+                  :label="`₱${bAmt}`"
+                  class="full-width text-weight-bold border-slate"
+                  :class="
+                    addItemModal.budgetAmount === bAmt
+                      ? 'bg-emerald-100 text-emerald-9 border-primary'
+                      : 'bg-slate-50 text-slate-800'
+                  "
+                  style="height: 38px; border-radius: 8px; font-size: 0.85rem"
+                  @click="setBudgetPreset(bAmt)"
+                />
+              </div>
+            </div>
+
+            <!-- Big Scale Weighing Result Banner -->
+            <div class="rounded-borders border-slate bg-emerald-50 q-pa-md q-mt-sm text-center">
+              <div
+                class="text-caption text-slate-600 text-weight-bold text-uppercase"
+                style="letter-spacing: 0.05em; font-size: 0.68rem"
+              >
+                ⚖️ WEIGH ON SCALE
+              </div>
+              <div
+                class="text-h3 text-weight-bolder text-primary num-tabular leading-tight q-my-xs"
+              >
+                {{ (parseFloat(addItemModal.quantity) || 0).toFixed(2) }}
+                <span class="text-h6 text-weight-bold"
+                  >{{ getRetailUnitLabel(addItemModal.product) }}s</span
+                >
+              </div>
+              <div class="text-caption text-slate-600 font-tabular" style="font-size: 0.75rem">
+                ₱{{ (parseFloat(addItemModal.budgetAmount) || 0).toFixed(2) }} ÷ ₱{{
+                  currentUnitPrice.toFixed(2)
+                }}
+                = {{ (parseFloat(addItemModal.quantity) || 0).toFixed(2) }}
+                {{ getRetailUnitLabel(addItemModal.product) }}s
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. WEIGHT / QUANTITY MODE -->
+          <div v-else class="q-mb-md">
             <div class="text-caption text-weight-bold text-slate-700 text-uppercase q-mb-xs">
-              Quantity
+              Quantity ({{
+                addItemModal.unitType === 'SACK'
+                  ? getBulkUnitLabel(addItemModal.product) + 's'
+                  : getRetailUnitLabel(addItemModal.product) + 's'
+              }})
             </div>
             <div class="row items-center q-gutter-x-sm">
               <q-btn
@@ -585,15 +739,48 @@
                 </div>
               </div>
             </div>
+
+            <!-- Quick Budget Shortcuts in Weight Mode too! -->
+            <div
+              v-if="addItemModal.unitType === 'KILO'"
+              class="row items-center justify-between q-mt-sm q-px-xs"
+            >
+              <span class="text-caption text-slate-500" style="font-size: 0.72rem"
+                >Customer has a budget?</span
+              >
+              <div class="row q-gutter-x-xs">
+                <q-btn
+                  v-for="bAmt in [20, 50, 100, 200]"
+                  :key="bAmt"
+                  flat
+                  dense
+                  size="sm"
+                  class="bg-emerald-50 text-primary text-weight-bold q-px-sm"
+                  style="border-radius: 6px; font-size: 0.75rem"
+                  :label="`₱${bAmt}`"
+                  @click="setBudgetPreset(bAmt)"
+                />
+              </div>
+            </div>
           </div>
 
+          <!-- Subtotal Summary -->
           <div
             class="bg-slate-50 border-slate rounded-borders q-pa-sm row justify-between items-center"
           >
             <span class="text-slate-600 text-caption text-weight-bold">Subtotal:</span>
-            <span class="text-h6 text-weight-bold text-slate-900 num-tabular"
-              >₱{{ calculatedModalSubtotal.toFixed(2) }}</span
-            >
+            <div class="text-right">
+              <span class="text-h6 text-weight-bold text-slate-900 num-tabular"
+                >₱{{ calculatedModalSubtotal.toFixed(2) }}</span
+              >
+              <span
+                v-if="addItemModal.pricingMode === 'BUDGET' && addItemModal.unitType === 'KILO'"
+                class="text-caption text-slate-500 q-ml-xs"
+              >
+                ({{ (parseFloat(addItemModal.quantity) || 0).toFixed(2) }}
+                {{ getRetailUnitLabel(addItemModal.product) }})
+              </span>
+            </div>
           </div>
         </q-card-section>
 
@@ -602,7 +789,7 @@
           <q-btn
             unelevated
             class="btn-agrivet-green q-px-md"
-            label="Add to Order"
+            :label="'Add to Order • ₱' + calculatedModalSubtotal.toFixed(2)"
             @click="confirmAddToCart"
             v-close-popup
           />
@@ -619,7 +806,11 @@
             <div class="row items-center no-wrap">
               <div
                 class="product-icon-squircle q-mr-sm"
-                :class="serviceModal.type === 'OTHER' ? 'bg-purple-1 text-purple-9' : 'bg-blue-1 text-blue-9'"
+                :class="
+                  serviceModal.type === 'OTHER'
+                    ? 'bg-purple-1 text-purple-9'
+                    : 'bg-blue-1 text-blue-9'
+                "
                 style="width: 36px; height: 36px; border-radius: 10px"
               >
                 <span>{{ serviceModal.type === 'OTHER' ? '🏷️' : '📱' }}</span>
@@ -657,7 +848,11 @@
             <!-- Service Info Banner -->
             <div
               class="q-pa-sm rounded-borders text-caption text-weight-medium q-mb-sm row items-center"
-              :class="serviceModal.type === 'GCASH_IN' ? 'bg-blue-50 text-blue-9' : 'bg-teal-50 text-teal-9'"
+              :class="
+                serviceModal.type === 'GCASH_IN'
+                  ? 'bg-blue-50 text-blue-9'
+                  : 'bg-teal-50 text-teal-9'
+              "
             >
               <q-icon
                 :name="serviceModal.type === 'GCASH_IN' ? 'south_east' : 'north_west'"
@@ -705,11 +900,7 @@
               />
               <!-- Quick Amount Presets: Full-Width 6-Column Grid -->
               <div class="row q-col-gutter-xs q-mt-xs">
-                <div
-                  v-for="amt in [200, 500, 1000, 2000, 3000, 5000]"
-                  :key="amt"
-                  class="col-2"
-                >
+                <div v-for="amt in [200, 500, 1000, 2000, 3000, 5000]" :key="amt" class="col-2">
                   <q-btn
                     unelevated
                     no-caps
@@ -726,8 +917,12 @@
             <!-- 2. Charge / Patong Input -->
             <div class="q-mb-sm">
               <div class="row items-center justify-between q-mb-xs">
-                <span class="text-caption text-weight-bold text-slate-700">Charge / Patong (Fee ₱) *</span>
-                <span class="text-caption text-slate-400" style="font-size: 0.72rem">Store service fee / profit</span>
+                <span class="text-caption text-weight-bold text-slate-700"
+                  >Charge / Patong (Fee ₱) *</span
+                >
+                <span class="text-caption text-slate-400" style="font-size: 0.72rem"
+                  >Store service fee / profit</span
+                >
               </div>
               <q-input
                 v-model.number="serviceModal.charge"
@@ -740,11 +935,7 @@
               />
               <!-- Quick Fee Presets: Full-Width 6-Column Grid -->
               <div class="row q-col-gutter-xs q-mt-xs">
-                <div
-                  v-for="fee in [10, 15, 20, 25, 30, 50]"
-                  :key="fee"
-                  class="col-2"
-                >
+                <div v-for="fee in [10, 15, 20, 25, 30, 50]" :key="fee" class="col-2">
                   <q-btn
                     unelevated
                     no-caps
@@ -780,7 +971,13 @@
               <!-- Quick description chips -->
               <div class="row q-gutter-xs q-mt-xs">
                 <q-btn
-                  v-for="sug in ['Empty Sack', 'Egg Tray', 'Delivery / Transport', 'Repair Service', 'Custom Merchandise']"
+                  v-for="sug in [
+                    'Empty Sack',
+                    'Egg Tray',
+                    'Delivery / Transport',
+                    'Repair Service',
+                    'Custom Merchandise',
+                  ]"
                   :key="sug"
                   dense
                   outline
@@ -845,8 +1042,7 @@
               <span class="text-h6 text-weight-bolder text-primary num-tabular">
                 ₱{{
                   (
-                    (parseFloat(serviceModal.amount) || 0) +
-                    (parseFloat(serviceModal.charge) || 0)
+                    (parseFloat(serviceModal.amount) || 0) + (parseFloat(serviceModal.charge) || 0)
                   ).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
@@ -1107,7 +1303,12 @@
                 <div
                   class="rounded-borders q-pa-md text-center border-slate"
                   :class="cashModal.changeDue >= 0 ? 'bg-emerald-50' : 'bg-red-50'"
-                  style="min-height: 104px; display: flex; flex-direction: column; justify-content: center"
+                  style="
+                    min-height: 104px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                  "
                 >
                   <div
                     class="text-caption text-slate-500 text-uppercase text-weight-bold q-mb-xs"
@@ -1317,9 +1518,7 @@
                     >
                   </div>
                   <div class="row justify-between items-center text-subtitle1 q-mb-xs">
-                    <span class="text-weight-bolder text-slate-900 text-uppercase"
-                      >TOTAL DUE:</span
-                    >
+                    <span class="text-weight-bolder text-slate-900 text-uppercase">TOTAL DUE:</span>
                     <span class="text-h6 text-weight-bolder text-slate-900 num-tabular"
                       >₱{{ parseFloat(receiptDialog.tx.total_amount || 0).toFixed(2) }}</span
                     >
@@ -1531,7 +1730,14 @@ const userName = ref(localStorage.getItem('userName') || 'admin')
 const showCustomerPicker = ref(false)
 const receiptDialog = ref({ open: false, tx: {}, items: [] })
 const receiptPaperSize = ref(localStorage.getItem('receiptPaperSize') || '80mm')
-const addItemModal = ref({ open: false, product: null, unitType: 'SACK', quantity: 1 })
+const addItemModal = ref({
+  open: false,
+  product: null,
+  unitType: 'KILO',
+  quantity: 1,
+  pricingMode: 'WEIGHT',
+  budgetAmount: null,
+})
 const addCustomerModal = ref({
   open: false,
   name: '',
@@ -1570,7 +1776,8 @@ function openServiceModal(type = 'GCASH_IN', product = null) {
     product:
       product ||
       (type === 'OTHER'
-        ? products.value.find((p) => p.name.includes('Other') || p.name.includes('Custom')) || products.value[0]
+        ? products.value.find((p) => p.name.includes('Other') || p.name.includes('Custom')) ||
+          products.value[0]
         : products.value.find((p) => p.name.includes('GCash')) || products.value[0]),
   }
 }
@@ -1811,7 +2018,10 @@ function getAvailableStockForUnit(product, unitType, excludeCartItem = null) {
 
 function isProductOutOfStock(product) {
   if (!product) return true
-  if (product.is_service || (product.name && (product.name.includes('GCash') || product.name.includes('Other')))) {
+  if (
+    product.is_service ||
+    (product.name && (product.name.includes('GCash') || product.name.includes('Other')))
+  ) {
     return false
   }
   const totalBase = getProductTotalBaseStock(product)
@@ -1820,7 +2030,10 @@ function isProductOutOfStock(product) {
 
 function isProductLowStock(product) {
   if (!product) return false
-  if (product.is_service || (product.name && (product.name.includes('GCash') || product.name.includes('Other')))) {
+  if (
+    product.is_service ||
+    (product.name && (product.name.includes('GCash') || product.name.includes('Other')))
+  ) {
     return false
   }
   const totalBase = getProductTotalBaseStock(product)
@@ -1836,7 +2049,10 @@ function isProductLowStock(product) {
 }
 
 function handleProductCardClick(product) {
-  if (product.is_service || (product.name && (product.name.includes('GCash') || product.name.includes('Other')))) {
+  if (
+    product.is_service ||
+    (product.name && (product.name.includes('GCash') || product.name.includes('Other')))
+  ) {
     openServiceModal(product.name && product.name.includes('Other') ? 'OTHER' : 'GCASH_IN', product)
     return
   }
@@ -1933,7 +2149,10 @@ function getStockDisplay(product) {
 
 function quickAddToCart(product, event) {
   if (event) event.stopPropagation()
-  if (product.is_service || (product.name && (product.name.includes('GCash') || product.name.includes('Other')))) {
+  if (
+    product.is_service ||
+    (product.name && (product.name.includes('GCash') || product.name.includes('Other')))
+  ) {
     openServiceModal(product.name && product.name.includes('Other') ? 'OTHER' : 'GCASH_IN', product)
     return
   }
@@ -1949,8 +2168,8 @@ function quickAddToCart(product, event) {
     return
   }
 
-  const unitType = product.price_per_sack ? 'SACK' : 'KILO'
-  const price = parseFloat(product.price_per_sack || product.price_per_kilo || 0)
+  const unitType = parseFloat(product.price_per_kilo || 0) > 0 ? 'KILO' : 'SACK'
+  const price = parseFloat(product.price_per_kilo || product.price_per_sack || 0)
   const unitLabel =
     unitType === 'SACK' ? product.unit_bulk_name || 'sack' : product.unit_retail_name || 'kilo'
 
@@ -2145,16 +2364,55 @@ const calculatedModalSubtotal = computed(() => {
   return qty * currentUnitPrice.value
 })
 
+function setUnitType(type) {
+  addItemModal.value.unitType = type
+  if (type === 'SACK') {
+    addItemModal.value.pricingMode = 'WEIGHT'
+    addItemModal.value.quantity = Math.max(1, Math.round(addItemModal.value.quantity || 1))
+  }
+}
+
+function onBudgetAmountChange(val) {
+  const budget = parseFloat(val) || 0
+  const price = currentUnitPrice.value
+  if (budget > 0 && price > 0) {
+    const rawKg = budget / price
+    const roundedKg = parseFloat(rawKg.toFixed(2))
+    addItemModal.value.quantity = roundedKg > 0 ? roundedKg : 0.01
+  }
+}
+
+function setBudgetPreset(bAmt) {
+  addItemModal.value.pricingMode = 'BUDGET'
+  addItemModal.value.budgetAmount = bAmt
+  onBudgetAmountChange(bAmt)
+  playBeep()
+}
+
+function onPricingModeSwitch(mode) {
+  if (mode === 'BUDGET') {
+    if (!addItemModal.value.budgetAmount) {
+      setBudgetPreset(50)
+    } else {
+      onBudgetAmountChange(addItemModal.value.budgetAmount)
+    }
+  }
+}
+
 function openAddProductModal(product) {
   addItemModal.value.product = product
-  addItemModal.value.unitType = parseFloat(product.price_per_sack || 0) > 0 ? 'SACK' : 'KILO'
+  // Default to KILO if kilo price exists, otherwise SACK
+  const defaultUnit = parseFloat(product.price_per_kilo || 0) > 0 ? 'KILO' : 'SACK'
+  addItemModal.value.unitType = defaultUnit
+  addItemModal.value.pricingMode = 'WEIGHT'
+  addItemModal.value.budgetAmount = null
   addItemModal.value.quantity = 1
   addItemModal.value.open = true
 }
 
 function stepModalQty(delta) {
   const cur = parseFloat(addItemModal.value.quantity) || 0
-  addItemModal.value.quantity = Math.max(1, parseFloat((cur + delta).toFixed(2)))
+  addItemModal.value.quantity = Math.max(0.01, parseFloat((cur + delta).toFixed(2)))
   playBeep()
 }
 
@@ -2184,10 +2442,15 @@ function confirmAddToCart() {
     return
   }
 
+  const feeDetails =
+    addItemModal.value.pricingMode === 'BUDGET' && addItemModal.value.budgetAmount
+      ? `₱${addItemModal.value.budgetAmount} budget (${quantity} ${unitLabel})`
+      : ''
+
   if (existing) {
-    existing.quantity += quantity
+    existing.quantity = parseFloat((existing.quantity + quantity).toFixed(2))
   } else {
-    cart.value.push({ product, unitType, quantity, price })
+    cart.value.push({ product, unitType, quantity, price, feeDetails })
   }
 
   addItemModal.value.open = false
@@ -2195,7 +2458,7 @@ function confirmAddToCart() {
 
   $q.notify({
     color: 'primary',
-    message: `Added ${quantity} ${product.name} to ticket`,
+    message: `Added ${quantity} ${unitLabel} ${product.name} to ticket`,
     icon: 'add_shopping_cart',
     timeout: 800,
   })
@@ -2296,12 +2559,11 @@ async function submitTransaction() {
       quantity: i.quantity,
       unit_price: i.price,
       subtotal: i.quantity * i.price,
-      unit_type:
-        i.isServiceItem
-          ? 'Item'
-          : i.unitType === 'SACK'
-            ? i.product.unit_bulk_name || 'Sack'
-            : i.product.unit_retail_name || 'Kilo',
+      unit_type: i.isServiceItem
+        ? 'Item'
+        : i.unitType === 'SACK'
+          ? i.product.unit_bulk_name || 'Sack'
+          : i.product.unit_retail_name || 'Kilo',
       feeDetails: i.feeDetails || '',
       notes: i.feeDetails || '',
     }))
@@ -2507,7 +2769,9 @@ async function shareReceiptViaBluetooth() {
   const tx = receiptDialog.value.tx
   if (!tx) return
   const is58 = receiptPaperSize.value === '58mm'
-  const divider = is58 ? '--------------------------------' : '------------------------------------------'
+  const divider = is58
+    ? '--------------------------------'
+    : '------------------------------------------'
 
   let receiptText = `================================\n`
   receiptText += `        NICHOLE AGRIVET        \n`
@@ -2547,7 +2811,11 @@ async function shareReceiptViaBluetooth() {
         text: receiptText,
       })
       playBeep()
-      $q.notify({ color: 'positive', message: 'Receipt shared to Bluetooth/Printer app', icon: 'share' })
+      $q.notify({
+        color: 'positive',
+        message: 'Receipt shared to Bluetooth/Printer app',
+        icon: 'share',
+      })
     } catch (e) {
       if (e.name !== 'AbortError') {
         copyReceiptToClipboard(receiptText)
@@ -2560,15 +2828,18 @@ async function shareReceiptViaBluetooth() {
 
 function copyReceiptToClipboard(text) {
   if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(text).then(() => {
-      playBeep()
-      $q.notify({
-        color: 'positive',
-        message: 'Receipt text copied to clipboard! Paste into your Bluetooth printer app.',
-        icon: 'content_paste',
-        timeout: 3000,
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        playBeep()
+        $q.notify({
+          color: 'positive',
+          message: 'Receipt text copied to clipboard! Paste into your Bluetooth printer app.',
+          icon: 'content_paste',
+          timeout: 3000,
+        })
       })
-    }).catch(() => {})
+      .catch(() => {})
   }
 }
 

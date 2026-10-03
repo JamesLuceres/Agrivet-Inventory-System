@@ -6,7 +6,9 @@
           <q-avatar size="40px" color="blue-1" text-color="primary" icon="settings_ethernet" />
           <div>
             <div class="text-h6 text-weight-bold text-slate-800">Server & Network Settings</div>
-            <div class="text-caption text-slate-500">Configure counter PC or Standalone Tablet mode</div>
+            <div class="text-caption text-slate-500">
+              Configure counter PC or Standalone Tablet mode
+            </div>
           </div>
         </div>
         <q-btn flat round dense icon="close" v-close-popup />
@@ -17,16 +19,26 @@
         <q-banner
           :class="[
             'rounded-borders q-pa-sm text-caption',
-            isOnline ? 'bg-green-1 text-positive' : 'bg-amber-1 text-amber-9'
+            isOnline ? 'bg-green-1 text-positive' : 'bg-amber-1 text-amber-9',
           ]"
         >
           <template v-slot:avatar>
-            <q-icon :name="isOnline ? 'wifi' : 'wifi_off'" :color="isOnline ? 'positive' : 'amber-9'" size="20px" />
+            <q-icon
+              :name="isOnline ? 'wifi' : 'wifi_off'"
+              :color="isOnline ? 'positive' : 'amber-9'"
+              size="20px"
+            />
           </template>
           <div>
-            <strong>Mode: {{ isOnline ? 'Connected to Store PC' : 'Standalone Offline Mode' }}</strong>
+            <strong
+              >Mode: {{ isOnline ? 'Connected to Store PC' : 'Standalone Offline Mode' }}</strong
+            >
             <div class="text-slate-600 q-mt-xs">
-              {{ isOnline ? 'Data syncs directly with counter PC database.' : 'Tablet is running with local storage cache.' }}
+              {{
+                isOnline
+                  ? 'Data syncs directly with counter PC database.'
+                  : 'Tablet is running with local storage cache.'
+              }}
             </div>
           </div>
         </q-banner>
@@ -73,7 +85,11 @@
         </div>
 
         <!-- Test Connection Result -->
-        <div v-if="testResult" class="text-caption text-weight-medium" :class="testSuccess ? 'text-positive' : 'text-negative'">
+        <div
+          v-if="testResult"
+          class="text-caption text-weight-medium"
+          :class="testSuccess ? 'text-positive' : 'text-negative'"
+        >
           <q-icon :name="testSuccess ? 'check_circle' : 'error'" class="q-mr-xs" />
           {{ testResult }}
         </div>

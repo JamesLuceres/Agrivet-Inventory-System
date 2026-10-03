@@ -7,7 +7,9 @@
           <q-avatar size="40px" color="emerald-1" text-color="positive" icon="point_of_sale" />
           <div>
             <div class="text-h6 text-weight-bold text-slate-800">Shift Z-Reading & Cash Count</div>
-            <div class="text-caption text-slate-500">End-of-day cash drawer balancing & reconciliation</div>
+            <div class="text-caption text-slate-500">
+              End-of-day cash drawer balancing & reconciliation
+            </div>
           </div>
         </div>
         <q-btn flat round dense icon="close" v-close-popup />
@@ -35,9 +37,13 @@
           </div>
         </div>
 
-        <div class="bg-blue-50 border-blue rounded-borders q-pa-md row items-center justify-between">
+        <div
+          class="bg-blue-50 border-blue rounded-borders q-pa-md row items-center justify-between"
+        >
           <div>
-            <div class="text-caption text-primary text-weight-bold">TOTAL EXPECTED CASH IN DRAWER</div>
+            <div class="text-caption text-primary text-weight-bold">
+              TOTAL EXPECTED CASH IN DRAWER
+            </div>
             <div class="text-caption text-slate-500">Cash sales + debt repayments</div>
           </div>
           <div class="text-h5 text-weight-bolder text-primary num-tabular">
@@ -71,8 +77,15 @@
                   @update:model-value="onCountChanged"
                 />
               </div>
-              <div class="text-weight-bold text-slate-900 num-tabular text-right" style="min-width: 90px">
-                ₱{{ ((denom.count || 0) * denom.value).toLocaleString('en-US', { minimumFractionDigits: 2 }) }}
+              <div
+                class="text-weight-bold text-slate-900 num-tabular text-right"
+                style="min-width: 90px"
+              >
+                ₱{{
+                  ((denom.count || 0) * denom.value).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })
+                }}
               </div>
             </div>
 
@@ -93,7 +106,10 @@
                   @update:model-value="onCountChanged"
                 />
               </div>
-              <div class="text-weight-bold text-slate-900 num-tabular text-right" style="min-width: 90px">
+              <div
+                class="text-weight-bold text-slate-900 num-tabular text-right"
+                style="min-width: 90px"
+              >
                 ₱{{ (looseCoinsTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 }) }}
               </div>
             </div>
@@ -108,7 +124,7 @@
               ? 'bg-green-1 border-green'
               : cashVariance > 0
                 ? 'bg-amber-1 border-amber'
-                : 'bg-red-1 border-red'
+                : 'bg-red-1 border-red',
           ]"
         >
           <div>
@@ -122,7 +138,9 @@
               {{ varianceStatusLabel }}
             </div>
             <div class="text-h6 text-weight-bolder num-tabular" :class="varianceTextColor">
-              {{ cashVariance >= 0 ? '+' : '' }}₱{{ cashVariance.toLocaleString('en-US', { minimumFractionDigits: 2 }) }}
+              {{ cashVariance >= 0 ? '+' : '' }}₱{{
+                cashVariance.toLocaleString('en-US', { minimumFractionDigits: 2 })
+              }}
             </div>
           </div>
         </div>
@@ -336,11 +354,21 @@ defineExpose({
 </script>
 
 <style scoped>
-.border-slate { border: 1px solid #e2e8f0; }
-.border-blue { border: 1.5px solid #bfdbfe; }
-.border-green { border: 1.5px solid #bbf7d0; }
-.border-amber { border: 1.5px solid #fde68a; }
-.border-red { border: 1.5px solid #fecdd3; }
+.border-slate {
+  border: 1px solid #e2e8f0;
+}
+.border-blue {
+  border: 1.5px solid #bfdbfe;
+}
+.border-green {
+  border: 1.5px solid #bbf7d0;
+}
+.border-amber {
+  border: 1.5px solid #fde68a;
+}
+.border-red {
+  border: 1.5px solid #fecdd3;
+}
 .btn-agrivet-green {
   background-color: #0d6832 !important;
   color: #ffffff !important;
